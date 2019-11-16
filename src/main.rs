@@ -74,4 +74,8 @@ fn main()
     image::Writer::new(Box::new(image::FormatPNM::new()))
         .input(&image).output("output/image.pnm").save()
         .expect("Failed to save rendered image!");
+
+    image::Writer::new(Box::new(image::FormatPNG::new()))
+        .input(&image).output("output/image.png").save()
+        .expect("Failed to save rendered image!");
 }

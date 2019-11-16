@@ -44,8 +44,8 @@ impl Image
         self.data[index].clone()
     }
 
-    pub fn get_data_slice(&self) -> &[Color]
+    pub fn get_data(&self) -> &Vec<Color>
     {
-        self.data.as_slice()
+        &self.data
     }
 }

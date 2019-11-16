@@ -20,6 +20,16 @@ impl Color
         }
     }
 
+    pub fn as_u8_array(&self) -> [u8; 4]
+    {
+        [
+            (self.r * 255.99).floor() as u8,
+            (self.g * 255.99).floor() as u8,
+            (self.b * 255.99).floor() as u8,
+            (self.a * 255.99).floor() as u8
+        ]
+    }
+
     pub fn add_rgba(self, color: Color) -> Color
     {
         Color
