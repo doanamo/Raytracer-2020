@@ -69,7 +69,9 @@ fn render_image(mut image: Image) -> Image
 
 fn main() 
 {
-    image::WriterPNM::new(render_image(Image::new(1920, 1080)))
-        .output("output/image.pnm").save()
-        .expect("Failed to save image to file!");
+    let image = render_image(Image::new(1920, 1080));
+
+    image::Writer::new(Box::new(image::FormatPNM::new()))
+        .input(&image).output("output/image.pnm").save()
+        .expect("Failed to save rendered image!");
 }

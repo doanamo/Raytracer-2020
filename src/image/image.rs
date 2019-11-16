@@ -43,4 +43,9 @@ impl Image
         let index = y * self.width + x;
         self.data[index].clone()
     }
+
+    pub fn get_data_slice(&self) -> &[Color]
+    {
+        self.data.as_slice()
+    }
 }
