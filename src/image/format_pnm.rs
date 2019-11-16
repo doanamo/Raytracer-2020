@@ -56,6 +56,6 @@ impl Format for FormatPNM
 
     fn get_name(&self) -> &'static str
     {
-        "PNG"
+        "PNM"
     }
 }
