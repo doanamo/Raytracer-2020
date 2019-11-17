@@ -10,9 +10,12 @@ fn main()
 {
     let mut image = Image::new(1024, 576);
 
-    render::Scene::new()
+    let scene = render::Scene::new()
         .add_primitive(Box::new(Sphere::new(Vec3::new(0.0, 0.0, -1.0), 0.5)))
-        .add_primitive(Box::new(Sphere::new(Vec3::new(0.0, -100.5, -1.0), 100.0)))
+        .add_primitive(Box::new(Sphere::new(Vec3::new(0.0, -100.5, -1.0), 100.0)));
+
+    render::Renderer::new()
+        .set_scene(&scene)
         .render(&mut image);
 
     image::Writer::new(Box::new(image::FormatPNM::new()))
