@@ -1,3 +1,4 @@
+.vscode/*
 target/*
 output/*
 !output/render.png
