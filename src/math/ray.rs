@@ -17,26 +17,8 @@ impl Ray
         }
     }
 
-    pub fn point_at(&self, alpha: f32) -> Vec3
+    pub fn point_at(&self, length: f32) -> Vec3
     {
-        self.origin + self.direction * alpha
-    }
-
-    pub fn intersect_sphere(&self, center: Vec3, radius: f32) -> f32
-    {
-        let oc = self.origin - center;
-        let a = self.direction.dot(self.direction);
-        let b = 2.0 * oc.dot(self.direction);
-        let c = oc.dot(oc) - radius * radius;
-        let discriminant = b * b - 4.0 * a * c;
-
-        if discriminant >= 0.0
-        {
-            (-b - discriminant.sqrt()) / (2.0 * a)
-        }
-        else
-        {
-            discriminant
-        }
+        self.origin + self.direction * length
     }
 }
