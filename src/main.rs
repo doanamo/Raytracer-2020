@@ -69,13 +69,13 @@ fn render_image(mut image: Image) -> Image
 
 fn main() 
 {
-    let image = render_image(Image::new(1920, 1080));
+    let image = render_image(Image::new(1024, 576));
 
     image::Writer::new(Box::new(image::FormatPNM::new()))
-        .input(&image).output("output/image.pnm").save()
+        .input(&image).output("output/render.pnm").save()
         .expect("Failed to save rendered image!");
 
     image::Writer::new(Box::new(image::FormatPNG::new()))
-        .input(&image).output("output/image.png").save()
+        .input(&image).output("output/render.png").save()
         .expect("Failed to save rendered image!");
 }
