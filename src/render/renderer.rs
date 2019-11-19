@@ -32,20 +32,19 @@ impl<'a> Renderer<'a>
         let begin_time = std::time::Instant::now();
 
         // Correct aspect ratio
-        let mut view_width = 4.0;
+        let mut view_width = 2.0;
         let mut view_height = 2.0;
 
-        if image.get_width() > image.get_height()
+        let source_aspect_ratio = image.get_width() as f32 / image.get_height() as f32;
+        let target_aspect_ratio = view_width / view_height;
+
+        if source_aspect_ratio > target_aspect_ratio
         {
-            let source_width_aspect_ratio = view_width / view_height;
-            let target_width_aspect_ratio = image.get_width() as f32 / image.get_height() as f32;
-            view_width *= target_width_aspect_ratio / source_width_aspect_ratio;
+            view_width *= source_aspect_ratio / target_aspect_ratio;
         }
         else
         {
-            let source_height_aspect_ratio = view_height / view_width;
-            let target_height_aspect_ratio = image.get_height() as f32 / image.get_width() as f32;
-            view_height *= target_height_aspect_ratio / source_height_aspect_ratio;
+            view_height *= target_aspect_ratio / source_aspect_ratio;
         }
 
         // Calculate view space
