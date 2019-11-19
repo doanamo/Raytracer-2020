@@ -5,4 +5,4 @@ authors = ["Piotr Doan <doanpiotr@gmail.com>"]
 edition = "2018"
 
 [dependencies]
-lodepng = "2.5.0"
+png = "0.15.1"

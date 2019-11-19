@@ -1,3 +1,5 @@
+use std::fs::OpenOptions;
+use std::io::BufWriter;
 use std::path::PathBuf;
 
 use crate::image::Image;
@@ -17,9 +19,9 @@ impl FormatPNG
         }
     }
 
-    pub fn save(&self, image: &Image, path: &PathBuf) -> Result<(), lodepng::ffi::Error>
+    pub fn save(&self, image: &Image, path: &PathBuf) -> Result<(), SaveError>
     {
-        let mut image_data: Vec<u8> = Vec::new();
+        let mut image_data: Vec<u8> = Vec::with_capacity(image.get_width() * image.get_height());
 
         for y in (0..image.get_height()).rev()
         {
@@ -30,7 +32,15 @@ impl FormatPNG
             }
         }
 
-        lodepng::encode32_file(path, image_data.as_slice(), image.get_width(), image.get_height())?;
+        let image_file = OpenOptions::new().write(true).truncate(true).create(true).open(path).or(Err(SaveError::SaveFailed))?;
+        let image_buffer = BufWriter::new(image_file);
+
+        let mut image_encoder = png::Encoder::new(image_buffer, image.get_width() as u32, image.get_height() as u32);
+        image_encoder.set_color(png::ColorType::RGBA);
+        image_encoder.set_depth(png::BitDepth::Eight);
+
+        let mut image_writer = image_encoder.write_header().or(Err(SaveError::SaveFailed))?;
+        image_writer.write_image_data(image_data.as_slice()).or(Err(SaveError::SaveFailed))?;
 
         Ok(())
     }
