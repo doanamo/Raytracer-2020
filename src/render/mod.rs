@@ -1,8 +1,8 @@
-mod scene;
-mod camera;
-mod primitive;
-mod sphere;
-mod renderer;
+pub mod scene;
+pub mod camera;
+pub mod primitive;
+pub mod sphere;
+pub mod renderer;
 
 pub use self::scene::Scene as Scene;
 pub use self::camera::Camera as Camera;
