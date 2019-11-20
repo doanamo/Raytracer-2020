@@ -63,12 +63,15 @@ impl<'a> Renderer<'a>
                         let ray = camera.calculate_ray(u, v);
                         let intersection = scene.intersect(&ray, 0.0, std::f32::MAX);
 
-                        color += self.sample(&ray, &intersection);
+                        let sample = self.sample(&ray, &intersection);
+                        debug_assert!(sample.is_valid());
+
+                        color += sample;
                     }
                 }
 
                 color /= antialias_samples * antialias_samples;
-                assert!(color.is_valid());
+                debug_assert!(color.is_valid());
 
                 image.set_pixel(x, y, color);
             }
@@ -85,7 +88,7 @@ impl<'a> Renderer<'a>
         }
         else
         {
-            let alpha = (ray.direction.normalized().y + 1.0) * 0.5;
+            let alpha = (ray.get_direction().y + 1.0) * 0.5;
             return Color::new(1.0, 1.0, 1.0, 1.0).mul_rgb(1.0 - alpha).add_rgb(Color::new(0.5, 0.7, 1.0, 1.0).mul_rgb(alpha));
         }
     }

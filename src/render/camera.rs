@@ -68,6 +68,6 @@ impl Camera
 
     pub fn calculate_ray(&self, u: f32, v: f32) -> Ray
     {
-        Ray::new(self.position, self.near_plane_corner + self.near_plane_width * u + self.near_plane_height * v)
+        Ray::new(self.position, (self.near_plane_corner + self.near_plane_width * u + self.near_plane_height * v).normalized())
     }
 }

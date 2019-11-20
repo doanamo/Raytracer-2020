@@ -39,9 +39,14 @@ impl Vec3
         }
     }
 
+    pub fn length_sqr(self) -> f32
+    {
+        (self.x * self.x + self.y * self.y + self.z * self.z)
+    }
+
     pub fn length(self) -> f32
     {
-        (self.x * self.x + self.y * self.y + self.z * self.z).sqrt()
+        self.length_sqr().sqrt()
     }
 
     pub fn normalized(self) -> Vec3
@@ -52,6 +57,11 @@ impl Vec3
     pub fn dot(self, v: Vec3) -> f32
     {
         self.x * v.x + self.y * v.y + self.z * v.z
+    }
+
+    pub fn is_unit(self) -> bool
+    {
+        (self.length_sqr() - 1.0).abs() < 0.0001
     }
 }
 
