@@ -24,10 +24,6 @@ fn main()
         .set_scene(&scene)
         .render(&mut image);
 
-    image::Writer::new(Box::new(image::FormatPNM::new()))
-        .input(&image).output("output/render.pnm").save()
-        .expect("Failed to save rendered image!");
-
     image::Writer::new(Box::new(image::FormatPNG::new()))
         .input(&image).output("output/render.png").save()
         .expect("Failed to save rendered image!");
