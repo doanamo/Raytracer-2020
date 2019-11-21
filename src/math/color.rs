@@ -129,3 +129,17 @@ impl ops::DivAssign<u32> for Color
         };
     }
 }
+
+impl ops::DivAssign<u16> for Color
+{
+    fn div_assign(&mut self, other: u16)
+    {
+        *self = Self
+        {
+            r: self.r / other as f32,
+            g: self.g / other as f32,
+            b: self.b / other as f32,
+            a: self.a / other as f32
+        };
+    }
+}

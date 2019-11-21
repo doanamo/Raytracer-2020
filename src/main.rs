@@ -22,7 +22,9 @@ fn main()
     render::Renderer::new()
         .set_camera(&camera)
         .set_scene(&scene)
-        .render(&mut image);
+        .set_antialias_samples(8)
+        .render(&mut image)
+        .print_stats();
 
     image::Writer::new(Box::new(image::FormatPNG::new()))
         .input(&image).output("output/render.png").save()
