@@ -49,6 +49,7 @@ pub struct Renderer<'a>
     scene: Option<&'a Scene>,
 
     antialias_samples: u16,
+    bounce_limit: u16,
 
     debug: Option<RenderDebug>,
     stats: RenderStats
@@ -63,7 +64,8 @@ impl<'a> Renderer<'a>
             camera: None,
             scene: None,
 
-            antialias_samples: 1,
+            antialias_samples: 4,
+            bounce_limit: 8,
 
             debug: None,
             stats: RenderStats::new()
@@ -85,6 +87,12 @@ impl<'a> Renderer<'a>
     pub fn set_antialias_samples(mut self, count: u16) -> Self
     {
         self.antialias_samples = count;
+        self
+    }
+
+    pub fn set_bounce_limit(mut self, count: u16) -> Self
+    {
+        self.bounce_limit = count;
         self
     }
 
@@ -150,6 +158,11 @@ impl<'a> Renderer<'a>
 
     fn sample(&mut self, ray: Ray, bounce_index: u16) -> Color
     {
+        if bounce_index > self.bounce_limit
+        {
+            return Color::new(0.0, 0.0, 0.0, 1.0);
+        }
+
         self.stats.samples += 1;
         self.stats.max_bounces = std::cmp::max(self.stats.max_bounces, bounce_index);
 

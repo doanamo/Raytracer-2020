@@ -23,6 +23,7 @@ fn main()
         .set_camera(&camera)
         .set_scene(&scene)
         .set_antialias_samples(8)
+        .set_bounce_limit(32)
         .render(&mut image)
         .print_stats();
 
