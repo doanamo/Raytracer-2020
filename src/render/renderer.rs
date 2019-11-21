@@ -86,7 +86,7 @@ impl<'a> Renderer<'a>
                 color.g = color.g.powf(gamma);
                 color.b = color.b.powf(gamma);
                 debug_assert!(color.is_valid());
-                debug_assert!(color.r == 1.0);
+                debug_assert!(color.a == 1.0);
 
                 image.set_pixel(x, y, color);
             }
