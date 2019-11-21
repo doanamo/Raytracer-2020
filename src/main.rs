@@ -5,8 +5,9 @@ mod render;
 mod image;
 
 use math::Vec3;
+use math::Color;
 use image::Image;
-use render::Sphere;
+use render::primitive;
 
 fn main() 
 {
@@ -17,9 +18,12 @@ fn main()
         .set_target_size(image.get_width(), image.get_height())
         .build();
 
+    let lambertian = render::material::Lambertian::new()
+        .set_albedo(Color::new(0.5, 0.5, 0.5, 1.0));
+
     let scene = render::Scene::new()
-        .add_primitive(Box::new(Sphere::new(Vec3::new(0.0, 0.0, -1.0), 0.5)))
-        .add_primitive(Box::new(Sphere::new(Vec3::new(0.0, -100.5, -1.0), 100.0)));
+        .add_primitive(Box::new(primitive::Sphere::new(Vec3::new(0.0, 0.0, -1.0), 0.5, &lambertian)))
+        .add_primitive(Box::new(primitive::Sphere::new(Vec3::new(0.0, -100.5, -1.0), 100.0, &lambertian)));
 
     render::Renderer::new()
         .set_camera(&camera)

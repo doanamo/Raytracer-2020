@@ -2,12 +2,12 @@ use crate::math::Ray;
 use super::primitive::Primitive;
 use super::primitive::Intersection;
 
-pub struct Scene
+pub struct Scene<'a>
 {
-    primitives: Vec<Box<dyn Primitive>>
+    primitives: Vec<Box<dyn Primitive + 'a>>
 }
 
-impl Scene
+impl<'a> Scene<'a>
 {
     pub fn new() -> Self
     {
@@ -17,7 +17,7 @@ impl Scene
         }
     }
 
-    pub fn add_primitive(mut self, primitive: Box<dyn Primitive>) -> Self
+    pub fn add_primitive(mut self, primitive: Box<dyn Primitive + 'a>) -> Self
     {
         self.primitives.push(primitive);
         self

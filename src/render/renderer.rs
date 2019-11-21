@@ -1,6 +1,4 @@
-use crate::math::Color;
-use crate::math::Vec3;
-use crate::math::Ray;
+use crate::math::*;
 use crate::image::Image;
 use super::camera::Camera;
 use super::scene::Scene;
@@ -46,7 +44,7 @@ impl RenderStats
 pub struct Renderer<'a>
 {
     camera: Option<&'a Camera>,
-    scene: Option<&'a Scene>,
+    scene: Option<&'a Scene<'a>>,
 
     antialias_samples: u16,
     bounce_limit: u16,
@@ -175,11 +173,15 @@ impl<'a> Renderer<'a>
             {
                 None =>
                 {
-                    self.stats.bounces += 1;
-
-                    let bounce_target = intersection.point + intersection.normal + Vec3::random_in_unit_sphere();
-                    let bounce_ray = Ray::new(intersection.point, (bounce_target - intersection.point).normalized());
-                    return self.sample(bounce_ray, bounce_index + 1).mul_rgb(0.5);
+                    if let Some((scattered_ray, attenuation)) = intersection.material.scatter(&intersection)
+                    {
+                        self.stats.bounces += 1;
+                        return self.sample(scattered_ray, bounce_index + 1) * attenuation;
+                    }
+                    else
+                    {
+                        return Color::new(0.0, 0.0, 0.0, 1.0);
+                    }
                 },
                 Some(RenderDebug::Normals) =>
                 {

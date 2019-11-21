@@ -102,6 +102,22 @@ impl Color
     }
 }
 
+impl ops::Mul<Color> for Color
+{
+    type Output = Color;
+
+    fn mul(self, other: Self) -> Color
+    {
+        Color
+        {
+            r: self.r * other.r,
+            g: self.g * other.g,
+            b: self.b * other.b,
+            a: self.a * other.a
+        }
+    }
+}
+
 impl ops::AddAssign for Color
 {
     fn add_assign(&mut self, other: Self)
@@ -112,6 +128,20 @@ impl ops::AddAssign for Color
             g: self.g + other.g,
             b: self.b + other.b,
             a: self.a + other.a
+        };
+    }
+}
+
+impl ops::MulAssign for Color
+{
+    fn mul_assign(&mut self, other: Self)
+    {
+        *self = Self
+        {
+            r: self.r * other.r,
+            g: self.g * other.g,
+            b: self.b * other.b,
+            a: self.a * other.a
         };
     }
 }
