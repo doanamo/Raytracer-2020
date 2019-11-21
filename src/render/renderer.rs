@@ -1,14 +1,20 @@
 use crate::math::Color;
+use crate::math::Vec3;
 use crate::math::Ray;
 use crate::image::Image;
 use super::camera::Camera;
 use super::scene::Scene;
-use super::primitive::Intersection;
+
+pub enum RenderDebug
+{
+    Normals,
+}
 
 pub struct Renderer<'a>
 {
     camera: Option<&'a Camera>,
-    scene: Option<&'a Scene>
+    scene: Option<&'a Scene>,
+    debug: Option<RenderDebug>
 }
 
 impl<'a> Renderer<'a>
@@ -18,7 +24,8 @@ impl<'a> Renderer<'a>
         Renderer
         {
             camera: None,
-            scene: None
+            scene: None,
+            debug: None
         }
     }
 
@@ -34,14 +41,19 @@ impl<'a> Renderer<'a>
         self
     }
 
+    pub fn set_debug(mut self, debug: RenderDebug) -> Self
+    {
+        self.debug = Some(debug);
+        self
+    }
+
     pub fn render(&self, image: &mut Image)
     {
         let begin_time = std::time::Instant::now();
 
         let camera = self.camera.expect("Cannot render image without camera!");
-        let scene = self.scene.expect("Cannot render image without scene!");
 
-        let antialias_samples = 4;
+        let antialias_samples = 8;
         let antialias_subpixel_step = 1.0 / antialias_samples as f32;
 
         for y in 0..image.get_height()
@@ -60,10 +72,7 @@ impl<'a> Renderer<'a>
                         let u = (x as f32 + offset_u) / image.get_width() as f32;
                         let v = (y as f32 + offset_v) / image.get_height() as f32;
                         
-                        let ray = camera.calculate_ray(u, v);
-                        let intersection = scene.intersect(&ray, 0.0, std::f32::MAX);
-
-                        let sample = self.sample(&ray, &intersection);
+                        let sample = self.sample(camera.calculate_ray(u, v));
                         debug_assert!(sample.is_valid());
 
                         color += sample;
@@ -71,7 +80,13 @@ impl<'a> Renderer<'a>
                 }
 
                 color /= antialias_samples * antialias_samples;
+
+                let gamma = 1.0 / 2.2;
+                color.r = color.r.powf(gamma);
+                color.g = color.g.powf(gamma);
+                color.b = color.b.powf(gamma);
                 debug_assert!(color.is_valid());
+                debug_assert!(color.r == 1.0);
 
                 image.set_pixel(x, y, color);
             }
@@ -80,11 +95,29 @@ impl<'a> Renderer<'a>
         println!("Rendered image in {} seconds.", begin_time.elapsed().as_secs_f32());
     }
 
-    fn sample(&self, ray: &Ray, intersection: &Option<Intersection>) -> Color
+    fn sample(&self, ray: Ray) -> Color
     {
+        let scene = self.scene.expect("Cannot render image without scene!");
+        let intersection = scene.intersect(&ray, 0.001, std::f32::MAX);
+
         if let Some(intersection) = intersection
         {
-            return Color::new(intersection.normal.x + 1.0, intersection.normal.y + 1.0, intersection.normal.z + 1.0, 1.0).mul_rgb(0.5);
+            if let Some(debug) = &self.debug
+            {
+                match debug
+                {
+                    RenderDebug::Normals =>
+                    {
+                        return Color::new(intersection.normal.x + 1.0, intersection.normal.y + 1.0, intersection.normal.z + 1.0, 1.0).mul_rgb(0.5);
+                    }
+                }
+            }
+            else
+            {
+                let bounce_target = intersection.point + intersection.normal + Vec3::random_in_unit_sphere();
+                let bounce_ray = Ray::new(intersection.point, (bounce_target - intersection.point).normalized());
+                return self.sample(bounce_ray).mul_rgb(0.5);
+            }
         }
         else
         {
