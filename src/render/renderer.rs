@@ -13,6 +13,7 @@ pub struct RenderStats
     pixels: usize,
     subpixels: usize,
     samples: usize,
+    intersections: usize,
     bounces: usize,
     max_bounces: u16
 }
@@ -26,6 +27,7 @@ impl RenderStats
             pixels: 0,
             subpixels: 0,
             samples: 0,
+            intersections: 0,
             bounces: 0,
             max_bounces: 0
         }
@@ -34,10 +36,11 @@ impl RenderStats
     pub fn print(&self)
     {
         println!("Printing render stats:");
-        println!("  Pixels:    {}", self.pixels);
-        println!("  Subpixels: {}", self.subpixels);
-        println!("  Samples:   {}", self.samples);
-        println!("  Bounces:   {} ({} max)", self.bounces, self.max_bounces);
+        println!("  Pixels:        {}", self.pixels);
+        println!("  Subpixels:     {}", self.subpixels);
+        println!("  Samples:       {}", self.samples);
+        println!("  Intersections: {}", self.intersections);
+        println!("  Bounces:       {} ({} max)", self.bounces, self.max_bounces);
     }
 }
 
@@ -169,6 +172,8 @@ impl<'a> Renderer<'a>
 
         if let Some(intersection) = intersection
         {
+            self.stats.intersections += 1;
+
             match self.debug
             {
                 None =>
