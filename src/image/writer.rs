@@ -18,18 +18,18 @@ pub trait Format
 
 pub struct Writer<'a>
 {
-    format: Box<dyn Format>,
+    format: Box<dyn Format + 'a>,
     image: Option<&'a Image>,
     path: Option<PathBuf>
 }
 
 impl<'a> Writer<'a>
 {
-    pub fn new(format: Box<dyn Format>) -> Writer<'a>
+    pub fn new<FormatType: Format + 'a>(format: FormatType) -> Writer<'a>
     {
         Writer
         {
-            format: format,
+            format: Box::new(format),
             image: None,
             path: None
         }

@@ -17,9 +17,9 @@ impl<'a> Scene<'a>
         }
     }
 
-    pub fn add_primitive(mut self, primitive: Box<dyn Primitive + 'a>) -> Self
+    pub fn add_primitive<PrimitiveType: Primitive + 'a>(mut self, primitive: PrimitiveType) -> Self
     {
-        self.primitives.push(primitive);
+        self.primitives.push(Box::new(primitive));
         self
     }
 

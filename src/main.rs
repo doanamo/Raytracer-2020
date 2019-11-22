@@ -22,8 +22,8 @@ fn main()
         .set_albedo(Color::new(0.5, 0.5, 0.5, 1.0));
 
     let scene = render::Scene::new()
-        .add_primitive(Box::new(primitive::Sphere::new(Vec3::new(0.0, 0.0, -1.0), 0.5, &lambertian)))
-        .add_primitive(Box::new(primitive::Sphere::new(Vec3::new(0.0, -100.5, -1.0), 100.0, &lambertian)));
+        .add_primitive(primitive::Sphere::new(Vec3::new(0.0, 0.0, -1.0), 0.5, &lambertian))
+        .add_primitive(primitive::Sphere::new(Vec3::new(0.0, -100.5, -1.0), 100.0, &lambertian));
 
     render::Renderer::new()
         .set_camera(&camera)
@@ -33,7 +33,7 @@ fn main()
         .render(&mut image)
         .print_stats();
 
-    image::Writer::new(Box::new(image::FormatPNG::new()))
+    image::Writer::new(image::FormatPNG::new())
         .input(&image).output("output/render.png").save()
         .expect("Failed to save rendered image!");
 }
