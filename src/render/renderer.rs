@@ -3,48 +3,7 @@ use crate::image::Image;
 use super::camera::Camera;
 use super::scene::Scene;
 use super::material;
-
-pub enum RenderDebug
-{
-    Diffuse,
-    Normals,
-}
-
-pub struct RenderStats
-{
-    pixels: usize,
-    subpixels: usize,
-    samples: usize,
-    intersections: usize,
-    scatters: usize,
-    max_scatters: u16
-}
-
-impl RenderStats
-{
-    pub fn new() -> Self
-    {
-        RenderStats
-        {
-            pixels: 0,
-            subpixels: 0,
-            samples: 0,
-            intersections: 0,
-            scatters: 0,
-            max_scatters: 0
-        }
-    }
-
-    pub fn print(&self)
-    {
-        println!("Printing render stats:");
-        println!("  Pixels:        {}", self.pixels);
-        println!("  Subpixels:     {} ({} per pixel)", self.subpixels,self.subpixels / self.pixels);
-        println!("  Samples:       {} ({:.2} per pixel)", self.samples, self.samples as f32 / self.pixels as f32);
-        println!("  Intersections: {} ({:.2} per pixel)", self.intersections, self.intersections as f32 / self.pixels as f32);
-        println!("  Scatters:      {} ({} max)", self.scatters, self.max_scatters);
-    }
-}
+use super::debug;
 
 pub struct Renderer<'a>
 {
@@ -54,10 +13,10 @@ pub struct Renderer<'a>
     antialias_samples: u16,
     scatter_limit: u16,
 
-    debug: Option<RenderDebug>,
+    debug: Option<debug::RenderDebug>,
     debug_diffuse_material: material::Diffuse,
-    debug_normals_material: material::Normals,
-    stats: RenderStats
+    debug_normals_material: debug::VisualizeNormals,
+    stats: debug::RenderStats
 }
 
 impl<'a> Renderer<'a>
@@ -74,8 +33,8 @@ impl<'a> Renderer<'a>
 
             debug: None,
             debug_diffuse_material: material::Diffuse::from(Color::new(0.5, 0.5, 0.5, 1.0)),
-            debug_normals_material: material::Normals::new(),
-            stats: RenderStats::new()
+            debug_normals_material: debug::VisualizeNormals::new(),
+            stats: debug::RenderStats::new()
         }
     }
 
@@ -103,7 +62,7 @@ impl<'a> Renderer<'a>
         self
     }
 
-    pub fn set_debug(mut self, debug: RenderDebug) -> Self
+    pub fn set_debug(mut self, debug: debug::RenderDebug) -> Self
     {
         self.debug = Some(debug);
         self
@@ -181,8 +140,8 @@ impl<'a> Renderer<'a>
             let material = match self.debug
             {
                 None => intersection.material,
-                Some(RenderDebug::Diffuse) => &self.debug_diffuse_material,
-                Some(RenderDebug::Normals) => &self.debug_normals_material,
+                Some(debug::RenderDebug::Diffuse) => &self.debug_diffuse_material,
+                Some(debug::RenderDebug::Normals) => &self.debug_normals_material,
             };
             
             let (scattered_ray, attenuation) = material.scatter(&ray, &intersection, scatter_index);
@@ -203,8 +162,8 @@ impl<'a> Renderer<'a>
         {
             match self.debug
             {
-                Some(RenderDebug::Diffuse) => return Color::new(0.5, 0.5, 0.5, 1.0),
-                Some(RenderDebug::Normals) => return Color::new(0.5, 0.5, 1.0, 1.0),
+                Some(debug::RenderDebug::Diffuse) => return Color::new(0.5, 0.5, 0.5, 1.0),
+                Some(debug::RenderDebug::Normals) => return Color::new(0.5, 0.5, 1.0, 1.0),
                 None =>
                 {
                     let alpha = (ray.get_direction().y + 1.0) * 0.5;

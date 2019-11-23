@@ -54,7 +54,7 @@ fn main()
                 .set_scene(&scene)
                 .set_antialias_samples(2)
                 .set_scatter_limit(8)
-                .set_debug(render::RenderDebug::Diffuse)
+                .set_debug(render::debug::RenderDebug::Diffuse)
                 .render(&mut render_debug_diffuse);
         
             image::Writer::new(image::FormatPNG::new())
