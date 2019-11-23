@@ -2,9 +2,11 @@ use crate::math::*;
 use crate::image::Image;
 use super::camera::Camera;
 use super::scene::Scene;
+use super::material;
 
 pub enum RenderDebug
 {
+    Diffuse,
     Normals,
 }
 
@@ -14,8 +16,8 @@ pub struct RenderStats
     subpixels: usize,
     samples: usize,
     intersections: usize,
-    bounces: usize,
-    max_bounces: u16
+    scatters: usize,
+    max_scatters: u16
 }
 
 impl RenderStats
@@ -28,8 +30,8 @@ impl RenderStats
             subpixels: 0,
             samples: 0,
             intersections: 0,
-            bounces: 0,
-            max_bounces: 0
+            scatters: 0,
+            max_scatters: 0
         }
     }
 
@@ -40,7 +42,7 @@ impl RenderStats
         println!("  Subpixels:     {}", self.subpixels);
         println!("  Samples:       {}", self.samples);
         println!("  Intersections: {}", self.intersections);
-        println!("  Bounces:       {} ({} max)", self.bounces, self.max_bounces);
+        println!("  Scatters:      {} ({} max)", self.scatters, self.max_scatters);
     }
 }
 
@@ -50,9 +52,11 @@ pub struct Renderer<'a>
     scene: Option<&'a Scene<'a>>,
 
     antialias_samples: u16,
-    bounce_limit: u16,
+    scatter_limit: u16,
 
     debug: Option<RenderDebug>,
+    debug_diffuse_material: material::Lambertian,
+    debug_normals_material: material::Normals,
     stats: RenderStats
 }
 
@@ -66,9 +70,11 @@ impl<'a> Renderer<'a>
             scene: None,
 
             antialias_samples: 4,
-            bounce_limit: 8,
+            scatter_limit: 8,
 
             debug: None,
+            debug_diffuse_material: material::Lambertian::from(Color::new(0.5, 0.5, 0.5, 1.0)),
+            debug_normals_material: material::Normals::new(),
             stats: RenderStats::new()
         }
     }
@@ -91,9 +97,9 @@ impl<'a> Renderer<'a>
         self
     }
 
-    pub fn set_bounce_limit(mut self, count: u16) -> Self
+    pub fn set_scatter_limit(mut self, count: u16) -> Self
     {
-        self.bounce_limit = count;
+        self.scatter_limit = count;
         self
     }
 
@@ -157,47 +163,54 @@ impl<'a> Renderer<'a>
         self
     }
 
-    fn sample(&mut self, ray: Ray, bounce_index: u16) -> Color
+    fn sample(&mut self, ray: Ray, scatter_index: u16) -> Color
     {
-        if bounce_index > self.bounce_limit
+        let scene = self.scene.expect("Cannot render image without scene!");
+        
+        if scatter_index > self.scatter_limit
         {
-            return Color::new(0.0, 0.0, 0.0, 1.0);
+            return Color::black();
         }
 
         self.stats.samples += 1;
-        self.stats.max_bounces = std::cmp::max(self.stats.max_bounces, bounce_index);
-
-        let scene = self.scene.expect("Cannot render image without scene!");
-        let intersection = scene.intersect(&ray, 0.001, std::f32::MAX);
-
-        if let Some(intersection) = intersection
+        
+        if let Some(intersection) = scene.intersect(&ray, 0.001, std::f32::MAX)
         {
             self.stats.intersections += 1;
-
-            match self.debug
+            
+            let material = match self.debug
             {
-                None =>
-                {
-                    if let Some((scattered_ray, attenuation)) = intersection.material.scatter(&ray, &intersection)
-                    {
-                        self.stats.bounces += 1;
-                        return self.sample(scattered_ray, bounce_index + 1) * attenuation;
-                    }
-                    else
-                    {
-                        return Color::new(0.0, 0.0, 0.0, 1.0);
-                    }
-                },
-                Some(RenderDebug::Normals) =>
-                {
-                    return Color::new(intersection.normal.x + 1.0, intersection.normal.y + 1.0, intersection.normal.z + 1.0, 1.0).mul_rgb(0.5);
-                }
+                None => intersection.material,
+                Some(RenderDebug::Diffuse) => &self.debug_diffuse_material,
+                Some(RenderDebug::Normals) => &self.debug_normals_material,
+            };
+            
+            let (scattered_ray, attenuation) = material.scatter(&ray, &intersection, scatter_index);
+
+            if let Some(scattered_ray) = scattered_ray
+            {
+                self.stats.scatters += 1;
+                self.stats.max_scatters = std::cmp::max(self.stats.max_scatters, scatter_index);
+
+                return self.sample(scattered_ray, scatter_index + 1) * attenuation;
+            }
+            else
+            {
+                return attenuation;
             }
         }
         else
         {
-            let alpha = (ray.get_direction().y + 1.0) * 0.5;
-            return Color::new(1.0, 1.0, 1.0, 1.0).mul_rgb(1.0 - alpha).add_rgb(Color::new(0.5, 0.7, 1.0, 1.0).mul_rgb(alpha));
+            match self.debug
+            {
+                Some(RenderDebug::Diffuse) => return Color::new(0.5, 0.5, 0.5, 1.0),
+                Some(RenderDebug::Normals) => return Color::new(0.5, 0.5, 1.0, 1.0),
+                None =>
+                {
+                    let alpha = (ray.get_direction().y + 1.0) * 0.5;
+                    return Color::new(1.0, 1.0, 1.0, 1.0).mul_rgb(1.0 - alpha).add_rgb(Color::new(0.5, 0.7, 1.0, 1.0).mul_rgb(alpha));
+                }
+            };
         }
     }
 
