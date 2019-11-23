@@ -39,9 +39,9 @@ impl RenderStats
     {
         println!("Printing render stats:");
         println!("  Pixels:        {}", self.pixels);
-        println!("  Subpixels:     {}", self.subpixels);
-        println!("  Samples:       {}", self.samples);
-        println!("  Intersections: {}", self.intersections);
+        println!("  Subpixels:     {} ({} per pixel)", self.subpixels,self.subpixels / self.pixels);
+        println!("  Samples:       {} ({:.2} per pixel)", self.samples, self.samples as f32 / self.pixels as f32);
+        println!("  Intersections: {} ({:.2} per pixel)", self.intersections, self.intersections as f32 / self.pixels as f32);
         println!("  Scatters:      {} ({} max)", self.scatters, self.max_scatters);
     }
 }
