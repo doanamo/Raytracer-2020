@@ -8,16 +8,16 @@ pub trait Material
     fn scatter(&self, ray: &Ray, intersection: &Intersection, scatter_index: u16) -> (Option<Ray>, Color);
 }
 
-pub struct Lambertian
+pub struct Diffuse
 {
     albedo: Color
 }
 
-impl Lambertian
+impl Diffuse
 {
     pub fn new() -> Self
     {
-        Lambertian
+        Diffuse
         {
             albedo: Color::new(0.5, 0.5, 0.5, 1.0)
         }
@@ -25,7 +25,7 @@ impl Lambertian
 
     pub fn from(albedo: Color) -> Self
     {
-        Lambertian
+        Diffuse
         {
             albedo
         }
@@ -38,7 +38,7 @@ impl Lambertian
     }
 }
 
-impl Material for Lambertian
+impl Material for Diffuse
 {
     fn scatter(&self, _ray: &Ray, intersection: &Intersection, _scatter_index: u16) -> (Option<Ray>, Color)
     {

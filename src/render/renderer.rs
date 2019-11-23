@@ -55,7 +55,7 @@ pub struct Renderer<'a>
     scatter_limit: u16,
 
     debug: Option<RenderDebug>,
-    debug_diffuse_material: material::Lambertian,
+    debug_diffuse_material: material::Diffuse,
     debug_normals_material: material::Normals,
     stats: RenderStats
 }
@@ -73,7 +73,7 @@ impl<'a> Renderer<'a>
             scatter_limit: 8,
 
             debug: None,
-            debug_diffuse_material: material::Lambertian::from(Color::new(0.5, 0.5, 0.5, 1.0)),
+            debug_diffuse_material: material::Diffuse::from(Color::new(0.5, 0.5, 0.5, 1.0)),
             debug_normals_material: material::Normals::new(),
             stats: RenderStats::new()
         }
@@ -166,7 +166,7 @@ impl<'a> Renderer<'a>
     fn sample(&mut self, ray: Ray, scatter_index: u16) -> Color
     {
         let scene = self.scene.expect("Cannot render image without scene!");
-        
+
         if scatter_index > self.scatter_limit
         {
             return Color::black();

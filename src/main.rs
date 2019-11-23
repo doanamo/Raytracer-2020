@@ -21,10 +21,10 @@ fn main()
         .build();
     
     let scene = render::Scene::new()
-        .add_primitive(primitive::Sphere::new(Vec3::new(0.0, 0.0, -1.0), 0.5, material::Lambertian::from(Color::new(0.8, 0.3, 0.3, 1.0))))
+        .add_primitive(primitive::Sphere::new(Vec3::new(0.0, 0.0, -1.0), 0.5, material::Diffuse::from(Color::new(0.8, 0.3, 0.3, 1.0))))
         .add_primitive(primitive::Sphere::new(Vec3::new(1.0, 0.0, -1.0), 0.5, material::Metalic::from(Color::new(0.8, 0.8, 0.8, 1.0))))
         .add_primitive(primitive::Sphere::new(Vec3::new(-1.0, 0.0, -1.0), 0.5, material::Metalic::from(Color::new(0.8, 0.8, 0.8, 1.0))))
-        .add_primitive(primitive::Sphere::new(Vec3::new(0.0, -100.5, -1.0), 100.0, material::Lambertian::from(Color::new(0.8, 0.8, 0.0, 1.0))));
+        .add_primitive(primitive::Sphere::new(Vec3::new(0.0, -100.5, -1.0), 100.0, material::Diffuse::from(Color::new(0.8, 0.8, 0.0, 1.0))));
 
     {
         let mut render_image = Image::new(image_width, image_heigth);
