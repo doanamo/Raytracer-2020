@@ -11,7 +11,7 @@ pub struct Color
 
 impl Color
 {
-    pub fn new(red: f32, green: f32, blue: f32, alpha: f32) -> Color
+    pub fn new(red: f32, green: f32, blue: f32, alpha: f32) -> Self
     {
         Color
         {
@@ -19,6 +19,28 @@ impl Color
             g: green,
             b: blue,
             a: alpha
+        }
+    }
+
+    pub fn zero() -> Self
+    {
+        Color
+        {
+            r: 0.0,
+            g: 0.0,
+            b: 0.0,
+            a: 0.0
+        }
+    }
+
+    pub fn black() -> Self
+    {
+        Color
+        {
+            r: 0.0,
+            g: 0.0,
+            b: 0.0,
+            a: 1.0
         }
     }
 
