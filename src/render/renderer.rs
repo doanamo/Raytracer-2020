@@ -178,7 +178,7 @@ impl<'a> Renderer<'a>
             {
                 None =>
                 {
-                    if let Some((scattered_ray, attenuation)) = intersection.material.scatter(&intersection)
+                    if let Some((scattered_ray, attenuation)) = intersection.material.scatter(&ray, &intersection)
                     {
                         self.stats.bounces += 1;
                         return self.sample(scattered_ray, bounce_index + 1) * attenuation;

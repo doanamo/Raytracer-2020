@@ -20,19 +20,19 @@ pub struct Sphere<'a>
     center: Vec3,
     radius: f32,
 
-    material: &'a dyn Material
+    material: Box<dyn Material + 'a>
 }
 
 impl<'a> Sphere<'a>
 {
-    pub fn new(center: Vec3, radius: f32, material: &'a dyn Material) -> Sphere
+    pub fn new<MaterialType: Material + 'a>(center: Vec3, radius: f32, material: MaterialType) -> Sphere<'a>
     {
         Sphere
         {
             center,
             radius,
 
-            material
+            material: Box::new(material)
         }
     }
 }
@@ -62,7 +62,7 @@ impl<'a> Primitive for Sphere<'a>
                     point: intersection_point,
                     normal: (intersection_point - self.center).normalized(),
                     length: r1,
-                    material: self.material
+                    material: self.material.as_ref()
                 });
             }
 
@@ -77,7 +77,7 @@ impl<'a> Primitive for Sphere<'a>
                     point: intersection_point,
                     normal: (intersection_point - self.center).normalized(),
                     length: r2,
-                    material: self.material
+                    material: self.material.as_ref()
                 });
             }
         }

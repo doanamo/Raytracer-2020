@@ -146,14 +146,20 @@ impl Vec3
         self.length_sqr().sqrt()
     }
 
+    pub fn dot(self, v: Vec3) -> f32
+    {
+        self.x * v.x + self.y * v.y + self.z * v.z
+    }
+
     pub fn normalized(self) -> Vec3
     {
         self / self.length()
     }
 
-    pub fn dot(self, v: Vec3) -> f32
+    pub fn reflected(self, normal: Vec3) -> Vec3
     {
-        self.x * v.x + self.y * v.y + self.z * v.z
+        debug_assert!(normal.is_unit());
+        self - normal * 2.0 * self.dot(normal)
     }
 
     pub fn is_unit(self) -> bool
