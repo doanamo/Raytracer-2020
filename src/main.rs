@@ -12,6 +12,8 @@ use render::material;
 
 fn main() 
 {
+    let arguments: Vec<String> = std::env::args().collect();
+
     let image_width = 1024;
     let image_heigth = 576;
 
@@ -33,7 +35,7 @@ fn main()
         .set_camera(&camera)
             .set_scene(&scene)
             .set_antialias_samples(8)
-            .set_scatter_limit(128)
+            .set_scatter_limit(32)
             .render(&mut render_image)
             .print_stats();
     
@@ -42,7 +44,7 @@ fn main()
             .expect("Failed to save rendered image!");
     }
 
-    if true
+    if arguments.iter().any(|arg| arg == "--render_debug")
     {
         {
             let mut render_debug_diffuse = Image::new(image_width, image_heigth);
@@ -62,7 +64,7 @@ fn main()
 
         {
             let mut render_debug_normals = Image::new(image_width, image_heigth);
-    
+
             render::Renderer::new()
                 .set_camera(&camera)
                 .set_scene(&scene)
