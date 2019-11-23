@@ -126,7 +126,7 @@ impl Material for Normals
         }
         else
         {
-            (None, Color::black())
+            panic!("Did not expect debug material for normals to scatter!");
         }
     }
 }
