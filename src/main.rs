@@ -22,8 +22,8 @@ fn main()
     
     let scene = render::Scene::new()
         .add_primitive(primitive::Sphere::new(Vec3::new(0.0, 0.0, -1.0), 0.5, material::Diffuse::from(Color::new(0.8, 0.3, 0.3, 1.0))))
-        .add_primitive(primitive::Sphere::new(Vec3::new(1.0, 0.0, -1.0), 0.5, material::Metalic::from(Color::new(0.8, 0.8, 0.8, 1.0))))
-        .add_primitive(primitive::Sphere::new(Vec3::new(-1.0, 0.0, -1.0), 0.5, material::Metalic::from(Color::new(0.8, 0.8, 0.8, 1.0))))
+        .add_primitive(primitive::Sphere::new(Vec3::new(1.0, 0.0, -1.0), 0.5, material::Metalic::from(Color::new(0.8, 0.8, 0.8, 1.0), 0.8)))
+        .add_primitive(primitive::Sphere::new(Vec3::new(-1.0, 0.0, -1.0), 0.5, material::Metalic::from(Color::new(0.8, 0.8, 0.8, 1.0), 0.0)))
         .add_primitive(primitive::Sphere::new(Vec3::new(0.0, -100.5, -1.0), 100.0, material::Diffuse::from(Color::new(0.8, 0.8, 0.0, 1.0))));
 
     {
@@ -33,7 +33,7 @@ fn main()
         .set_camera(&camera)
             .set_scene(&scene)
             .set_antialias_samples(8)
-            .set_scatter_limit(32)
+            .set_scatter_limit(128)
             .render(&mut render_image)
             .print_stats();
     

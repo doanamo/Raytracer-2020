@@ -33,6 +33,17 @@ impl Color
         }
     }
 
+    pub fn white() -> Self
+    {
+        Color
+        {
+            r: 1.0,
+            g: 1.0,
+            b: 1.0,
+            a: 1.0
+        }
+    }
+
     pub fn black() -> Self
     {
         Color
@@ -95,6 +106,17 @@ impl Color
             g: self.g * factor,
             b: self.b * factor,
             a: self.a * factor
+        }
+    }
+
+    pub fn clamp(self) -> Color
+    {
+        Color
+        {
+            r: self.r.max(0.0).min(1.0),
+            g: self.g.max(0.0).min(1.0),
+            b: self.b.max(0.0).min(1.0),
+            a: self.a.max(0.0).min(1.0)
         }
     }
 
