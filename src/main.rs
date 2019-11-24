@@ -23,6 +23,8 @@ fn main()
         .build();
     
     let scene = render::Scene::new()
+        .add_primitive(primitive::Sphere::new(Vec3::new(0.5, -0.3, -0.65), 0.18, material::Refractive::from(Color::new(1.0, 1.0, 1.0, 1.0), 1.5)))
+        .add_primitive(primitive::Sphere::new(Vec3::new(-0.5, -0.3, -0.65), -0.18, material::Refractive::from(Color::new(1.0, 1.0, 1.0, 1.0), 1.06)))
         .add_primitive(primitive::Sphere::new(Vec3::new(0.0, 0.0, -1.0), 0.5, material::Diffuse::from(Color::new(0.8, 0.3, 0.3, 1.0))))
         .add_primitive(primitive::Sphere::new(Vec3::new(1.0, 0.0, -1.0), 0.5, material::Metalic::from(Color::new(0.8, 0.8, 0.8, 1.0), 0.8)))
         .add_primitive(primitive::Sphere::new(Vec3::new(-1.0, 0.0, -1.0), 0.5, material::Metalic::from(Color::new(0.8, 0.8, 0.8, 1.0), 0.0)))

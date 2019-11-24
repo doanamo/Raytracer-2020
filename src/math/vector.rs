@@ -162,6 +162,26 @@ impl Vec3
         self - normal * 2.0 * self.dot(normal)
     }
 
+    pub fn refracted(self, normal: Vec3, eta: f32) -> Option<Vec3>
+    {
+        debug_assert!(self.is_unit());
+        debug_assert!(normal.is_unit());
+
+        let dot = self.dot(normal);
+        let discriminant = 1.0 - eta * eta * (1.0 - dot * dot);
+
+        if discriminant > 0.0
+        {
+            let refracted = (self - normal * dot) * eta - normal * discriminant.sqrt();
+
+            Some(refracted)
+        }
+        else
+        {
+            None
+        }
+    }
+
     pub fn is_unit(self) -> bool
     {
         (self.length_sqr() - 1.0).abs() < 0.0001

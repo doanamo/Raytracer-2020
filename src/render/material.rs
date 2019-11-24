@@ -99,3 +99,74 @@ impl Material for Metalic
         (Some(scattered_ray), self.albedo)
     }
 }
+
+pub struct Refractive
+{
+    albedo: Color,
+    refractive_index: f32
+}
+
+impl Refractive
+{
+    pub fn new() -> Self
+    {
+        Refractive
+        {
+            albedo: Color::new(1.0, 1.0, 1.0, 1.0),
+            refractive_index: 0.0
+        }
+    }
+
+    pub fn from(albedo: Color, refractive_index: f32) -> Self
+    {
+        Refractive
+        {
+            albedo,
+            refractive_index
+        }
+    }
+}
+
+impl Material for Refractive
+{
+    fn scatter(&self, ray: &Ray, intersection: &Intersection, _scatter_index: u16) -> (Option<Ray>, Color)
+    {
+        let outward_normal;
+        let cosine;
+        let eta;
+
+        let schlick = |cosine: f32, refractive_index: f32|
+        {
+            let mut r0 = (1.0 - refractive_index) / (1.0 + refractive_index);
+            r0 = r0 * r0;
+
+            return r0 + (1.0 - r0) * (1.0 - cosine).powf(5.0); 
+        };
+
+        if ray.get_direction().dot(intersection.normal) > 0.0
+        {
+            outward_normal = intersection.normal * -1.0;
+            eta = self.refractive_index;
+            cosine = self.refractive_index * ray.get_direction().dot(intersection.normal) / ray.get_direction().length();
+        }
+        else
+        {
+            outward_normal = intersection.normal;
+            eta = 1.0 / self.refractive_index;
+            cosine = -1.0 * ray.get_direction().dot(intersection.normal) / ray.get_direction().length();
+        }
+
+        if let Some(refracted) = ray.get_direction().refracted(outward_normal, eta)
+        {
+            let reflection_probaility = schlick(cosine, self.refractive_index);
+
+            if rand::random::<f32>() >= reflection_probaility
+            {
+                return (Some(Ray::new(intersection.point, refracted)), self.albedo);
+            }
+        }
+
+        let reflected = ray.get_direction().reflected(intersection.normal);
+        (Some(Ray::new(intersection.point, reflected)), self.albedo)
+    }
+}
