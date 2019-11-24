@@ -70,9 +70,9 @@ impl<'a> Renderer<'a>
 
     pub fn render(mut self, image: &mut Image) -> Self
     {
-        let begin_time = std::time::Instant::now();
-
         let camera = self.camera.expect("Cannot render image without camera!");
+        
+        let begin_time = std::time::Instant::now();
 
         debug_assert!(self.antialias_samples > 0);
         let antialias_subpixel_step = 1.0 / self.antialias_samples as f32;
@@ -133,7 +133,7 @@ impl<'a> Renderer<'a>
 
         self.stats.samples += 1;
         
-        if let Some(intersection) = scene.intersect(&ray, 0.001, std::f32::MAX)
+        if let Some(intersection) = scene.intersect(&ray, 0.0001, std::f32::MAX)
         {
             self.stats.intersections += 1;
             
