@@ -18,23 +18,25 @@ fn main()
     let image_heigth = 576;
 
     let camera = render::Camera::new()
-        .set_source_size(2.0, 2.0)
+        .set_position(Vec3::new(0.0, 0.0, 0.6))
+        .set_look_at(Some(Vec3::new(0.0, -0.2, -1.0)))
+        .set_field_of_view(90.0)
         .set_target_size(image_width, image_heigth)
         .build();
     
     let scene = render::Scene::new()
-        .add_primitive(primitive::Sphere::new(Vec3::new(0.5, -0.3, -0.65), 0.18, material::Refractive::from(Color::new(1.0, 1.0, 1.0, 1.0), 1.5)))
-        .add_primitive(primitive::Sphere::new(Vec3::new(-0.5, -0.3, -0.65), -0.18, material::Refractive::from(Color::new(1.0, 1.0, 1.0, 1.0), 1.06)))
-        .add_primitive(primitive::Sphere::new(Vec3::new(0.0, 0.0, -1.0), 0.5, material::Diffuse::from(Color::new(0.8, 0.3, 0.3, 1.0))))
-        .add_primitive(primitive::Sphere::new(Vec3::new(1.0, 0.0, -1.0), 0.5, material::Metalic::from(Color::new(0.8, 0.8, 0.8, 1.0), 0.8)))
-        .add_primitive(primitive::Sphere::new(Vec3::new(-1.0, 0.0, -1.0), 0.5, material::Metalic::from(Color::new(0.8, 0.8, 0.8, 1.0), 0.0)))
+        .add_primitive(primitive::Sphere::new(Vec3::new(0.3, -0.3, -0.5), 0.2, material::Refractive::from(Color::new(1.0, 1.0, 1.0, 1.0), 1.008)))
+        .add_primitive(primitive::Sphere::new(Vec3::new(-0.3, -0.3, -0.5), -0.2, material::Refractive::from(Color::new(1.0, 1.0, 1.0, 1.0), 1.3)))
+        .add_primitive(primitive::Sphere::new(Vec3::new(0.0, 0.0, -1.4), 0.5, material::Diffuse::from(Color::new(0.8, 0.3, 0.3, 1.0))))
+        .add_primitive(primitive::Sphere::new(Vec3::new(0.8, -0.1, -1.0), 0.4, material::Metalic::from(Color::new(0.8, 0.8, 0.8, 1.0), 0.0)))
+        .add_primitive(primitive::Sphere::new(Vec3::new(-0.8, -0.1, -1.0), 0.4, material::Metalic::from(Color::new(0.8, 0.8, 0.8, 1.0), 0.8)))
         .add_primitive(primitive::Sphere::new(Vec3::new(0.0, -100.5, -1.0), 100.0, material::Diffuse::from(Color::new(0.8, 0.8, 0.0, 1.0))));
 
     {
         let mut render_image = Image::new(image_width, image_heigth);
         
         render::Renderer::new()
-        .set_camera(&camera)
+            .set_camera(&camera)
             .set_scene(&scene)
             .set_antialias_samples(8)
             .set_scatter_limit(32)

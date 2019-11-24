@@ -5,7 +5,10 @@ use crate::math::Ray;
 pub struct Camera
 {
     position: Vec3,
+    look_at: Option<Vec3>,
+    up: Vec3,
 
+    field_of_view: f32,
     source_size: Vec2,
     target_size: Vec2,
 
@@ -21,14 +24,35 @@ impl Camera
         Camera
         {
             position: Vec3::new(0.0, 0.0, 0.0),
+            look_at: None,
+            up: Vec3::new(0.0, 1.0, 0.0),
 
-            source_size: Vec2::new(2.0, 2.0),
+            field_of_view: 90.0,
+            source_size: Vec2::new(1.0, 1.0),
             target_size: Vec2::new(1024.0, 576.0),
 
             near_plane_corner: Vec3::new(0.0, 0.0, 0.0),
             near_plane_width: Vec3::new(0.0, 0.0, 0.0),
             near_plane_height: Vec3::new(0.0, 0.0, 0.0),
         }
+    }
+
+    pub fn set_position(mut self, position: Vec3) -> Self
+    {
+        self.position = position;
+        self
+    }
+
+    pub fn set_look_at(mut self, target: Option<Vec3>) -> Self
+    {
+        self.look_at = target;
+        self
+    }
+
+    pub fn set_field_of_view(mut self, degrees: f32) -> Self
+    {
+        self.field_of_view = degrees;
+        self
     }
 
     pub fn set_source_size(mut self, width: f32, height: f32) -> Self
@@ -59,15 +83,24 @@ impl Camera
             corrected_size.y *= source_aspect_ratio / target_aspect_ratio;
         }
 
-        self.near_plane_corner = Vec3::new(corrected_size.x * -0.5, corrected_size.y * -0.5, -1.0);
-        self.near_plane_width = Vec3::new(corrected_size.x, 0.0, 0.0);
-        self.near_plane_height = Vec3::new(0.0, corrected_size.y, 0.0);
+        corrected_size.x *= self.field_of_view / 90.0;
+        corrected_size.y *= self.field_of_view / 90.0;
+
+        let look_at = self.look_at.unwrap_or(self.position + Vec3::new(0.0, 0.0, -1.0));
+
+        let w = (self.position - look_at).normalized();
+        let u = self.up.cross(w).normalized();
+        let v = w.cross(u);
+
+        self.near_plane_corner = self.position - u * corrected_size.x * 0.5 - v * corrected_size.y * 0.5 - w;
+        self.near_plane_width = u * corrected_size.x;
+        self.near_plane_height = v * corrected_size.y;
 
         self
     }
 
     pub fn calculate_ray(&self, u: f32, v: f32) -> Ray
     {
-        Ray::new(self.position, (self.near_plane_corner + self.near_plane_width * u + self.near_plane_height * v).normalized())
+        Ray::new(self.position, (self.near_plane_corner + self.near_plane_width * u + self.near_plane_height * v - self.position).normalized())
     }
 }
