@@ -146,9 +146,19 @@ impl Vec3
         self.length_sqr().sqrt()
     }
 
-    pub fn dot(self, v: Vec3) -> f32
+    pub fn dot(self, other: Vec3) -> f32
     {
-        self.x * v.x + self.y * v.y + self.z * v.z
+        self.x * other.x + self.y * other.y + self.z * other.z
+    }
+
+    pub fn cross(self, other: Vec3) -> Vec3
+    {
+        Vec3
+        {
+            x: self.y * other.z - other.y * self.z,
+            y: self.z * other.x - other.z * self.x,
+            z: self.x * other.y - other.x * self.y
+        }
     }
 
     pub fn normalized(self) -> Vec3
