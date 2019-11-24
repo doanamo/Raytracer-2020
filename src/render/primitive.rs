@@ -60,7 +60,7 @@ impl<'a> Primitive for Sphere<'a>
                 return Some(Intersection
                 {
                     point: intersection_point,
-                    normal: (intersection_point - self.center).normalized(),
+                    normal: (intersection_point - self.center) / self.radius,
                     length: r1,
                     material: self.material.as_ref()
                 });
@@ -75,7 +75,7 @@ impl<'a> Primitive for Sphere<'a>
                 return Some(Intersection
                 {
                     point: intersection_point,
-                    normal: (intersection_point - self.center).normalized(),
+                    normal: (intersection_point - self.center)  / self.radius,
                     length: r2,
                     material: self.material.as_ref()
                 });
