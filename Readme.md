@@ -1,6 +1,6 @@
 Raytracer
 ====
-Raytracer written in Rust as a learning experience. Implementation is based on material from ![Ray Tracing in One Weekend](http://in1weekend.blogspot.com/2016/01/ray-tracing-in-one-weekend.html) and ![Physically Based Rendering: From Theory To Implementation](http://www.pbr-book.org/) books.
+Raytracer written in Rust as a learning experience. Implementation is based on material from [Ray Tracing in One Weekend](http://in1weekend.blogspot.com/2016/01/ray-tracing-in-one-weekend.html) and [Physically Based Rendering: From Theory To Implementation](http://www.pbr-book.org/) books.
 
 Output
 ====
