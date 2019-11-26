@@ -136,16 +136,6 @@ impl Vec3
         point
     }
 
-    pub fn length_sqr(self) -> f32
-    {
-        (self.x * self.x + self.y * self.y + self.z * self.z)
-    }
-
-    pub fn length(self) -> f32
-    {
-        self.length_sqr().sqrt()
-    }
-
     pub fn dot(self, other: Vec3) -> f32
     {
         self.x * other.x + self.y * other.y + self.z * other.z
@@ -159,6 +149,16 @@ impl Vec3
             y: self.z * other.x - other.z * self.x,
             z: self.x * other.y - other.x * self.y
         }
+    }
+
+    pub fn length_sqr(self) -> f32
+    {
+        self.dot(self)
+    }
+
+    pub fn length(self) -> f32
+    {
+        self.length_sqr().sqrt()
     }
 
     pub fn normalized(self) -> Vec3
