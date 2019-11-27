@@ -39,7 +39,7 @@ fn main()
             .set_camera(&camera)
             .set_scene(&scene)
             .set_antialias_samples(8)
-            .set_scatter_limit(32)
+            .set_scatter_limit(64)
             .render(&mut render_image)
             .print_stats();
     

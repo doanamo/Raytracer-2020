@@ -136,6 +136,23 @@ impl Vec3
         point
     }
 
+    pub fn random_in_unit_disc() -> Vec3
+    {
+        let mut point;
+
+        loop
+        {
+            point = Vec3::new(rand::random::<f32>(), rand::random::<f32>(), 0.0) * 2.0 - Vec3::new(1.0, 1.0, 0.0);
+
+            if point.length_sqr() <= 1.0
+            {
+                break;
+            }
+        }
+
+        point
+    }
+
     pub fn dot(self, other: Vec3) -> f32
     {
         self.x * other.x + self.y * other.y + self.z * other.z
