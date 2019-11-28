@@ -32,7 +32,7 @@ impl Camera
         {
             position: Vec3::new(0.0, 0.0, 0.0),
             look_at: None,
-            up: Vec3::new(0.0, 1.0, 0.0),
+            up: Vec3::new(0.0, 0.0, 1.0),
 
             field_of_view: 90.0,
             focus_distance: 1.0,
