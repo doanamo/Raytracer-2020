@@ -112,7 +112,7 @@ impl Camera
         corrected_size.x *= self.field_of_view / 90.0;
         corrected_size.y *= self.field_of_view / 90.0;
 
-        let look_at = self.look_at.unwrap_or(self.position + Vec3::new(0.0, 0.0, -1.0));
+        let look_at = self.look_at.unwrap_or(self.position + Vec3::new(0.0, 1.0, 0.0));
 
         self.w = (self.position - look_at).normalized();
         self.u = self.up.cross(self.w).normalized();
