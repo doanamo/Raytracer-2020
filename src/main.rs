@@ -18,9 +18,10 @@ fn main()
     let image_heigth = 576;
 
     let camera = render::Camera::new()
-        .set_position(Vec3::new(0.0, -0.6, 0.0))
+        .set_origin(Vec3::new(0.0, -0.6, 0.0))
         .set_look_at(Some(Vec3::new(0.0, 1.0, -0.2)))
-        .set_target_size(image_width, image_heigth)
+        .set_aspect_ratio_from_size(image_width, image_heigth)
+        .set_field_of_view(55.0)
         .build();
     
     let scene = render::Scene::new()

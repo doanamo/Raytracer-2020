@@ -1,27 +1,24 @@
-use crate::math::Vec2;
 use crate::math::Vec3;
 use crate::math::Ray;
 
 pub struct Camera
 {
-    position: Vec3,
+    origin: Vec3,
     look_at: Option<Vec3>,
-    up: Vec3,
 
+    aspect_ratio: f32,
     field_of_view: f32,
+
     focus_distance: f32,
     aperture_radius: f32,
-
-    source_size: Vec2,
-    target_size: Vec2,
 
     near_plane_corner: Vec3,
     near_plane_width: Vec3,
     near_plane_height: Vec3,
 
-    u: Vec3,
-    v: Vec3,
-    w: Vec3,
+    forward_dir: Vec3,
+    right_dir: Vec3,
+    up_dir: Vec3,
 }
 
 impl Camera
@@ -30,30 +27,28 @@ impl Camera
     {
         Camera
         {
-            position: Vec3::new(0.0, 0.0, 0.0),
+            origin: Vec3::new(0.0, 0.0, 0.0),
             look_at: None,
-            up: Vec3::new(0.0, 0.0, 1.0),
 
+            aspect_ratio: 1.0,
             field_of_view: 90.0,
+
             focus_distance: 1.0,
             aperture_radius: 0.0,
-
-            source_size: Vec2::new(1.0, 1.0),
-            target_size: Vec2::new(1024.0, 576.0),
 
             near_plane_corner: Vec3::new(0.0, 0.0, 0.0),
             near_plane_width: Vec3::new(0.0, 0.0, 0.0),
             near_plane_height: Vec3::new(0.0, 0.0, 0.0),
 
-            u: Vec3::new(0.0, 0.0, 0.0),
-            v: Vec3::new(0.0, 0.0, 0.0),
-            w: Vec3::new(0.0, 0.0, 0.0)
+            forward_dir: Vec3::new(0.0, 1.0, 0.0),
+            right_dir: Vec3::new(1.0, 0.0, 0.0),
+            up_dir: Vec3::new(0.0, 0.0, 1.0)
         }
     }
 
-    pub fn set_position(mut self, position: Vec3) -> Self
+    pub fn set_origin(mut self, position: Vec3) -> Self
     {
-        self.position = position;
+        self.origin = position;
         self
     }
 
@@ -63,8 +58,31 @@ impl Camera
         self
     }
 
+    pub fn set_up_direction(mut self, normal: Vec3) -> Self
+    {
+        debug_assert!(normal.is_unit());
+        self.up_dir = normal;
+        self
+    }
+
+    pub fn set_aspect_ratio(mut self, ratio: f32) -> Self
+    {
+        debug_assert!(ratio != 0.0);
+        self.aspect_ratio = ratio;
+        self
+    }
+
+    pub fn set_aspect_ratio_from_size(mut self, width: usize, height: usize) -> Self
+    {
+        debug_assert!(width != 0);
+        debug_assert!(height != 0);
+        self.aspect_ratio = width as f32 / height as f32;
+        self
+    }
+
     pub fn set_field_of_view(mut self, degrees: f32) -> Self
     {
+        debug_assert!(degrees != 0.0);
         self.field_of_view = degrees;
         self
     }
@@ -77,62 +95,40 @@ impl Camera
 
     pub fn set_aperture_size(mut self, size: f32) -> Self
     {
+        debug_assert!(size >= 0.0);
         self.aperture_radius = size;
-        self
-    }
-
-    pub fn set_source_size(mut self, width: f32, height: f32) -> Self
-    {
-        self.source_size = Vec2::new(width, height);
-        self
-    }
-
-    pub fn set_target_size(mut self, width: usize, height: usize) -> Self
-    {
-        self.target_size = Vec2::new(width as f32, height as f32);
         self
     }
 
     pub fn build(mut self) -> Self
     {
-        let mut corrected_size = self.source_size;
+        let half_height = (self.field_of_view * std::f32::consts::PI / 180.0 / 2.0).tan();
+        let half_width = half_height * self.aspect_ratio;
 
-        let source_aspect_ratio = self.source_size.x / self.source_size.y;
-        let target_aspect_ratio = self.target_size.x / self.target_size.y;
+        let look_at = self.look_at.unwrap_or(self.origin + Vec3::new(0.0, 1.0, 0.0));
 
-        if target_aspect_ratio > source_aspect_ratio
-        {
-            corrected_size.x *= target_aspect_ratio / source_aspect_ratio;
-        }
-        else
-        {
-            corrected_size.y *= source_aspect_ratio / target_aspect_ratio;
-        }
+        self.forward_dir = (look_at - self.origin).normalized();
+        self.right_dir = self.forward_dir.cross(self.up_dir).normalized();
+        self.up_dir = self.right_dir.cross(self.forward_dir);
 
-        corrected_size.x *= self.field_of_view / 90.0;
-        corrected_size.y *= self.field_of_view / 90.0;
+        let near_plane_left_offset = self.right_dir * half_width * self.focus_distance;
+        let near_plane_top_offset = self.up_dir * half_height * self.focus_distance;
 
-        let look_at = self.look_at.unwrap_or(self.position + Vec3::new(0.0, 1.0, 0.0));
-
-        self.w = (self.position - look_at).normalized();
-        self.u = self.up.cross(self.w).normalized();
-        self.v = self.w.cross(self.u);
-
-        self.near_plane_corner = self.position - self.u * corrected_size.x * 0.5 * self.focus_distance - self.v * corrected_size.y * 0.5 * self.focus_distance - self.w * self.focus_distance;
-        self.near_plane_width = self.u * corrected_size.x * self.focus_distance;
-        self.near_plane_height = self.v * corrected_size.y * self.focus_distance;
+        self.near_plane_corner = self.origin + self.forward_dir * self.focus_distance - near_plane_left_offset - near_plane_top_offset;
+        self.near_plane_width = self.right_dir * half_width * 2.0 * self.focus_distance;
+        self.near_plane_height = self.up_dir * half_height * 2.0 * self.focus_distance;
 
         self
     }
 
-    pub fn calculate_ray(&self, s: f32, t: f32) -> Ray
+    pub fn calculate_ray(&self, u: f32, v: f32) -> Ray
     {
         let random = Vec3::random_in_unit_disc() * self.aperture_radius;
-        let offset = self.u * random.x + self.v * random.y;
+        let offset = self.right_dir * random.x + self.up_dir * random.y;
 
-        let origin = self.position + offset;
-        let direction = (self.near_plane_corner + self.near_plane_width * s + self.near_plane_height * t - self.position - offset).normalized();
+        let origin = self.origin + offset;
+        let direction = self.near_plane_corner + self.near_plane_width * u + self.near_plane_height * v - self.origin - offset;
 
-        Ray::new(origin, direction)
+        Ray::new(origin, direction.normalized())
     }
 }
