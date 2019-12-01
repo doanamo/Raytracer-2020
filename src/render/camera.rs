@@ -1,29 +1,37 @@
+use serde::{ Serialize, Deserialize };
 use crate::math::Vec3;
 use crate::math::Ray;
 
+#[derive(Serialize, Deserialize)]
 pub struct Camera
 {
     origin: Vec3,
     look_at: Option<Vec3>,
 
+    #[serde(skip)]
     aspect_ratio: f32,
     field_of_view: f32,
 
     focus_distance: f32,
     aperture_radius: f32,
 
+    #[serde(skip)]
     near_plane_corner: Vec3,
+    #[serde(skip)]
     near_plane_width: Vec3,
+    #[serde(skip)]
     near_plane_height: Vec3,
 
+    #[serde(skip)]
     forward_dir: Vec3,
+    #[serde(skip)]
     right_dir: Vec3,
     up_dir: Vec3,
 }
 
-impl Camera
+impl Default for Camera
 {
-    pub fn new() -> Self
+    fn default() -> Self
     {
         Camera
         {
@@ -44,6 +52,14 @@ impl Camera
             right_dir: Vec3::new(1.0, 0.0, 0.0),
             up_dir: Vec3::new(0.0, 0.0, 1.0)
         }
+    }
+}
+
+impl Camera
+{
+    pub fn new() -> Self
+    {
+        Camera::default()
     }
 
     pub fn set_origin(mut self, position: Vec3) -> Self

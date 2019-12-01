@@ -1,9 +1,11 @@
+use serde::{ Serialize, Deserialize };
 use crate::math::Ray;
 use crate::math::Color;
 use super::primitive::Intersection;
 use super::material::Material;
 
-pub enum RenderDebug
+#[derive(Serialize, Deserialize)]
+pub enum DebugMode
 {
     Diffuse,
     Normals,
@@ -45,6 +47,7 @@ impl RenderStats
     }
 }
 
+#[derive(Serialize, Deserialize)]
 pub struct VisualizeNormals
 {
 }
@@ -59,6 +62,7 @@ impl VisualizeNormals
     }
 }
 
+#[typetag::serde]
 impl Material for VisualizeNormals
 {
     fn scatter(&self, _ray: &Ray, intersection: &Intersection, scatter_index: u16) -> (Option<Ray>, Color)

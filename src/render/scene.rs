@@ -1,23 +1,22 @@
+use serde::{ Serialize, Deserialize };
 use crate::math::Ray;
 use super::primitive::Primitive;
 use super::primitive::Intersection;
 
-pub struct Scene<'a>
+#[derive(Default, Serialize, Deserialize)]
+pub struct Scene
 {
-    primitives: Vec<Box<dyn Primitive + 'a>>
+    primitives: Vec<Box<dyn Primitive>>
 }
 
-impl<'a> Scene<'a>
+impl Scene
 {
     pub fn new() -> Self
     {
-        Scene
-        {
-            primitives: Vec::new()
-        }
+        Scene::default()
     }
 
-    pub fn add_primitive<PrimitiveType: Primitive + 'a>(mut self, primitive: PrimitiveType) -> Self
+    pub fn add_primitive<PrimitiveType: Primitive + 'static>(mut self, primitive: PrimitiveType) -> Self
     {
         self.primitives.push(Box::new(primitive));
         self

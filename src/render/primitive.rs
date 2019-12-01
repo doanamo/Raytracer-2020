@@ -1,3 +1,4 @@
+use serde::{ Serialize, Deserialize };
 use crate::math::Vec3;
 use crate::math::Ray;
 use super::material::Material;
@@ -10,22 +11,23 @@ pub struct Intersection<'a>
     pub material: &'a dyn Material
 }
 
+#[typetag::serde]
 pub trait Primitive
 {
     fn intersect(&self, ray: &Ray, min_length: f32, max_length: f32) -> Option<Intersection>;
 }
 
-pub struct Sphere<'a>
+#[derive(Serialize, Deserialize)]
+pub struct Sphere
 {
     center: Vec3,
     radius: f32,
-
-    material: Box<dyn Material + 'a>
+    material: Box<dyn Material>
 }
 
-impl<'a> Sphere<'a>
+impl Sphere
 {
-    pub fn new<MaterialType: Material + 'a>(center: Vec3, radius: f32, material: MaterialType) -> Sphere<'a>
+    pub fn new<MaterialType: Material + 'static>(center: Vec3, radius: f32, material: MaterialType) -> Self
     {
         Sphere
         {
@@ -37,7 +39,8 @@ impl<'a> Sphere<'a>
     }
 }
 
-impl<'a> Primitive for Sphere<'a>
+#[typetag::serde]
+impl Primitive for Sphere
 {
     fn intersect(&self, ray: &Ray, min_length: f32, max_length: f32) -> Option<Intersection>
     {

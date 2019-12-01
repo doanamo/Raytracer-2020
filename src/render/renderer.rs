@@ -1,19 +1,43 @@
+use serde::{ Serialize, Deserialize };
 use crate::math::*;
 use crate::image::Image;
 use super::camera::Camera;
 use super::scene::Scene;
 use super::material;
 use super::debug;
+use super::debug::DebugMode;
+
+#[derive(Serialize, Deserialize)]
+pub struct Parameters
+{
+    pub image_width: usize,
+    pub image_height: usize,
+    pub antialias_samples: u16,
+    pub scatter_limit: u16,
+    pub debug_mode: Option<DebugMode>
+}
+
+impl Default for Parameters
+{
+    fn default() -> Self
+    {
+        Parameters
+        {
+            image_width: 1024,
+            image_height: 576,
+            antialias_samples: 4,
+            scatter_limit: 8,
+            debug_mode: None
+        }
+    }
+}
 
 pub struct Renderer<'a>
 {
+    parameters: Option<&'a Parameters>,
     camera: Option<&'a Camera>,
-    scene: Option<&'a Scene<'a>>,
+    scene: Option<&'a Scene>,
 
-    antialias_samples: u16,
-    scatter_limit: u16,
-
-    debug: Option<debug::RenderDebug>,
     debug_diffuse_material: material::Diffuse,
     debug_normals_material: debug::VisualizeNormals,
     stats: debug::RenderStats
@@ -25,17 +49,20 @@ impl<'a> Renderer<'a>
     {
         Renderer
         {
+            parameters: None,
             camera: None,
             scene: None,
 
-            antialias_samples: 4,
-            scatter_limit: 8,
-
-            debug: None,
             debug_diffuse_material: material::Diffuse::from(Color::new(0.5, 0.5, 0.5, 1.0)),
             debug_normals_material: debug::VisualizeNormals::new(),
             stats: debug::RenderStats::new()
         }
+    }
+
+    pub fn set_parameters(mut self, parameters: &'a Parameters) -> Self
+    {
+        self.parameters = Some(parameters);
+        self
     }
 
     pub fn set_camera(mut self, camera: &'a Camera) -> Self
@@ -50,32 +77,17 @@ impl<'a> Renderer<'a>
         self
     }
 
-    pub fn set_antialias_samples(mut self, count: u16) -> Self
+    pub fn render(mut self) -> Image
     {
-        self.antialias_samples = count;
-        self
-    }
-
-    pub fn set_scatter_limit(mut self, count: u16) -> Self
-    {
-        self.scatter_limit = count;
-        self
-    }
-
-    pub fn set_debug(mut self, debug: debug::RenderDebug) -> Self
-    {
-        self.debug = Some(debug);
-        self
-    }
-
-    pub fn render(mut self, image: &mut Image) -> Self
-    {
+        let parameters = self.parameters.expect("Cannot render image without parameters!");
         let camera = self.camera.expect("Cannot render image without camera!");
-        
+
         let begin_time = std::time::Instant::now();
 
-        debug_assert!(self.antialias_samples > 0);
-        let antialias_subpixel_step = 1.0 / self.antialias_samples as f32;
+        debug_assert!(parameters.antialias_samples > 0);
+        let antialias_subpixel_step = 1.0 / parameters.antialias_samples as f32;
+        
+        let mut image = Image::new(parameters.image_width, parameters.image_height);
 
         for y in 0..image.get_height()
         {
@@ -85,9 +97,9 @@ impl<'a> Renderer<'a>
 
                 let mut color = Color::new(0.0, 0.0, 0.0, 0.0);
 
-                for subpixel_x in 0..self.antialias_samples
+                for subpixel_x in 0..parameters.antialias_samples
                 {
-                    for subpixel_y in 0..self.antialias_samples
+                    for subpixel_y in 0..parameters.antialias_samples
                     {
                         self.stats.subpixels += 1;
 
@@ -104,7 +116,7 @@ impl<'a> Renderer<'a>
                     }
                 }
 
-                color /= self.antialias_samples.pow(2);
+                color /= parameters.antialias_samples.pow(2);
 
                 let gamma = 1.0 / 2.2;
                 color.r = color.r.powf(gamma);
@@ -118,15 +130,17 @@ impl<'a> Renderer<'a>
         }
 
         println!("Rendered image in {} seconds.", begin_time.elapsed().as_secs_f32());
+        self.stats.print();
 
-        self
+        image
     }
 
     fn sample(&mut self, ray: Ray, scatter_index: u16) -> Color
     {
+        let parameters = self.parameters.expect("Cannot render image without parameters!");
         let scene = self.scene.expect("Cannot render image without scene!");
 
-        if scatter_index > self.scatter_limit
+        if scatter_index > parameters.scatter_limit
         {
             return Color::black();
         }
@@ -137,11 +151,11 @@ impl<'a> Renderer<'a>
         {
             self.stats.intersections += 1;
             
-            let material = match self.debug
+            let material = match parameters.debug_mode
             {
                 None => intersection.material,
-                Some(debug::RenderDebug::Diffuse) => &self.debug_diffuse_material,
-                Some(debug::RenderDebug::Normals) => &self.debug_normals_material,
+                Some(DebugMode::Diffuse) => &self.debug_diffuse_material,
+                Some(DebugMode::Normals) => &self.debug_normals_material,
             };
             
             let (scattered_ray, attenuation) = material.scatter(&ray, &intersection, scatter_index);
@@ -160,10 +174,10 @@ impl<'a> Renderer<'a>
         }
         else
         {
-            match self.debug
+            match parameters.debug_mode
             {
-                Some(debug::RenderDebug::Diffuse) => return Color::new(0.5, 0.5, 0.5, 1.0),
-                Some(debug::RenderDebug::Normals) => return Color::new(0.5, 0.5, 1.0, 1.0),
+                Some(DebugMode::Diffuse) => return Color::new(0.5, 0.5, 0.5, 1.0),
+                Some(DebugMode::Normals) => return Color::new(0.5, 0.5, 1.0, 1.0),
                 None =>
                 {
                     let alpha = (ray.get_direction().z + 1.0) * 0.5;
@@ -171,11 +185,5 @@ impl<'a> Renderer<'a>
                 }
             };
         }
-    }
-
-    pub fn print_stats(self) -> Self
-    {
-        self.stats.print();
-        self
     }
 }

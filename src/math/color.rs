@@ -1,6 +1,6 @@
 use std::ops;
 
-#[derive(Copy, Clone)]
+#[derive(Default, Copy, Clone)]
 pub struct Color
 {
     pub r: f32,

@@ -1,13 +1,16 @@
+use serde::{ Serialize, Deserialize };
 use crate::math::Color;
 use crate::math::Vec3;
 use crate::math::Ray;
 use super::primitive::Intersection;
 
+#[typetag::serde]
 pub trait Material
 {
     fn scatter(&self, ray: &Ray, intersection: &Intersection, scatter_index: u16) -> (Option<Ray>, Color);
 }
 
+#[derive(Serialize, Deserialize)]
 pub struct Diffuse
 {
     albedo: Color
@@ -38,6 +41,7 @@ impl Diffuse
     }
 }
 
+#[typetag::serde]
 impl Material for Diffuse
 {
     fn scatter(&self, _ray: &Ray, intersection: &Intersection, _scatter_index: u16) -> (Option<Ray>, Color)
@@ -49,6 +53,7 @@ impl Material for Diffuse
     }
 }
 
+#[derive(serde::Serialize, Deserialize)]
 pub struct Metalic
 {
     albedo: Color,
@@ -88,6 +93,7 @@ impl Metalic
     }
 }
 
+#[typetag::serde]
 impl Material for Metalic
 {
     fn scatter(&self, ray: &Ray, intersection: &Intersection, _scatter_index: u16) -> (Option<Ray>, Color)
@@ -100,6 +106,7 @@ impl Material for Metalic
     }
 }
 
+#[derive(Serialize, Deserialize)]
 pub struct Refractive
 {
     albedo: Color,
@@ -127,6 +134,7 @@ impl Refractive
     }
 }
 
+#[typetag::serde]
 impl Material for Refractive
 {
     fn scatter(&self, ray: &Ray, intersection: &Intersection, _scatter_index: u16) -> (Option<Ray>, Color)

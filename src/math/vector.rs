@@ -1,6 +1,6 @@
 use std::ops;
 
-#[derive(Copy, Clone)]
+#[derive(Default, Copy, Clone)]
 pub struct Vec2
 {
     pub x: f32,
@@ -86,7 +86,7 @@ impl ops::Div<f32> for Vec2
     }
 }
 
-#[derive(Copy, Clone)]
+#[derive(Default, Copy, Clone)]
 pub struct Vec3
 {
     pub x: f32,
