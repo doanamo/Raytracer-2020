@@ -14,7 +14,6 @@ pub enum SetupError
 pub struct Setup
 {
     pub parameters: render::Parameters,
-    pub camera: render::Camera,
     pub scene: render::Scene
 }
 

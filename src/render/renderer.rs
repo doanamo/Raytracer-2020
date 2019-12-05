@@ -1,7 +1,6 @@
 use serde::{ Serialize, Deserialize };
 use crate::math::*;
 use crate::image::Image;
-use super::camera::Camera;
 use super::scene::Scene;
 use super::material;
 use super::debug;
@@ -35,7 +34,6 @@ impl Default for Parameters
 pub struct Renderer<'a>
 {
     parameters: Option<&'a Parameters>,
-    camera: Option<&'a Camera>,
     scene: Option<&'a Scene>,
 
     debug_diffuse_material: material::Diffuse,
@@ -50,7 +48,6 @@ impl<'a> Renderer<'a>
         Renderer
         {
             parameters: None,
-            camera: None,
             scene: None,
 
             debug_diffuse_material: material::Diffuse::from(Color::new(0.5, 0.5, 0.5, 1.0)),
@@ -65,12 +62,6 @@ impl<'a> Renderer<'a>
         self
     }
 
-    pub fn set_camera(mut self, camera: &'a Camera) -> Self
-    {
-        self.camera = Some(camera);
-        self
-    }
-
     pub fn set_scene(mut self, scene: &'a Scene) -> Self
     {
         self.scene = Some(scene);
@@ -80,7 +71,7 @@ impl<'a> Renderer<'a>
     pub fn render(mut self) -> Image
     {
         let parameters = self.parameters.expect("Cannot render image without parameters!");
-        let camera = self.camera.expect("Cannot render image without camera!");
+        let scene = self.scene.expect("Cannot render image without scene!");
 
         let begin_time = std::time::Instant::now();
 
@@ -88,6 +79,7 @@ impl<'a> Renderer<'a>
         let antialias_subpixel_step = 1.0 / parameters.antialias_samples as f32;
         
         let mut image = Image::new(parameters.image_width, parameters.image_height);
+        let camera = scene.camera.build(parameters.image_width as f32 / parameters.image_height as f32);
 
         for y in 0..image.get_height()
         {

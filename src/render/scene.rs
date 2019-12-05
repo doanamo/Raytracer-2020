@@ -1,11 +1,13 @@
 use serde::{ Serialize, Deserialize };
 use crate::math::Ray;
+use super::camera::Camera;
 use super::primitive::Primitive;
 use super::primitive::Intersection;
 
 #[derive(Default, Serialize, Deserialize)]
 pub struct Scene
 {
+    pub camera: Camera,
     primitives: Vec<Box<dyn Primitive>>
 }
 
@@ -14,6 +16,12 @@ impl Scene
     pub fn new() -> Self
     {
         Scene::default()
+    }
+
+    pub fn set_camera(mut self, camera: Camera) -> Self
+    {
+        self.camera = camera;
+        self
     }
 
     pub fn add_primitive<PrimitiveType: Primitive + 'static>(mut self, primitive: PrimitiveType) -> Self
