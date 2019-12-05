@@ -3,6 +3,7 @@ use crate::math::Vec3;
 use crate::math::Ray;
 
 #[derive(Serialize, Deserialize)]
+#[serde(default)]
 pub struct Camera
 {
     pub origin: Vec3,
@@ -26,7 +27,7 @@ impl Default for Camera
 
             field_of_view: 90.0,
             focus_distance: 1.0,
-            aperture_radius: 0.0,
+            aperture_radius: 0.0
         }
     }
 }
@@ -126,7 +127,7 @@ pub struct CameraCompiled
 
     forward_dir: Vec3,
     right_dir: Vec3,
-    up_dir: Vec3,
+    up_dir: Vec3
 }
 
 impl CameraCompiled
