@@ -1,10 +1,10 @@
 use std::fs::OpenOptions;
 use std::io::BufWriter;
-use std::path::PathBuf;
+use std::path::Path;
 
 use crate::image::Image;
 use crate::image::writer::Format;
-use crate::image::writer::SaveError;
+use crate::image::writer::Error;
 
 pub struct FormatPNG
 {
@@ -19,7 +19,7 @@ impl FormatPNG
         }
     }
 
-    pub fn save(&self, image: &Image, path: &PathBuf) -> Result<(), SaveError>
+    pub fn save(&self, image: &Image, path: &Path) -> Result<(), Error>
     {
         let mut image_data: Vec<u8> = Vec::with_capacity(image.get_width() * image.get_height());
 
@@ -32,15 +32,15 @@ impl FormatPNG
             }
         }
 
-        let image_file = OpenOptions::new().write(true).truncate(true).create(true).open(path).or(Err(SaveError::SaveFailed))?;
+        let image_file = OpenOptions::new().write(true).truncate(true).create(true).open(path).or(Err(Error::SaveFailed))?;
         let image_buffer = BufWriter::new(image_file);
 
         let mut image_encoder = png::Encoder::new(image_buffer, image.get_width() as u32, image.get_height() as u32);
         image_encoder.set_color(png::ColorType::RGBA);
         image_encoder.set_depth(png::BitDepth::Eight);
 
-        let mut image_writer = image_encoder.write_header().or(Err(SaveError::SaveFailed))?;
-        image_writer.write_image_data(image_data.as_slice()).or(Err(SaveError::SaveFailed))?;
+        let mut image_writer = image_encoder.write_header().or(Err(Error::SaveFailed))?;
+        image_writer.write_image_data(image_data.as_slice()).or(Err(Error::SaveFailed))?;
 
         Ok(())
     }
@@ -48,9 +48,9 @@ impl FormatPNG
 
 impl Format for FormatPNG
 {
-    fn save(&self, image: &Image, path: &PathBuf) -> Result<(), SaveError>
+    fn save(&self, image: &Image, path: &Path) -> Result<(), Error>
     {
-        FormatPNG::save(self, image, path).or(Err(SaveError::SaveFailed))
+        FormatPNG::save(self, image, path).or(Err(Error::SaveFailed))
     }
 
     fn get_name(&self) -> &'static str

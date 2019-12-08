@@ -1,4 +1,4 @@
 .vscode/*
 target/*
 output/*
-!output/render.png
+!output/spheres.png

@@ -1,8 +1,8 @@
 use crate::image::Image;
-use std::path::PathBuf;
+use std::path::{ Path, PathBuf };
 
 #[derive(Debug)]
-pub enum SaveError
+pub enum Error
 {
     MissingInput,
     MissingOutput,
@@ -12,7 +12,7 @@ pub enum SaveError
 
 pub trait Format
 {
-    fn save(&self, image: &Image, path: &PathBuf) -> Result<(), SaveError>;
+    fn save(&self, image: &Image, path: &Path) -> Result<(), Error>;
     fn get_name(&self) -> &'static str;
 }
 
@@ -41,23 +41,23 @@ impl<'a> Writer<'a>
         self
     }
 
-    pub fn output(mut self, path: &str) -> Self
+    pub fn output(mut self, path: &Path) -> Self
     {
         self.path = Some(PathBuf::from(path));
         self
     }
 
-    pub fn save(self) -> Result<(), SaveError>
+    pub fn save(self) -> Result<(), Error>
     {
-        let image = self.image.ok_or(SaveError::MissingInput)?;
-        let path = self.path.as_ref().ok_or(SaveError::MissingOutput)?;
+        let image = self.image.ok_or(Error::MissingInput)?;
+        let path = self.path.as_ref().ok_or(Error::MissingOutput)?;
 
         {
             let begin_time = std::time::Instant::now();
 
             match path.parent()
             {
-                None => return Err(SaveError::InvalidPath),
+                None => return Err(Error::InvalidPath),
                 Some(directory) =>
                 {
                     let _ = std::fs::create_dir_all(directory);

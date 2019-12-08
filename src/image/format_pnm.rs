@@ -1,11 +1,11 @@
 use std::io::Write;
 use std::io::BufWriter;
 use std::fs::OpenOptions;
-use std::path::PathBuf;
+use std::path::Path;
 
 use crate::image::Image;
 use crate::image::writer::Format;
-use crate::image::writer::SaveError;
+use crate::image::writer::Error;
 
 pub struct FormatPNM
 {
@@ -20,7 +20,7 @@ impl FormatPNM
         }
     }
 
-    pub fn save(&self, image: &Image, path: &PathBuf) -> std::io::Result<()>
+    pub fn save(&self, image: &Image, path: &Path) -> std::io::Result<()>
     {
         let mut image_buffer = BufWriter::new(OpenOptions::new()
             .write(true).truncate(true).create(true).open(path)?);
@@ -49,9 +49,9 @@ impl FormatPNM
 
 impl Format for FormatPNM
 {
-    fn save(&self, image: &Image, path: &PathBuf) -> Result<(), SaveError>
+    fn save(&self, image: &Image, path: &Path) -> Result<(), Error>
     {
-        FormatPNM::save(self, image, path).or(Err(SaveError::SaveFailed))
+        FormatPNM::save(self, image, path).or(Err(Error::SaveFailed))
     }
 
     fn get_name(&self) -> &'static str
