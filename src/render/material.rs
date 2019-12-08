@@ -5,7 +5,7 @@ use crate::math::Ray;
 use super::primitive::Intersection;
 
 #[typetag::serde]
-pub trait Material
+pub trait Material: Sync
 {
     fn scatter(&self, ray: &Ray, intersection: &Intersection, scatter_index: u16) -> (Option<Ray>, Color);
 }

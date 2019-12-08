@@ -4,21 +4,21 @@ pub struct Image
 {
     width: usize,
     height: usize,
-    data: Vec<Color>,
+    pub pixels: Vec<Color>,
 }
 
 impl Image
 {
     pub fn new(width: usize, height: usize) -> Image
     {
-        let mut data: Vec<Color> = Vec::new();
-        data.resize(width * height, Color::new(0.0, 0.0, 0.0, 1.0));
+        let mut pixels: Vec<Color> = Vec::new();
+        pixels.resize(width * height, Color::new(0.0, 0.0, 0.0, 1.0));
 
         Image
         {
             width,
             height,
-            data,
+            pixels
         }
     }
 
@@ -35,17 +35,12 @@ impl Image
     pub fn set_pixel(&mut self, x: usize, y: usize, color: Color)
     {
         let index = y * self.width + x;
-        self.data[index] = color;
+        self.pixels[index] = color;
     }
 
     pub fn get_pixel(&self, x: usize, y: usize) -> Color
     {
         let index = y * self.width + x;
-        self.data[index].clone()
-    }
-
-    pub fn _get_data(&self) -> &Vec<Color>
-    {
-        &self.data
+        self.pixels[index].clone()
     }
 }

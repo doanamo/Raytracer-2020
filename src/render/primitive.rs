@@ -12,7 +12,7 @@ pub struct Intersection<'a>
 }
 
 #[typetag::serde]
-pub trait Primitive
+pub trait Primitive: Sync
 {
     fn intersect(&self, ray: &Ray, min_length: f32, max_length: f32) -> Option<Intersection>;
 }
@@ -22,7 +22,7 @@ pub struct Sphere
 {
     center: Vec3,
     radius: f32,
-    material: Box<dyn Material>
+    material: Box<dyn Material + Sync>
 }
 
 impl Sphere
