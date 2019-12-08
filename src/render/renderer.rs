@@ -169,7 +169,7 @@ impl<'a> Renderer<'a>
             match parameters.debug_mode
             {
                 Some(DebugMode::Diffuse) => return Color::new(0.5, 0.5, 0.5, 1.0),
-                Some(DebugMode::Normals) => return Color::new(0.5, 0.5, 1.0, 1.0),
+                Some(DebugMode::Normals) => return Color::new(0.5, 0.0, 0.5, 1.0),
                 None =>
                 {
                     let alpha = (ray.get_direction().z + 1.0) * 0.5;
