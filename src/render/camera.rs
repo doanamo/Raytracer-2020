@@ -100,14 +100,12 @@ impl Camera
         {
             origin: self.origin,
 
-            focus_distance: self.focus_distance,
             aperture_radius: self.aperture_radius,
 
             near_plane_corner: near_plane_corner,
             near_plane_width: near_plane_width,
             near_plane_height: near_plane_height,
 
-            forward_dir: forward_dir,
             right_dir: right_dir,
             up_dir: up_dir
         }
@@ -118,14 +116,12 @@ pub struct CameraCompiled
 {
     origin: Vec3,
 
-    focus_distance: f32,
     aperture_radius: f32,
 
     near_plane_corner: Vec3,
     near_plane_width: Vec3,
     near_plane_height: Vec3,
 
-    forward_dir: Vec3,
     right_dir: Vec3,
     up_dir: Vec3
 }
