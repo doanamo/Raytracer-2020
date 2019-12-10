@@ -162,6 +162,22 @@ impl ops::Mul<Color> for Color
     }
 }
 
+impl ops::Div<f32> for Color
+{
+    type Output = Color;
+
+    fn div(self, value: f32) -> Color
+    {
+        Color
+        {
+            r: self.r / value,
+            g: self.g / value,
+            b: self.b / value,
+            a: self.a / value
+        }
+    }
+}
+
 impl ops::AddAssign for Color
 {
     fn add_assign(&mut self, other: Self)

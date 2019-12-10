@@ -4,15 +4,27 @@ pub struct Image
 {
     width: usize,
     height: usize,
-    pub pixels: Vec<Color>,
+    pixels: Vec<Color>,
 }
 
 impl Image
 {
-    pub fn new(width: usize, height: usize) -> Image
+    pub fn new(width: usize, height: usize) -> Self
     {
         let mut pixels: Vec<Color> = Vec::new();
         pixels.resize(width * height, Color::new(0.0, 0.0, 0.0, 1.0));
+
+        Image
+        {
+            width,
+            height,
+            pixels
+        }
+    }
+
+    pub fn from(width: usize, height: usize, pixels: Vec<Color>) -> Self
+    {
+        debug_assert_eq!(pixels.len(), width * height);
 
         Image
         {

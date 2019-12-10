@@ -69,63 +69,95 @@ impl<'a> Renderer<'a>
 
     pub fn render(&self) -> Image
     {
+        // Start measuring render time.
+        let begin_time = std::time::Instant::now();
+
+        // Acquire required parameters.
         let parameters = self.parameters.expect("Cannot render image without parameters!");
         let scene = self.scene.expect("Cannot render image without scene!");
 
-        let begin_time = std::time::Instant::now();
-
-        debug_assert!(parameters.antialias_samples > 0);
-        let antialias_subpixel_step = 1.0 / parameters.antialias_samples as f32;
-        
+        // Build camera that will be used to calculate initial raycasts.
         let camera = scene.camera.build(parameters.image_width as f32 / parameters.image_height as f32);
-        let mut image = Image::new(parameters.image_width, parameters.image_height);
+        
+        // Calculate image constants.
+        let image_width_inv = 1.0 / parameters.image_width as f32;
+        let image_height_inv = 1.0 / parameters.image_height as f32;
+        let image_pixel_count = parameters.image_width * parameters.image_height;
+        assert!(image_pixel_count > 0, "Pixel count cannot be zero!");
 
-        let stats_sum: debug::RenderStats = image.pixels.par_iter_mut().enumerate().map(|(index, pixel)|
+        // Create antialiasing kernel.
+        assert!(parameters.antialias_samples >= 1, "Antialias samples must equal one or higher!");
+        let antialias_subpixel_count = parameters.antialias_samples.pow(2) as usize;
+        let antialias_subpixel_step = 1.0 / parameters.antialias_samples as f32;
+
+        let antialias_kernel: Vec<(f32, f32)> = 
         {
-            let mut stats = debug::RenderStats::new_pixel();
-
-            let x = index % parameters.image_width;
-            let y = index / parameters.image_width;
-
-            let mut color = Color::new(0.0, 0.0, 0.0, 0.0);
+            let mut kernel = Vec::with_capacity(antialias_subpixel_count);
 
             for subpixel_x in 0..parameters.antialias_samples
             {
                 for subpixel_y in 0..parameters.antialias_samples
                 {
-                    stats.subpixels += 1;
-
                     let offset_u = subpixel_x as f32 * antialias_subpixel_step;
                     let offset_v = subpixel_y as f32 * antialias_subpixel_step;
 
-                    let u = (x as f32 + offset_u) / parameters.image_width as f32;
-                    let v = (y as f32 + offset_v) / parameters.image_height as f32;
-                    
-                    let sample = self.sample(camera.calculate_ray(u, v), 0, &mut stats);
-                    debug_assert!(sample.is_valid());
-
-                    color += sample;
+                    kernel.push((offset_u, offset_v));
                 }
             }
 
-            color /= parameters.antialias_samples.pow(2);
+            kernel
+        };
 
-            let gamma = 1.0 / 2.2;
-            color.r = color.r.powf(gamma);
-            color.g = color.g.powf(gamma);
-            color.b = color.b.powf(gamma);
-            debug_assert!(color.is_valid());
-            debug_assert!(color.a == 1.0);
+        debug_assert!(antialias_kernel.len() == antialias_subpixel_count);
 
-            *pixel = color;
+        // Render pixels in parallel and collect stats.
+        let mut image_pixels: Vec<Color> = Vec::with_capacity(image_pixel_count);
+        image_pixels.resize(image_pixel_count, Color::new(0.0, 0.0, 0.0, 0.0));
 
+        let stats_sum: debug::RenderStats = image_pixels.par_iter_mut().enumerate().map(|(index, pixel)|
+        {
+            let mut stats = debug::RenderStats::new_pixel();
+
+            let x = index % parameters.image_width as usize;
+            let y = index / parameters.image_width as usize;
+
+            let mut accumulated_color = Color::new(0.0, 0.0, 0.0, 0.0);
+
+            for (offset_u, offset_v) in antialias_kernel.iter()
+            {
+                let u = (x as f32 + offset_u) * image_width_inv as f32;
+                let v = (y as f32 + offset_v) * image_height_inv as f32;
+                
+                let sample = self.sample(camera.calculate_ray(u, v), 0, &mut stats);
+                debug_assert!(sample.is_valid());
+
+                accumulated_color += sample;
+            }
+
+            *pixel = accumulated_color / antialias_subpixel_count as f32;
+            
+            stats.subpixels += antialias_subpixel_count;
             stats
         }).sum();
 
+        // Perform gamma correction on color values.
+        let gamma_correction = 1.0 / 2.2;
+
+        image_pixels.par_iter_mut().for_each(|pixel|
+        {
+            pixel.r = pixel.r.powf(gamma_correction);
+            pixel.g = pixel.g.powf(gamma_correction);
+            pixel.b = pixel.b.powf(gamma_correction);
+            debug_assert!(pixel.is_valid());
+            debug_assert!(pixel.a == 1.0);
+        });
+
+        // Print render statistics.
         println!("Rendered image in {} seconds.", begin_time.elapsed().as_secs_f32());
         stats_sum.print();
 
-        image
+        // Return image with rendered pixel data.
+        Image::from(parameters.image_width, parameters.image_height, image_pixels)
     }
 
     fn sample(&self, ray: Ray, scatter_index: u16, stats: &mut debug::RenderStats) -> Color
