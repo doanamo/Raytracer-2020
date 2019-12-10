@@ -1,13 +1,12 @@
 #![allow(dead_code)]
 
 mod setup;
-mod math;
-mod render;
-mod image;
 
 use std::path::{ Path, PathBuf };
 use clap::{ App, Arg };
 use setup::Setup;
+use raytracer::render;
+use raytracer::image;
 
 fn main() 
 {
