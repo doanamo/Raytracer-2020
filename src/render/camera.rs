@@ -90,9 +90,9 @@ impl Camera
         let up_dir = right_dir.cross(forward_dir);
 
         let near_plane_left_offset = right_dir * half_width * self.focus_distance;
-        let near_plane_top_offset = up_dir * half_height * self.focus_distance;
+        let near_plane_bottom_offset = up_dir * half_height * self.focus_distance;
 
-        let near_plane_corner = self.origin + forward_dir * self.focus_distance - near_plane_left_offset - near_plane_top_offset;
+        let near_plane_corner = self.origin + forward_dir * self.focus_distance - near_plane_left_offset - near_plane_bottom_offset;
         let near_plane_width = right_dir * half_width * 2.0 * self.focus_distance;
         let near_plane_height = up_dir * half_height * 2.0 * self.focus_distance;
 
