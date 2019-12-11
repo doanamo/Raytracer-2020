@@ -50,9 +50,24 @@ impl Image
         self.pixels[index] = color;
     }
 
-    pub fn get_pixel(&self, x: usize, y: usize) -> Color
+    pub fn get_pixel(&self, x: usize, y: usize) -> &Color
     {
         let index = y * self.width + x;
-        self.pixels[index].clone()
+        &self.pixels[index]
+    }
+
+    pub fn get_pixel_data(&self) -> &[Color]
+    {
+        self.pixels.as_slice()
+    }
+
+    pub fn get_pixel_count(&self) -> usize
+    {
+        self.width * self.height
+    }
+
+    pub fn get_data_size(&self) -> usize
+    {
+        self.get_pixel_count() * std::mem::size_of::<Color>()
     }
 }

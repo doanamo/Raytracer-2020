@@ -55,7 +55,7 @@ impl Color
         }
     }
 
-    pub fn as_u8_array(&self) -> [u8; 4]
+    pub fn as_quantized_u8_array(&self) -> [u8; 4]
     {
         [
             (self.r * 255.99).floor() as u8,
