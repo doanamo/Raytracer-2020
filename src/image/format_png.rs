@@ -21,7 +21,8 @@ impl FormatPNG
 
     pub fn save(&self, image: &Image, path: &Path) -> Result<(), Error>
     {
-        let mut image_bytes: Vec<u8> = Vec::with_capacity(image.get_pixel_count());
+        let image_byte_count = image.get_pixel_count() * std::mem::size_of::<u8>() * 4;
+        let mut image_bytes: Vec<u8> = Vec::with_capacity(image_byte_count);
 
         for y in (0..image.get_height()).rev()
         {
@@ -32,7 +33,7 @@ impl FormatPNG
             }
         }
 
-        debug_assert_eq!(image_bytes.len(), image.get_pixel_count());
+        debug_assert_eq!(image_bytes.len(), image_byte_count);
 
         let image_file = OpenOptions::new().write(true).truncate(true).create(true).open(path).or(Err(Error::SaveFailed))?;
         let image_buffer = BufWriter::new(image_file);

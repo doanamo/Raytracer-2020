@@ -1,6 +1,7 @@
+use std::cmp;
 use std::ops;
 
-#[derive(Default, Copy, Clone)]
+#[derive(Default, Debug, Copy, Clone)]
 pub struct Color
 {
     pub r: f32,
@@ -51,6 +52,39 @@ impl Color
             r: 0.0,
             g: 0.0,
             b: 0.0,
+            a: 1.0
+        }
+    }
+
+    pub fn red() -> Self
+    {
+        Color
+        {
+            r: 1.0,
+            g: 0.0,
+            b: 0.0,
+            a: 1.0
+        }
+    }
+
+    pub fn green() -> Self
+    {
+        Color
+        {
+            r: 0.0,
+            g: 1.0,
+            b: 0.0,
+            a: 1.0
+        }
+    }
+
+    pub fn blue() -> Self
+    {
+        Color
+        {
+            r: 0.0,
+            g: 0.0,
+            b: 1.0,
             a: 1.0
         }
     }
@@ -143,6 +177,17 @@ impl Color
         }
 
         return true;
+    }
+}
+
+impl cmp::PartialEq for Color
+{
+    fn eq(&self, other: &Self) -> bool
+    {
+        self.r == other.r &&
+        self.g == other.g &&
+        self.b == other.b &&
+        self.a == other.a
     }
 }
 

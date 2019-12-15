@@ -2,7 +2,7 @@ use std::path::Path;
 use std::fs::OpenOptions;
 use std::io::{ BufWriter, BufReader };
 use serde::{ Serialize, Deserialize };
-use raytracer::render;
+use crate::render;
 
 #[derive(Debug)]
 pub enum Error
