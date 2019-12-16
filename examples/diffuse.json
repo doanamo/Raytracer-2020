@@ -1,0 +1,73 @@
+{
+  "parameters": {
+    "image_width": 1024,
+    "image_height": 576,
+    "antialias_samples": 4,
+    "scatter_limit": 32,
+    "debug_mode": "Diffuse"
+  },
+  "scene": {
+    "camera": {
+      "origin": [
+        0.0,
+        -0.6,
+        0.0
+      ],
+      "up_dir": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "look_at": [
+        0.0,
+        1.0,
+        -0.2
+      ],
+      "field_of_view": 55.0,
+      "focus_distance": 1.0,
+      "aperture_radius": 0.0
+    },
+    "primitives": [
+      {
+        "Sphere": {
+          "center": [
+            0.0,
+            0.5,
+            -0.1
+          ],
+          "radius": 0.4,
+          "material": {
+            "Diffuse": {
+              "albedo": [
+                0.8,
+                0.8,
+                0.8,
+                1.0
+              ]
+            }
+          }
+        }
+      },
+      {
+        "Sphere": {
+          "center": [
+            0.0,
+            1.0,
+            -100.5
+          ],
+          "radius": 100.0,
+          "material": {
+            "Diffuse": {
+              "albedo": [
+                0.8,
+                0.8,
+                0.8,
+                1.0
+              ]
+            }
+          }
+        }
+      }
+    ]
+  }
+}
