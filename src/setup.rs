@@ -28,7 +28,7 @@ impl Setup
         Setup::default()
     }
 
-    pub fn from_file(path: &Path) -> Result<Self, Error>
+    pub fn from_file<P: AsRef<Path>>(path: P) -> Result<Self, Error>
     {
         let scene_file = OpenOptions::new().read(true).open(path).or(Err(Error::OpeningFileFailed))?;
         let file_reader = BufReader::new(scene_file);
@@ -44,9 +44,9 @@ impl Setup
         }
     }
 
-    pub fn save(&self, path: &Path) -> Result<(), Error>
+    pub fn save<P: AsRef<Path>>(&self, path: P) -> Result<(), Error>
     {
-        match path.parent()
+        match path.as_ref().parent()
         {
             Some(directory) =>
             {

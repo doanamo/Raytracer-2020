@@ -31,14 +31,14 @@ fn main()
     println!("Input setup file: {}", input_setup_path.display());
 
     // Create output setup file path.
-    let output_setup_path = PathBuf::from("output/file").with_file_name(&input_setup_filename).with_extension("json");
+    let output_setup_path = PathBuf::from("renders/file").with_file_name(&input_setup_filename).with_extension("json");
     println!("Output setup file: {}", output_setup_path.display());
 
     // Parse output image file path from arguments.
     let output_image_path = match options.value_of("output")
     {
         Some(path) => PathBuf::from(path),
-        None => PathBuf::from("output/file").with_file_name(&input_setup_filename).with_extension("png")
+        None => PathBuf::from("renders/file").with_file_name(&input_setup_filename).with_extension("png")
     };
 
     println!("Output image file: {}", output_image_path.display());

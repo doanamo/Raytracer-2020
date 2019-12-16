@@ -4,7 +4,7 @@ Raytracer written in Rust as a learning experience. Implementation is based on m
 
 Output
 ====
-![](output/spheres.png)
+![](renders/spheres.png)
 
 License
 ====
