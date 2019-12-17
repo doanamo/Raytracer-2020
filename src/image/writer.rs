@@ -41,9 +41,9 @@ impl<'a> Writer<'a>
         self
     }
 
-    pub fn output(mut self, path: &Path) -> Self
+    pub fn output<P: AsRef<Path>>(mut self, path: P) -> Self
     {
-        self.path = Some(PathBuf::from(path));
+        self.path = Some(PathBuf::from(path.as_ref()));
         self
     }
 

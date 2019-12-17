@@ -1,10 +1,7 @@
 #![allow(dead_code)]
 
-mod setup;
-
 use std::path::{ Path, PathBuf };
 use clap::{ App, Arg };
-use setup::Setup;
 use raytracer::render;
 use raytracer::image;
 
@@ -44,7 +41,7 @@ fn main()
     println!("Output image file: {}", output_image_path.display());
 
     // Load setup from input file.
-    let setup = Setup::from_file(&input_setup_path).expect("Loading setup file failed!");
+    let setup = render::Setup::from_file(&input_setup_path).expect("Loading setup file failed!");
 
     // Save setup to output file.
     // This can be helpful if we will want to convert old setup file to new format or compare both.

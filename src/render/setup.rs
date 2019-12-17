@@ -2,7 +2,8 @@ use std::path::Path;
 use std::fs::OpenOptions;
 use std::io::{ BufWriter, BufReader };
 use serde::{ Serialize, Deserialize };
-use crate::render;
+use super::parameters::Parameters;
+use super::scene::Scene;
 
 #[derive(Debug)]
 pub enum Error
@@ -17,8 +18,8 @@ pub enum Error
 #[derive(Default, Serialize, Deserialize)]
 pub struct Setup
 {
-    pub parameters: render::Parameters,
-    pub scene: render::Scene
+    pub parameters: Parameters,
+    pub scene: Scene
 }
 
 impl Setup

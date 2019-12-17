@@ -1,10 +1,10 @@
 mod examples
 {
     use raytracer::math::{ Vec3, Color };
+    use raytracer::image;
     use raytracer::render;
     use render::primitive;
     use render::material;
-    use raytracer::setup;
 
     #[test]
     fn spheres()
@@ -32,13 +32,33 @@ mod examples
             .add_primitive(primitive::Sphere::new(Vec3::new(-0.8, 1.0, -0.1), 0.4, material::Metalic::from(Color::new(0.8, 0.8, 0.8, 1.0), 0.8)))
             .add_primitive(primitive::Sphere::new(Vec3::new(0.0, 1.0, -100.5), 100.0, material::Diffuse::from(Color::new(0.8, 0.8, 0.0, 1.0))));
 
-        let setup = setup::Setup
+        let setup = render::Setup
         {
             parameters,
             scene
         };
 
         setup.save("examples/spheres.json").expect("Saving setup file failed!");
+
+        let _ = std::fs::remove_dir_all("target/tests/examples/spheres/");
+
+        let test_parameters = render::Parameters
+        {
+            image_width: setup.parameters.image_width / 16,
+            image_height: setup.parameters.image_height / 16,
+            antialias_samples: 1,
+            scatter_limit: 8,
+            ..setup.parameters
+        };
+
+        let image = render::Renderer::new()
+            .set_parameters(&test_parameters)
+            .set_scene(&setup.scene)
+            .render();
+
+        image::Writer::new(image::FormatPNG::new())
+            .input(&image).output("target/tests/examples/spheres/output.png")
+            .save().expect("Failed to save rendered image!");
     }
 
     #[test]
@@ -64,13 +84,33 @@ mod examples
             .add_primitive(primitive::Sphere::new(Vec3::new(0.0, 0.5, -0.1), 0.4, material::Diffuse::from(Color::new(0.8, 0.8, 0.8, 1.0))))
             .add_primitive(primitive::Sphere::new(Vec3::new(0.0, 1.0, -100.5), 100.0, material::Diffuse::from(Color::new(0.8, 0.8, 0.8, 1.0))));
 
-        let setup = setup::Setup
+        let setup = render::Setup
         {
             parameters,
             scene
         };
 
         setup.save("examples/diffuse.json").expect("Saving setup file failed!");
+
+        let _ = std::fs::remove_dir_all("target/tests/examples/diffuse/");
+
+        let test_parameters = render::Parameters
+        {
+            image_width: setup.parameters.image_width / 16,
+            image_height: setup.parameters.image_height / 16,
+            antialias_samples: 1,
+            scatter_limit: 8,
+            ..setup.parameters
+        };
+
+        let image = render::Renderer::new()
+            .set_parameters(&test_parameters)
+            .set_scene(&setup.scene)
+            .render();
+
+        image::Writer::new(image::FormatPNG::new())
+            .input(&image).output("target/tests/examples/diffuse/output.png")
+            .save().expect("Failed to save rendered image!");
     }
 
     #[test]
@@ -96,12 +136,31 @@ mod examples
             .add_primitive(primitive::Sphere::new(Vec3::new(0.0, 0.5, -0.1), 0.4, material::Diffuse::from(Color::new(0.8, 0.8, 0.8, 1.0))))
             .add_primitive(primitive::Sphere::new(Vec3::new(0.0, 1.0, -100.5), 100.0, material::Diffuse::from(Color::new(0.8, 0.8, 0.8, 1.0))));
 
-        let setup = setup::Setup
+        let setup = render::Setup
         {
             parameters,
             scene
         };
 
         setup.save("examples/normals.json").expect("Saving setup file failed!");
+
+        let _ = std::fs::remove_dir_all("target/tests/examples/normals/");
+
+        let test_parameters = render::Parameters
+        {
+            image_width: setup.parameters.image_width / 16,
+            image_height: setup.parameters.image_height / 16,
+            antialias_samples: 1,
+            ..setup.parameters
+        };
+
+        let image = render::Renderer::new()
+            .set_parameters(&test_parameters)
+            .set_scene(&setup.scene)
+            .render();
+
+        image::Writer::new(image::FormatPNG::new())
+            .input(&image).output("target/tests/examples/normals/output.png")
+            .save().expect("Failed to save rendered image!");
     }
 }
