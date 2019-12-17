@@ -1,36 +1,11 @@
-use serde::{ Serialize, Deserialize };
 use rayon::prelude::*;
 use crate::math::*;
 use crate::image::Image;
+use super::parameters::Parameters;
+use super::parameters::DebugMode;
+use super::stats::RenderStats;
 use super::scene::Scene;
 use super::material;
-use super::debug;
-use super::debug::DebugMode;
-
-#[derive(Serialize, Deserialize)]
-pub struct Parameters
-{
-    pub image_width: usize,
-    pub image_height: usize,
-    pub antialias_samples: u16,
-    pub scatter_limit: u16,
-    pub debug_mode: Option<DebugMode>
-}
-
-impl Default for Parameters
-{
-    fn default() -> Self
-    {
-        Parameters
-        {
-            image_width: 1024,
-            image_height: 576,
-            antialias_samples: 4,
-            scatter_limit: 8,
-            debug_mode: None
-        }
-    }
-}
 
 pub struct Renderer<'a>
 {
@@ -38,7 +13,7 @@ pub struct Renderer<'a>
     scene: Option<&'a Scene>,
 
     debug_diffuse_material: material::Diffuse,
-    debug_normals_material: debug::VisualizeNormals
+    debug_normals_material: material::Normals
 }
 
 impl<'a> Renderer<'a>
@@ -51,7 +26,7 @@ impl<'a> Renderer<'a>
             scene: None,
 
             debug_diffuse_material: material::Diffuse::from(Color::new(0.5, 0.5, 0.5, 1.0)),
-            debug_normals_material: debug::VisualizeNormals::new()
+            debug_normals_material: material::Normals::new()
         }
     }
 
@@ -114,9 +89,9 @@ impl<'a> Renderer<'a>
         let mut image_pixels: Vec<Color> = Vec::with_capacity(image_pixel_count);
         image_pixels.resize(image_pixel_count, Color::new(0.0, 0.0, 0.0, 0.0));
 
-        let stats_sum: debug::RenderStats = image_pixels.par_iter_mut().enumerate().map(|(index, pixel)|
+        let stats_sum: RenderStats = image_pixels.par_iter_mut().enumerate().map(|(index, pixel)|
         {
-            let mut stats = debug::RenderStats::new_pixel();
+            let mut stats = RenderStats::new_pixel();
 
             let x = index % parameters.image_width as usize;
             let y = index / parameters.image_width as usize;
@@ -160,7 +135,7 @@ impl<'a> Renderer<'a>
         Image::from(parameters.image_width, parameters.image_height, image_pixels)
     }
 
-    fn sample(&self, ray: Ray, scatter_index: u16, stats: &mut debug::RenderStats) -> Color
+    fn sample(&self, ray: Ray, scatter_index: u16, stats: &mut RenderStats) -> Color
     {
         let parameters = self.parameters.expect("Cannot render image without parameters!");
         let scene = self.scene.expect("Cannot render image without scene!");

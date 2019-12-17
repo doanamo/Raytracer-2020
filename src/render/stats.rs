@@ -1,16 +1,4 @@
 use std::iter;
-use serde::{ Serialize, Deserialize };
-use crate::math::Ray;
-use crate::math::Color;
-use super::primitive::Intersection;
-use super::material::Material;
-
-#[derive(Serialize, Deserialize)]
-pub enum DebugMode
-{
-    Diffuse,
-    Normals,
-}
 
 pub struct RenderStats
 {
@@ -77,38 +65,5 @@ impl iter::Sum<Self> for RenderStats
                 max_scatters: std::cmp::max(a.max_scatters, b.max_scatters)
             }
         })
-    }
-}
-
-#[derive(Serialize, Deserialize)]
-pub struct VisualizeNormals
-{
-}
-
-impl VisualizeNormals
-{
-    pub fn new() -> Self
-    {
-        VisualizeNormals
-        {
-        }
-    }
-}
-
-#[typetag::serde]
-impl Material for VisualizeNormals
-{
-    fn scatter(&self, _ray: &Ray, intersection: &Intersection, scatter_index: u16) -> (Option<Ray>, Color)
-    {
-        if scatter_index == 0
-        {
-            let normal_color = Color::new(intersection.normal.x + 1.0, intersection.normal.y + 1.0, intersection.normal.z + 1.0, 1.0).mul_rgb(0.5);
-
-            (None, normal_color)
-        }
-        else
-        {
-            panic!("Did not expect debug material for normals to scatter!");
-        }
     }
 }
