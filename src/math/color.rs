@@ -14,37 +14,79 @@ impl Color
 {
     pub fn new(red: f32, green: f32, blue: f32, alpha: f32) -> Self
     {
-        Color { r: red, g: green, b: blue, a: alpha }
+        Color
+        {
+            r: red,
+            g: green,
+            b: blue,
+            a: alpha
+        }
     }
 
     pub fn zero() -> Self
     {
-        Color { r: 0.0, g: 0.0, b: 0.0, a: 0.0 }
+        Color
+        {
+            r: 0.0,
+            g: 0.0,
+            b: 0.0,
+            a: 0.0
+        }
     }
 
     pub fn white() -> Self
     {
-        Color { r: 1.0, g: 1.0, b: 1.0, a: 1.0 }
+        Color
+        {
+            r: 1.0,
+            g: 1.0,
+            b: 1.0,
+            a: 1.0
+        }
     }
 
     pub fn black() -> Self
     {
-        Color { r: 0.0, g: 0.0, b: 0.0, a: 1.0 }
+        Color
+        {
+            r: 0.0,
+            g: 0.0,
+            b: 0.0,
+            a: 1.0
+        }
     }
 
     pub fn red() -> Self
     {
-        Color { r: 1.0, g: 0.0, b: 0.0, a: 1.0 }
+        Color
+        {
+            r: 1.0,
+            g: 0.0,
+            b: 0.0,
+            a: 1.0
+        }
     }
 
     pub fn green() -> Self
     {
-        Color { r: 0.0, g: 1.0, b: 0.0, a: 1.0 }
+        Color
+        {
+            r: 0.0,
+            g: 1.0,
+            b: 0.0,
+            a: 1.0
+        }
     }
 
     pub fn blue() -> Self
     {
-        Color { r: 0.0, g: 0.0, b: 1.0, a: 1.0 }
+        Color
+        {
+            r: 0.0,
+            g: 0.0,
+            b: 1.0,
+            a: 1.0
+        }
     }
 
     pub fn as_quantized_u8_array(&self) -> [u8; 4]
