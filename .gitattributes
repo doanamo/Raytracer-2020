@@ -1,0 +1,2 @@
+examples/**/*.json text eol=lf
+tests/references/**/*.pnm text eol=lf
