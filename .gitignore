@@ -1,4 +1,3 @@
-.vscode/*
 target/*
 renders/*
 !renders/spheres.png
