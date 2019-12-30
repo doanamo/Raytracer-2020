@@ -1,13 +1,21 @@
 use std::cmp;
 use std::ops;
 
-#[derive(Default, Debug, Copy, Clone)]
+#[derive(Debug, Copy, Clone)]
 pub struct Color
 {
     pub r: f32,
     pub g: f32,
     pub b: f32,
     pub a: f32
+}
+
+impl Default for Color
+{
+    fn default() -> Self
+    {
+        Self::new(0.0, 0.0, 0.0, 1.0)
+    }
 }
 
 impl Color
@@ -110,40 +118,40 @@ impl Color
         }
     }
 
-    pub fn add_rgba(self, color: Color) -> Color
+    pub fn sub_rgb(self, color: Color) -> Color
     {
         Color
         {
-            r: self.r + color.r,
-            g: self.g + color.g,
-            b: self.b + color.b,
-            a: self.a + color.a
+            r: self.r - color.r,
+            g: self.g - color.g,
+            b: self.b - color.b,
+            a: self.a
         }
     }
     
-    pub fn mul_rgb(self, factor: f32) -> Color
+    pub fn mul_rgb(self, value: f32) -> Color
     {
         Color
         {
-            r: self.r * factor,
-            g: self.g * factor,
-            b: self.b * factor,
+            r: self.r * value,
+            g: self.g * value,
+            b: self.b * value,
             a: self.a
         }
     }
 
-    pub fn mul_rgba(self, factor: f32) -> Color
+    pub fn div_rgb(self, value: f32) -> Color
     {
         Color
         {
-            r: self.r * factor,
-            g: self.g * factor,
-            b: self.b * factor,
-            a: self.a * factor
+            r: self.r / value,
+            g: self.g / value,
+            b: self.b / value,
+            a: self.a
         }
     }
 
-    pub fn clamp(self) -> Color
+    pub fn clamped(self) -> Color
     {
         Color
         {
@@ -191,6 +199,38 @@ impl cmp::PartialEq for Color
     }
 }
 
+impl ops::Add<Color> for Color
+{
+    type Output = Color;
+
+    fn add(self, other: Self) -> Color
+    {
+        Color
+        {
+            r: self.r + other.r,
+            g: self.g + other.g,
+            b: self.b + other.b,
+            a: self.a + other.a
+        }
+    }
+}
+
+impl ops::Sub<Color> for Color
+{
+    type Output = Color;
+
+    fn sub(self, other: Self) -> Color
+    {
+        Color
+        {
+            r: self.r - other.r,
+            g: self.g - other.g,
+            b: self.b - other.b,
+            a: self.a - other.a
+        }
+    }
+}
+
 impl ops::Mul<Color> for Color
 {
     type Output = Color;
@@ -203,6 +243,38 @@ impl ops::Mul<Color> for Color
             g: self.g * other.g,
             b: self.b * other.b,
             a: self.a * other.a
+        }
+    }
+}
+
+impl ops::Div<Color> for Color
+{
+    type Output = Color;
+
+    fn div(self, other: Self) -> Color
+    {
+        Color
+        {
+            r: self.r / other.r,
+            g: self.g / other.g,
+            b: self.b / other.b,
+            a: self.a / other.a
+        }
+    }
+}
+
+impl ops::Mul<f32> for Color
+{
+    type Output = Color;
+
+    fn mul(self, value: f32) -> Color
+    {
+        Color
+        {
+            r: self.r * value,
+            g: self.g * value,
+            b: self.b * value,
+            a: self.a * value
         }
     }
 }
@@ -227,54 +299,78 @@ impl ops::AddAssign for Color
 {
     fn add_assign(&mut self, other: Self)
     {
-        *self = Self
-        {
-            r: self.r + other.r,
-            g: self.g + other.g,
-            b: self.b + other.b,
-            a: self.a + other.a
-        };
+        self.r += other.r;
+        self.g += other.g;
+        self.b += other.b;
+        self.a += other.a;
     }
 }
 
-impl ops::MulAssign for Color
+#[cfg(test)]
+mod tests
 {
-    fn mul_assign(&mut self, other: Self)
-    {
-        *self = Self
-        {
-            r: self.r * other.r,
-            g: self.g * other.g,
-            b: self.b * other.b,
-            a: self.a * other.a
-        };
-    }
-}
+    use super::*;
 
-impl ops::DivAssign<u32> for Color
-{
-    fn div_assign(&mut self, other: u32)
+    #[test]
+    fn new()
     {
-        *self = Self
-        {
-            r: self.r / other as f32,
-            g: self.g / other as f32,
-            b: self.b / other as f32,
-            a: self.a / other as f32
-        };
+        assert_eq!(Color::default(), Color::new(0.0, 0.0, 0.0, 1.0));
+        assert_eq!(Color::zero(), Color::new(0.0, 0.0, 0.0, 0.0));
+        assert_eq!(Color::white(), Color::new(1.0, 1.0, 1.0, 1.0));
+        assert_eq!(Color::black(), Color::new(0.0, 0.0, 0.0, 1.0));
+        assert_eq!(Color::red(), Color::new(1.0, 0.0, 0.0, 1.0));
+        assert_eq!(Color::green(), Color::new(0.0, 1.0, 0.0, 1.0));
+        assert_eq!(Color::blue(), Color::new(0.0, 0.0, 1.0, 1.0));
     }
-}
 
-impl ops::DivAssign<u16> for Color
-{
-    fn div_assign(&mut self, other: u16)
+    #[test]
+    fn quantize()
     {
-        *self = Self
-        {
-            r: self.r / other as f32,
-            g: self.g / other as f32,
-            b: self.b / other as f32,
-            a: self.a / other as f32
-        };
+        let color = Color::new(0.0, 0.25, 0.5, 1.0);
+        let quantized = color.as_quantized_u8_array();
+
+        assert_eq!(quantized[0], 0);
+        assert_eq!(quantized[1], 63);
+        assert_eq!(quantized[2], 127);
+        assert_eq!(quantized[3], 255);
+    }
+
+    #[test]
+    fn calculate()
+    {
+        let color = Color::new(0.1, 0.2, 0.3, 0.4);
+        assert_eq!(color, color);
+
+        assert_eq!(color.add_rgb(color), Color::new(0.2, 0.4, 0.6, 0.4));
+        assert_eq!(color.sub_rgb(color), Color::new(0.0, 0.0, 0.0, 0.4));
+        assert_eq!(color.mul_rgb(2.0), Color::new(0.2, 0.4, 0.6, 0.4));
+        assert_eq!(color.div_rgb(2.0), Color::new(0.05, 0.1, 0.15, 0.4));
+        
+        assert_eq!(color + color, Color::new(0.2, 0.4, 0.6, 0.8));
+        assert_eq!(color - color, Color::new(0.0, 0.0, 0.0, 0.0));
+        assert_eq!(color * color, Color::new(0.010000001, 0.040000003, 0.09, 0.16000001));
+        assert_eq!(color / color, Color::new(1.0, 1.0, 1.0, 1.0));
+        assert_eq!(color * 2.0, Color::new(0.2, 0.4, 0.6, 0.8));
+        assert_eq!(color / 2.0, Color::new(0.05, 0.1, 0.15, 0.2));
+
+        let mut accumulated = Color::new(0.0, 0.0, 0.0, 0.0);
+        accumulated += Color::black();
+        accumulated += Color::white();
+
+        assert_eq!(accumulated, Color::new(1.0, 1.0, 1.0, 2.0));
+    }
+
+    #[test]
+    fn clamp()
+    {
+        let color = Color::new(-1.0, 0.0, 1.0, 2.0);
+        assert_eq!(color.clamped(), Color::new(0.0, 0.0, 1.0, 1.0));
+    }
+
+    #[test]
+    fn validate()
+    {
+        assert!(Color::new(0.0, 0.25, 0.5, 1.0).is_valid() == true);
+        assert!(Color::new(-1.0, 0.0, 1.0, 2.0).is_valid() == false);
     }
 }
