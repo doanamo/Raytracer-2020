@@ -1,6 +1,7 @@
+use std::cmp;
 use std::ops;
 
-#[derive(Default, Copy, Clone)]
+#[derive(Debug, Default, Copy, Clone)]
 pub struct Vec2
 {
     pub x: f32,
@@ -27,6 +28,15 @@ impl Vec2
             x: azimuth.cos(),
             y: azimuth.sin()
         }
+    }
+}
+
+impl cmp::PartialEq for Vec2
+{
+    fn eq(&self, other: &Self) -> bool
+    {
+        self.x == other.x &&
+        self.y == other.y
     }
 }
 
@@ -86,7 +96,7 @@ impl ops::Div<f32> for Vec2
     }
 }
 
-#[derive(Default, Copy, Clone)]
+#[derive(Debug, Default, Copy, Clone)]
 pub struct Vec3
 {
     pub x: f32,
@@ -212,6 +222,16 @@ impl Vec3
     pub fn is_unit(self) -> bool
     {
         (self.length_sqr() - 1.0).abs() < 0.0001
+    }
+}
+
+impl cmp::PartialEq for Vec3
+{
+    fn eq(&self, other: &Self) -> bool
+    {
+        self.x == other.x &&
+        self.y == other.y &&
+        self.z == other.z
     }
 }
 

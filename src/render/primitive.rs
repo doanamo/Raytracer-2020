@@ -44,11 +44,11 @@ impl Primitive for Sphere
 {
     fn intersect(&self, ray: &Ray, min_length: f32, max_length: f32) -> Option<Intersection>
     {
-        debug_assert!(ray.get_direction().is_unit());
+        debug_assert!(ray.direction.is_unit());
 
-        let oc = ray.get_origin() - self.center;
-        let a = ray.get_direction().dot(ray.get_direction());
-        let b = 2.0 * oc.dot(ray.get_direction());
+        let oc = ray.origin - self.center;
+        let a = ray.direction.dot(ray.direction);
+        let b = 2.0 * oc.dot(ray.direction);
         let c = oc.dot(oc) - self.radius * self.radius;
         let discriminant = b * b - 4.0 * a * c;
 

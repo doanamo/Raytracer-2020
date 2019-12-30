@@ -99,6 +99,8 @@ impl Color
 
     pub fn as_quantized_u8_array(&self) -> [u8; 4]
     {
+        debug_assert!(self.is_valid());
+
         [
             (self.r * 255.99).floor() as u8,
             (self.g * 255.99).floor() as u8,

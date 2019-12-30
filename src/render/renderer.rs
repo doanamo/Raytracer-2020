@@ -180,7 +180,7 @@ impl<'a> Renderer<'a>
                 Some(DebugMode::Normals) => return Color::new(0.5, 0.0, 0.5, 1.0),
                 None =>
                 {
-                    let alpha = (ray.get_direction().z + 1.0) * 0.5;
+                    let alpha = (ray.direction.z + 1.0) * 0.5;
                     return Color::new(1.0, 1.0, 1.0, 1.0).mul_rgb(1.0 - alpha).add_rgb(Color::new(0.5, 0.7, 1.0, 1.0).mul_rgb(alpha));
                 }
             };
