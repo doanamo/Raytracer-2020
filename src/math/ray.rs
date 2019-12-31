@@ -1,5 +1,5 @@
 use std::cmp;
-use crate::math::Vec3;
+use super::Vec3;
 
 #[derive(Debug, Copy, Clone)]
 pub struct Ray
