@@ -199,9 +199,9 @@ impl Material for Refractive
 
         if let Some(refracted) = ray.direction.refracted(outward_normal, eta)
         {
-            let reflection_probaility = schlick(cosine, self.refractive_index);
+            let reflection_propability = schlick(cosine, self.refractive_index);
 
-            if rand::random::<f32>() >= reflection_probaility
+            if rand::random::<f32>() >= reflection_propability
             {
                 return (Some(Ray::new(intersection.point, refracted)), self.albedo);
             }

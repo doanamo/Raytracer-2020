@@ -22,6 +22,21 @@ impl Vec3
         }
     }
 
+    pub fn forward() -> Vec3
+    {
+        Vec3::new(0.0, 1.0, 0.0)
+    }
+
+    pub fn right() -> Vec3
+    {
+        Vec3::new(1.0, 0.0, 0.0)
+    }
+
+    pub fn up() -> Vec3
+    {
+        Vec3::new(0.0, 0.0, 1.0)
+    }
+
     pub fn random_direction() -> Vec3
     {
         let z = 2.0 * rand::random::<f32>() - 1.0;
@@ -37,36 +52,28 @@ impl Vec3
 
     pub fn random_in_unit_sphere() -> Vec3
     {
-        let mut point;
-
         loop
         {
-            point = Vec3::new(rand::random::<f32>(), rand::random::<f32>(), rand::random::<f32>()) * 2.0 - Vec3::new(1.0, 1.0, 1.0);
+            let point = Vec3::new(rand::random::<f32>(), rand::random::<f32>(), rand::random::<f32>()) * 2.0 - Vec3::new(1.0, 1.0, 1.0);
 
-            if point.length_sqr() < 1.0
+            if point.length_sqr() <= 1.0
             {
-                break;
+                return point;
             }
         }
-
-        point
     }
 
     pub fn random_in_unit_disc() -> Vec3
     {
-        let mut point;
-
         loop
         {
-            point = Vec3::new(rand::random::<f32>(), rand::random::<f32>(), 0.0) * 2.0 - Vec3::new(1.0, 1.0, 0.0);
+            let point = Vec3::new(rand::random::<f32>(), rand::random::<f32>(), 0.0) * 2.0 - Vec3::new(1.0, 1.0, 0.0);
 
             if point.length_sqr() <= 1.0
             {
-                break;
+                return point;
             }
         }
-
-        point
     }
 
     pub fn dot(self, other: Vec3) -> f32
@@ -198,5 +205,114 @@ impl ops::Div<f32> for Vec3
             y: self.y / other,
             z: self.z / other
         }
+    }
+}
+
+#[cfg(test)]
+mod tests
+{
+    use super::*;
+
+    #[test]
+    fn new()
+    {
+        assert_eq!(Vec3::new(3.0, 2.0, 1.0), Vec3::new(3.0, 2.0, 1.0));
+        assert_eq!(Vec3::default(), Vec3::new(0.0, 0.0, 0.0));
+
+        let vector = Vec3::new(1.0, 2.0, 3.0);
+        assert_eq!(vector.x, 1.0);
+        assert_eq!(vector.y, 2.0);
+        assert_eq!(vector.z, 3.0);
+
+        assert_eq!(Vec3::forward(), Vec3::new(0.0, 1.0, 0.0));
+        assert_eq!(Vec3::right(), Vec3::new(1.0, 0.0, 0.0));
+        assert_eq!(Vec3::up(), Vec3::new(0.0, 0.0, 1.0));
+    }
+
+    #[test]
+    fn random()
+    {
+        for _ in 0..100
+        {
+            let direction = Vec3::random_direction();
+            assert!(direction.is_unit());
+        }
+
+        for _ in 0..100
+        {
+            let point = Vec3::random_in_unit_sphere();
+            assert!(point.length_sqr() <= 1.0);
+        }
+
+        for _ in 0..100
+        {
+            let point = Vec3::random_in_unit_disc();
+            assert!(point.length_sqr() <= 1.0);
+            assert!(point.z == 0.0);
+        }
+    }
+
+    #[test]
+    fn calculate()
+    {
+        let vec_a = Vec3::new(1.0, 2.0, 3.0);
+        let vec_b = Vec3::new(2.0, 4.0, 6.0);
+  
+        assert_eq!(vec_a.dot(vec_b), 28.0);
+        assert_eq!(vec_a.cross(vec_b), Vec3::new(0.0, 0.0, 0.0));
+        assert_eq!(vec_a.length(), 3.7416575);
+        assert_eq!(vec_a.length_sqr(), 14.0);
+        assert_eq!(vec_a.normalized(), Vec3::new(0.26726124, 0.5345225, 0.8017837));
+        assert_eq!(vec_a.normalized(), vec_b.normalized());
+        
+        assert!((vec_b.length_sqr() - vec_b.length() * vec_b.length()).abs() < 0.00001);
+        assert!(vec_b.length() == vec_b.length_sqr().sqrt());
+        
+        assert!(vec_a.normalized().is_unit());
+        assert!(vec_b.normalized().is_unit());
+
+        assert_eq!(vec_a, vec_a);
+        assert_eq!(vec_a + vec_b, Vec3::new(3.0, 6.0, 9.0));
+        assert_eq!(vec_a - vec_b, Vec3::new(-1.0, -2.0, -3.0));
+        assert_eq!(vec_a * 4.0, Vec3::new(4.0, 8.0, 12.0));
+        assert_eq!(vec_b / 2.0, Vec3::new(1.0, 2.0, 3.0));
+    }
+
+    #[test]
+    fn reflect()
+    {
+        let reflected = Vec3::new(-0.57735, -0.57735, -0.57735).reflected(Vec3::up());
+        
+        assert!(reflected.is_unit());
+        assert_eq!(reflected, Vec3::new(-0.57735, -0.57735, 0.57735));
+    }
+
+    #[test]
+    #[should_panic]
+    fn reflect_bad_normal()
+    {
+        Vec3::forward().reflected(Vec3::new(0.5, 0.5, 0.5));
+    }
+
+    #[test]
+    fn refract()
+    {
+        // todo: Write unit tests for refraction.
+        // Refraction computation needs to be understood better by me to write effective test.
+        // I should create a simple refraction scene to observe how it works.
+    }
+
+    #[test]
+    #[should_panic]
+    fn refract_bad_vector()
+    {
+        Vec3::new(0.5, 0.5, 0.5).refracted(Vec3::forward(), 0.1);
+    }
+
+    #[test]
+    #[should_panic]
+    fn refract_bad_normal()
+    {
+        Vec3::forward().refracted(Vec3::new(0.5, 0.5, 0.5), 0.1);
     }
 }
