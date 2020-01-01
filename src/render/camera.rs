@@ -7,7 +7,7 @@ use crate::math::Ray;
 pub struct Camera
 {
     pub origin: Vec3,
-    pub up_dir: Vec3,
+    pub up_direction: Vec3,
     pub look_at: Option<Vec3>,
 
     pub field_of_view: f32,
@@ -22,7 +22,7 @@ impl Default for Camera
         Camera
         {
             origin: Vec3::new(0.0, 0.0, 0.0),
-            up_dir: Vec3::new(0.0, 0.0, 1.0),
+            up_direction: Vec3::new(0.0, 0.0, 1.0),
             look_at: None,
 
             field_of_view: 90.0,
@@ -47,8 +47,7 @@ impl Camera
     
     pub fn set_up_direction(mut self, normal: Vec3) -> Self
     {
-        debug_assert!(normal.is_unit());
-        self.up_dir = normal;
+        self.up_direction = normal;
         self
     }
 
@@ -60,7 +59,6 @@ impl Camera
 
     pub fn set_field_of_view(mut self, degrees: f32) -> Self
     {
-        debug_assert!(degrees != 0.0);
         self.field_of_view = degrees;
         self
     }
@@ -71,22 +69,25 @@ impl Camera
         self
     }
 
-    pub fn set_aperture_size(mut self, size: f32) -> Self
+    pub fn set_aperture_size(mut self, radius: f32) -> Self
     {
-        debug_assert!(size >= 0.0);
-        self.aperture_radius = size;
+        self.aperture_radius = radius;
         self
     }
 
     pub fn build(&self, aspect_ratio: f32) -> CameraCompiled
     {
+        debug_assert!(self.up_direction.is_unit());
+        debug_assert!(self.field_of_view > 0.0);
+        debug_assert!(self.aperture_radius >= 0.0);
+
         let half_height = (self.field_of_view * std::f32::consts::PI / 180.0 / 2.0).tan();
         let half_width = half_height * aspect_ratio;
 
         let look_at = self.look_at.unwrap_or(self.origin + Vec3::new(0.0, 1.0, 0.0));
 
         let forward_dir = (look_at - self.origin).normalized();
-        let right_dir = forward_dir.cross(self.up_dir).normalized();
+        let right_dir = forward_dir.cross(self.up_direction).normalized();
         let up_dir = right_dir.cross(forward_dir);
 
         let near_plane_left_offset = right_dir * half_width * self.focus_distance;
