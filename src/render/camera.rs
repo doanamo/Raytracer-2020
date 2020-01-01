@@ -86,16 +86,16 @@ impl Camera
 
         let look_at = self.look_at.unwrap_or(self.origin + Vec3::new(0.0, 1.0, 0.0));
 
-        let forward_dir = (look_at - self.origin).normalized();
-        let right_dir = forward_dir.cross(self.up_direction).normalized();
-        let up_dir = right_dir.cross(forward_dir);
+        let forward_direction = (look_at - self.origin).normalized();
+        let right_direction = forward_direction.cross(self.up_direction).normalized();
+        let up_direction = right_direction.cross(forward_direction);
 
-        let near_plane_left_offset = right_dir * half_width * self.focus_distance;
-        let near_plane_bottom_offset = up_dir * half_height * self.focus_distance;
+        let near_plane_left_offset = right_direction * half_width * self.focus_distance;
+        let near_plane_bottom_offset = up_direction * half_height * self.focus_distance;
 
-        let near_plane_corner = self.origin + forward_dir * self.focus_distance - near_plane_left_offset - near_plane_bottom_offset;
-        let near_plane_width = right_dir * half_width * 2.0 * self.focus_distance;
-        let near_plane_height = up_dir * half_height * 2.0 * self.focus_distance;
+        let near_plane_corner = self.origin + forward_direction * self.focus_distance - near_plane_left_offset - near_plane_bottom_offset;
+        let near_plane_width = right_direction * half_width * 2.0 * self.focus_distance;
+        let near_plane_height = up_direction * half_height * 2.0 * self.focus_distance;
 
         CameraCompiled
         {
@@ -107,8 +107,8 @@ impl Camera
             near_plane_width: near_plane_width,
             near_plane_height: near_plane_height,
 
-            right_dir: right_dir,
-            up_dir: up_dir
+            right_direction: right_direction,
+            up_direction: up_direction
         }
     }
 }
@@ -123,8 +123,8 @@ pub struct CameraCompiled
     near_plane_width: Vec3,
     near_plane_height: Vec3,
 
-    right_dir: Vec3,
-    up_dir: Vec3
+    right_direction: Vec3,
+    up_direction: Vec3
 }
 
 impl CameraCompiled
@@ -132,7 +132,7 @@ impl CameraCompiled
     pub fn calculate_ray(&self, u: f32, v: f32) -> Ray
     {
         let random = Vec3::random_in_unit_disc() * self.aperture_radius;
-        let offset = self.right_dir * random.x + self.up_dir * random.y;
+        let offset = self.right_direction * random.x + self.up_direction * random.y;
 
         let origin = self.origin + offset;
         let direction = self.near_plane_corner + self.near_plane_width * u + self.near_plane_height * v - self.origin - offset;
