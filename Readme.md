@@ -7,10 +7,7 @@ Raytracer written in Rust as a learning experience. Implementation is based on m
 Usage
 ====
 1. Install Rust 1.40.0 from https://www.rust-lang.org/
-2. Checkout repository and run following command from root directory:
-
-    > cargo run --release -- "examples/spheres.json"
-    
+2. Clone repository and run ```cargo run --release -- "examples/spheres.json"```
 3. Output PNG image will be created in "renders" directory
 
 Showcase
