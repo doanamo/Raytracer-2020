@@ -10,9 +10,9 @@ pub struct RenderStats
     pub max_scatters: u16
 }
 
-impl RenderStats
+impl Default for RenderStats
 {
-    pub fn new() -> Self
+    fn default() -> Self
     {
         RenderStats
         {
@@ -23,6 +23,14 @@ impl RenderStats
             scatters: 0,
             max_scatters: 0
         }
+    }
+}
+
+impl RenderStats
+{
+    pub fn new() -> Self
+    {
+        RenderStats::default()
     }
 
     pub fn new_pixel() -> Self

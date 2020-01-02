@@ -16,14 +16,22 @@ pub struct Diffuse
     albedo: Color
 }
 
-impl Diffuse
+impl Default for Diffuse
 {
-    pub fn new() -> Self
+    fn default() -> Self
     {
         Diffuse
         {
             albedo: Color::new(0.5, 0.5, 0.5, 1.0)
         }
+    }
+}
+
+impl Diffuse
+{
+    pub fn new() -> Self
+    {
+        Diffuse::default()
     }
 
     pub fn from(albedo: Color) -> Self
@@ -53,7 +61,7 @@ impl Material for Diffuse
     }
 }
 
-#[derive(Serialize, Deserialize)]
+#[derive(Default, Serialize, Deserialize)]
 pub struct Normals
 {
 }
@@ -62,9 +70,7 @@ impl Normals
 {
     pub fn new() -> Self
     {
-        Normals
-        {
-        }
+        Normals::default()
     }
 }
 
@@ -93,15 +99,23 @@ pub struct Metalic
     roughness: f32
 }
 
-impl Metalic
+impl Default for Metalic
 {
-    pub fn new() -> Self
+    fn default() -> Self
     {
         Metalic
         {
             albedo: Color::new(1.0, 1.0, 1.0, 1.0),
             roughness: 0.0
         }
+    }
+}
+
+impl Metalic
+{
+    pub fn new() -> Self
+    {
+        Metalic::default()
     }
 
     pub fn from(albedo: Color, roughness: f32) -> Self
@@ -146,15 +160,23 @@ pub struct Refractive
     refractive_index: f32
 }
 
-impl Refractive
+impl Default for Refractive
 {
-    pub fn new() -> Self
+    fn default() -> Self
     {
         Refractive
         {
             albedo: Color::new(1.0, 1.0, 1.0, 1.0),
             refractive_index: 0.0
         }
+    }
+}
+
+impl Refractive
+{
+    pub fn new() -> Self
+    {
+        Refractive::default()
     }
 
     pub fn from(albedo: Color, refractive_index: f32) -> Self
@@ -180,8 +202,7 @@ impl Material for Refractive
         {
             let mut r0 = (1.0 - refractive_index) / (1.0 + refractive_index);
             r0 = r0 * r0;
-
-            return r0 + (1.0 - r0) * (1.0 - cosine).powf(5.0); 
+            r0 + (1.0 - r0) * (1.0 - cosine).powf(5.0)
         };
 
         if ray.direction.dot(intersection.normal) > 0.0

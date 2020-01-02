@@ -1,6 +1,6 @@
 use rayon::prelude::*;
 use crate::math::*;
-use crate::image::Image;
+use crate::image;
 use super::parameters::Parameters;
 use super::parameters::DebugMode;
 use super::stats::RenderStats;
@@ -16,9 +16,9 @@ pub struct Renderer<'a>
     debug_normals_material: material::Normals
 }
 
-impl<'a> Renderer<'a>
+impl<'a> Default for Renderer<'a>
 {
-    pub fn new() -> Self
+    fn default() -> Self
     {
         Renderer
         {
@@ -28,6 +28,14 @@ impl<'a> Renderer<'a>
             debug_diffuse_material: material::Diffuse::from(Color::new(0.5, 0.5, 0.5, 1.0)),
             debug_normals_material: material::Normals::new()
         }
+    }
+}
+
+impl<'a> Renderer<'a>
+{
+    pub fn new() -> Self
+    {
+        Renderer::default()
     }
 
     pub fn set_parameters(mut self, parameters: &'a Parameters) -> Self
@@ -42,7 +50,7 @@ impl<'a> Renderer<'a>
         self
     }
 
-    pub fn render(&self) -> Image
+    pub fn render(&self) -> image::Surface
     {
         // Start measuring render time.
         let begin_time = std::time::Instant::now();
@@ -123,8 +131,9 @@ impl<'a> Renderer<'a>
             pixel.r = pixel.r.powf(gamma_correction);
             pixel.g = pixel.g.powf(gamma_correction);
             pixel.b = pixel.b.powf(gamma_correction);
+            
             debug_assert!(pixel.is_valid());
-            debug_assert!(pixel.a == 1.0);
+            debug_assert!((pixel.a - 1.0).abs() < std::f32::EPSILON);
         });
 
         // Print render statistics.
@@ -132,7 +141,7 @@ impl<'a> Renderer<'a>
         stats_sum.print();
 
         // Return image with rendered pixel data.
-        Image::from(parameters.image_width, parameters.image_height, image_pixels)
+        image::Surface::from(parameters.image_width, parameters.image_height, image_pixels)
     }
 
     fn sample(&self, ray: Ray, scatter_index: u16, stats: &mut RenderStats) -> Color
@@ -165,25 +174,25 @@ impl<'a> Renderer<'a>
                 stats.scatters += 1;
                 stats.max_scatters = std::cmp::max(stats.max_scatters, scatter_index);
 
-                return self.sample(scattered_ray, scatter_index + 1, stats) * attenuation;
+                self.sample(scattered_ray, scatter_index + 1, stats) * attenuation
             }
             else
             {
-                return attenuation;
+                attenuation
             }
         }
         else
         {
             match parameters.debug_mode
             {
-                Some(DebugMode::Diffuse) => return Color::new(0.5, 0.5, 0.5, 1.0),
-                Some(DebugMode::Normals) => return Color::new(0.5, 0.0, 0.5, 1.0),
+                Some(DebugMode::Diffuse) => Color::new(0.5, 0.5, 0.5, 1.0),
+                Some(DebugMode::Normals) => Color::new(0.5, 0.0, 0.5, 1.0),
                 None =>
                 {
                     let alpha = (ray.direction.z + 1.0) * 0.5;
-                    return Color::new(1.0, 1.0, 1.0, 1.0).mul_rgb(1.0 - alpha).add_rgb(Color::new(0.5, 0.7, 1.0, 1.0).mul_rgb(alpha));
+                    Color::new(1.0, 1.0, 1.0, 1.0).mul_rgb(1.0 - alpha).add_rgb(Color::new(0.5, 0.7, 1.0, 1.0).mul_rgb(alpha))
                 }
-            };
+            }
         }
     }
 }

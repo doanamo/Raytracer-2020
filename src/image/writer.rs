@@ -1,5 +1,5 @@
-use crate::image::Image;
 use std::path::{ Path, PathBuf };
+use super::Surface;
 
 #[derive(Debug)]
 pub enum Error
@@ -12,14 +12,14 @@ pub enum Error
 
 pub trait Format
 {
-    fn save(&self, image: &Image, path: &Path) -> Result<(), Error>;
+    fn save(&self, image: &Surface, path: &Path) -> Result<(), Error>;
     fn get_name(&self) -> &'static str;
 }
 
 pub struct Writer<'a>
 {
     format: Box<dyn Format + 'a>,
-    image: Option<&'a Image>,
+    surface: Option<&'a Surface>,
     path: Option<PathBuf>
 }
 
@@ -30,14 +30,14 @@ impl<'a> Writer<'a>
         Writer
         {
             format: Box::new(format),
-            image: None,
+            surface: None,
             path: None
         }
     }
 
-    pub fn input(mut self, image: &'a Image) -> Self
+    pub fn input(mut self, surface: &'a Surface) -> Self
     {
-        self.image = Some(image);
+        self.surface = Some(surface);
         self
     }
 
@@ -49,7 +49,7 @@ impl<'a> Writer<'a>
 
     pub fn save(self) -> Result<(), Error>
     {
-        let image = self.image.ok_or(Error::MissingInput)?;
+        let surface = self.surface.ok_or(Error::MissingInput)?;
         let path = self.path.as_ref().ok_or(Error::MissingOutput)?;
 
         {
@@ -64,7 +64,7 @@ impl<'a> Writer<'a>
                 }
             };
 
-            self.format.save(image, path)?;
+            self.format.save(surface, path)?;
 
             println!("Saved {} file in {} seconds.", self.format.get_name(), begin_time.elapsed().as_secs_f32());
         }

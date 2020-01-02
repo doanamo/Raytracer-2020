@@ -103,12 +103,12 @@ impl Camera
 
             aperture_radius: self.aperture_radius,
 
-            near_plane_corner: near_plane_corner,
-            near_plane_width: near_plane_width,
-            near_plane_height: near_plane_height,
+            near_plane_corner,
+            near_plane_width,
+            near_plane_height,
 
-            right_direction: right_direction,
-            up_direction: up_direction
+            right_direction,
+            up_direction
         }
     }
 }

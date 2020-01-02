@@ -19,7 +19,7 @@ mod image
             }
         }
 
-        let image = image::Image::from(16, 16, pixels);
+        let image = image::Surface::from(16, 16, pixels);
 
         image::Writer::new(image::FormatPNM::new())
             .input(&image).output(Path::new("target/tests/image/write_pnm/output.pnm"))
@@ -43,7 +43,7 @@ mod image
             }
         }
 
-        let image = image::Image::from(16, 16, pixels);
+        let image = image::Surface::from(16, 16, pixels);
 
         image::Writer::new(image::FormatPNG::new())
             .input(&image).output(Path::new("target/tests/image/write_png/output.png"))

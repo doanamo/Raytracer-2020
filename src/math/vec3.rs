@@ -46,7 +46,7 @@ impl Vec3
         {
             x: planar.x,
             y: planar.y,
-            z: z
+            z
         }
     }
 

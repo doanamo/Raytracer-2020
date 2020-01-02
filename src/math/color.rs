@@ -186,7 +186,7 @@ impl Color
             return false;
         }
 
-        return true;
+        true
     }
 }
 

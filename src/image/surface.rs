@@ -1,13 +1,13 @@
 use crate::math::Color;
 
-pub struct Image
+pub struct Surface
 {
     width: usize,
     height: usize,
     pixels: Vec<Color>,
 }
 
-impl Image
+impl Surface
 {
     pub fn new(width: usize, height: usize) -> Self
     {
@@ -17,14 +17,14 @@ impl Image
         let mut pixels: Vec<Color> = Vec::new();
         pixels.resize(width * height, Color::new(0.0, 0.0, 0.0, 1.0));
 
-        Image::from(width, height, pixels)
+        Surface::from(width, height, pixels)
     }
 
     pub fn from(width: usize, height: usize, pixels: Vec<Color>) -> Self
     {
         debug_assert_eq!(pixels.len(), width * height);
 
-        Image
+        Surface
         {
             width,
             height,
@@ -78,24 +78,24 @@ mod tests
     #[test]
     fn new()
     {
-        let image = Image::new(1920, 1080);
+        let surface = Surface::new(1920, 1080);
     
-        assert_eq!(image.width, 1920);
-        assert_eq!(image.height, 1080);
-        assert_eq!(image.pixels.len(), 1920 * 1080);
+        assert_eq!(surface.width, 1920);
+        assert_eq!(surface.height, 1080);
+        assert_eq!(surface.pixels.len(), 1920 * 1080);
 
-        assert_eq!(image.get_width(), 1920);
-        assert_eq!(image.get_height(), 1080);
-        assert_eq!(image.get_pixel_count(), 1920 * 1080);
-        assert_eq!(image.get_data_size(), 1920 * 1080 * 4 * 4);
-        assert_eq!(image.get_pixel(0, 0), Color::new(0.0, 0.0, 0.0, 1.0));
+        assert_eq!(surface.get_width(), 1920);
+        assert_eq!(surface.get_height(), 1080);
+        assert_eq!(surface.get_pixel_count(), 1920 * 1080);
+        assert_eq!(surface.get_data_size(), 1920 * 1080 * 4 * 4);
+        assert_eq!(surface.get_pixel(0, 0), Color::new(0.0, 0.0, 0.0, 1.0));
     }
 
     #[test]
     #[should_panic]
     fn new_bad_size()
     {
-        Image::new(0, 0);
+        Surface::new(0, 0);
     }
 
     #[test]
@@ -105,18 +105,18 @@ mod tests
         pixels.resize(1920 * 1080, Color::new(0.0, 0.0, 0.0, 1.0));
         pixels[1079 * 1920 + 1919] = Color::new(0.1, 0.2, 0.3, 0.4);
 
-        let image = Image::from(1920, 1080, pixels);
+        let surface = Surface::from(1920, 1080, pixels);
 
-        assert_eq!(image.width, 1920);
-        assert_eq!(image.height, 1080);
-        assert_eq!(image.pixels.len(), 1920 * 1080);
+        assert_eq!(surface.width, 1920);
+        assert_eq!(surface.height, 1080);
+        assert_eq!(surface.pixels.len(), 1920 * 1080);
 
-        assert_eq!(image.get_width(), 1920);
-        assert_eq!(image.get_height(), 1080);
-        assert_eq!(image.get_pixel_count(), 1920 * 1080);
-        assert_eq!(image.get_data_size(), 1920 * 1080 * 4 * 4);
-        assert_eq!(image.get_pixel(0, 0), Color::new(0.0, 0.0, 0.0, 1.0));
-        assert_eq!(image.get_pixel(1919, 1079), Color::new(0.1, 0.2, 0.3, 0.4));
+        assert_eq!(surface.get_width(), 1920);
+        assert_eq!(surface.get_height(), 1080);
+        assert_eq!(surface.get_pixel_count(), 1920 * 1080);
+        assert_eq!(surface.get_data_size(), 1920 * 1080 * 4 * 4);
+        assert_eq!(surface.get_pixel(0, 0), Color::new(0.0, 0.0, 0.0, 1.0));
+        assert_eq!(surface.get_pixel(1919, 1079), Color::new(0.1, 0.2, 0.3, 0.4));
     }
 
     #[test]
@@ -126,26 +126,26 @@ mod tests
         let mut pixels = Vec::with_capacity(1920 * 1080);
         pixels.resize(1920 * 1080, Color::new(0.0, 0.0, 0.0, 1.0));
 
-        Image::from(1024, 576, pixels);
+        Surface::from(1024, 576, pixels);
     }
 
     #[test]
     fn set_pixel()
     {
-        let mut image = Image::new(1920, 1080);
+        let mut surface = Surface::new(1920, 1080);
 
-        image.set_pixel(1919, 1079, Color::new(0.1, 0.2, 0.3, 0.4));
-        assert_eq!(image.get_pixel(1919, 1079), Color::new(0.1, 0.2, 0.3, 0.4));
+        surface.set_pixel(1919, 1079, Color::new(0.1, 0.2, 0.3, 0.4));
+        assert_eq!(surface.get_pixel(1919, 1079), Color::new(0.1, 0.2, 0.3, 0.4));
     }
 
     #[test]
     fn as_pixel_slice()
     {
-        let mut image = Image::new(1920, 1080);
-        image.set_pixel(1919, 1079, Color::new(0.1, 0.2, 0.3, 0.4));
+        let mut surface = Surface::new(1920, 1080);
+        surface.set_pixel(1919, 1079, Color::new(0.1, 0.2, 0.3, 0.4));
 
-        let image_slice = image.as_pixel_slice();
-        assert_eq!(image_slice.len(), 1920 * 1080);
-        assert_eq!(image_slice[1079 * 1920 + 1919], Color::new(0.1, 0.2, 0.3, 0.4));
+        let surface_slice = surface.as_pixel_slice();
+        assert_eq!(surface_slice.len(), 1920 * 1080);
+        assert_eq!(surface_slice[1079 * 1920 + 1919], Color::new(0.1, 0.2, 0.3, 0.4));
     }
 }

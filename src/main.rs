@@ -1,5 +1,3 @@
-#![allow(dead_code)]
-
 use std::path::{ Path, PathBuf };
 use clap::{ App, Arg };
 use raytracer::render;

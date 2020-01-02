@@ -61,7 +61,7 @@ impl Setup
 
         match serde_json::to_writer_pretty(file_writer, &self)
         {
-            Ok(setup) => Ok(setup),
+            Ok(()) => Ok(()),
             Err(error) =>
             {
                 println!("Serialization error: {}", error);
