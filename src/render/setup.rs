@@ -10,8 +10,8 @@ pub enum Error
 {
     OpeningFile,
     CreatingFile,
-    Serialization,
-    Deserialization,
+    Serializing,
+    Deserializing,
 }
 
 #[derive(Default, Serialize, Deserialize)]
@@ -39,7 +39,7 @@ impl Setup
             Err(error) =>
             {
                 println!("Deserialization error: {}", error);
-                Err(Error::Deserialization)
+                Err(Error::Deserializing)
             }
         }
     }
@@ -55,7 +55,7 @@ impl Setup
             None => return Err(Error::CreatingFile)
         };
 
-        let scene_file = OpenOptions::new().write(true).truncate(true).create(true).open(path).unwrap(); // .or(Err(Error::CreatingFileFailed))?;
+        let scene_file = OpenOptions::new().write(true).truncate(true).create(true).open(path).or(Err(Error::CreatingFile))?;
         let file_writer = BufWriter::new(scene_file);
 
         match serde_json::to_writer_pretty(file_writer, &self)
@@ -64,7 +64,7 @@ impl Setup
             Err(error) =>
             {
                 println!("Serialization error: {}", error);
-                Err(Error::Serialization)
+                Err(Error::Serializing)
             }
         }
     }
