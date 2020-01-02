@@ -8,7 +8,7 @@ Usage
 ====
 1. Install Rust 1.40.0 from https://www.rust-lang.org/
 2. Clone repository and run ```cargo run --release -- "examples/spheres.json"```
-3. Output PNG image will be created in "renders" directory
+3. Output image will be saved as ```renders/spheres.png``` file
 
 Showcase
 ====
