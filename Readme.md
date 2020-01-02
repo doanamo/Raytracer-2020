@@ -1,8 +1,17 @@
 Raytracer
 ====
-Raytracer written in Rust as a learning experience. Implementation is based on material from [Ray Tracing in One Weekend](http://in1weekend.blogspot.com/2016/01/ray-tracing-in-one-weekend.html) and [Physically Based Rendering: From Theory To Implementation](http://www.pbr-book.org/) books.
+Raytracer written in Rust as a learning experience. Implementation is based on material from following books:
+* [Ray Tracing in One Weekend](http://in1weekend.blogspot.com/2016/01/ray-tracing-in-one-weekend.html)
+* [Physically Based Rendering: From Theory To Implementation](http://www.pbr-book.org/)
 
-Output
+Usage
+====
+1. Install Rust 1.40.0 from https://www.rust-lang.org/
+2. Checkout repository and run following command from root directory:
+    > cargo run --release -- "examples/spheres.json"
+3. Output PNG image will be created in "renders" directory
+
+Showcase
 ====
 ![](renders/spheres.png)
 
