@@ -12,7 +12,7 @@ impl Default for Ray
 {
     fn default() -> Self
     {
-        Ray
+        Self
         {
             origin: Vec3::new(0.0, 0.0, 0.0),
             direction: Vec3::new(0.0, 1.0, 0.0)
@@ -22,11 +22,11 @@ impl Default for Ray
 
 impl Ray
 {
-    pub fn new(origin: Vec3, direction: Vec3) -> Ray
+    pub fn new(origin: Vec3, direction: Vec3) -> Self
     {
         debug_assert!(direction.is_unit());
 
-        Ray
+        Self
         {
             origin,
             direction,

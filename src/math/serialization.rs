@@ -25,7 +25,7 @@ impl ColorVisitor
 {
     fn new() -> Self
     {
-        ColorVisitor
+        Self
     }
 }
 
@@ -75,7 +75,7 @@ impl Vec2Visitor
 {
     fn new() -> Self
     {
-        Vec2Visitor
+        Self
     }
 }
 
@@ -124,7 +124,7 @@ impl Vec3Visitor
 {
     fn new() -> Self
     {
-        Vec3Visitor
+        Self
     }
 }
 

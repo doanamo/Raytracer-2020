@@ -12,9 +12,9 @@ pub struct Vec3
 
 impl Vec3
 {
-    pub fn new(x: f32, y: f32, z: f32) -> Vec3
+    pub fn new(x: f32, y: f32, z: f32) -> Self
     {
-        Vec3
+        Self
         {
             x,
             y,
@@ -22,27 +22,27 @@ impl Vec3
         }
     }
 
-    pub fn forward() -> Vec3
+    pub fn forward() -> Self
     {
-        Vec3::new(0.0, 1.0, 0.0)
+        Self::new(0.0, 1.0, 0.0)
     }
 
-    pub fn right() -> Vec3
+    pub fn right() -> Self
     {
-        Vec3::new(1.0, 0.0, 0.0)
+        Self::new(1.0, 0.0, 0.0)
     }
 
-    pub fn up() -> Vec3
+    pub fn up() -> Self
     {
-        Vec3::new(0.0, 0.0, 1.0)
+        Self::new(0.0, 0.0, 1.0)
     }
 
-    pub fn random_direction() -> Vec3
+    pub fn random_direction() -> Self
     {
         let z = 2.0 * rand::random::<f32>() - 1.0;
         let planar = Vec2::random_direction() * (1.0 - z * z).sqrt();
 
-        Vec3
+        Self
         {
             x: planar.x,
             y: planar.y,
@@ -50,11 +50,11 @@ impl Vec3
         }
     }
 
-    pub fn random_in_unit_sphere() -> Vec3
+    pub fn random_in_unit_sphere() -> Self
     {
         loop
         {
-            let point = Vec3::new(rand::random::<f32>(), rand::random::<f32>(), rand::random::<f32>()) * 2.0 - Vec3::new(1.0, 1.0, 1.0);
+            let point = Self::new(rand::random::<f32>(), rand::random::<f32>(), rand::random::<f32>()) * 2.0 - Self::new(1.0, 1.0, 1.0);
 
             if point.length_sqr() <= 1.0
             {
@@ -63,11 +63,11 @@ impl Vec3
         }
     }
 
-    pub fn random_in_unit_disc() -> Vec3
+    pub fn random_in_unit_disc() -> Self
     {
         loop
         {
-            let point = Vec3::new(rand::random::<f32>(), rand::random::<f32>(), 0.0) * 2.0 - Vec3::new(1.0, 1.0, 0.0);
+            let point = Self::new(rand::random::<f32>(), rand::random::<f32>(), 0.0) * 2.0 - Self::new(1.0, 1.0, 0.0);
 
             if point.length_sqr() <= 1.0
             {
@@ -76,14 +76,14 @@ impl Vec3
         }
     }
 
-    pub fn dot(self, other: Vec3) -> f32
+    pub fn dot(self, other: Self) -> f32
     {
         self.x * other.x + self.y * other.y + self.z * other.z
     }
 
-    pub fn cross(self, other: Vec3) -> Vec3
+    pub fn cross(self, other: Self) -> Self
     {
-        Vec3
+        Self
         {
             x: self.y * other.z - other.y * self.z,
             y: self.z * other.x - other.z * self.x,
@@ -101,18 +101,18 @@ impl Vec3
         self.length_sqr().sqrt()
     }
 
-    pub fn normalized(self) -> Vec3
+    pub fn normalized(self) -> Self
     {
         self / self.length()
     }
 
-    pub fn reflected(self, normal: Vec3) -> Vec3
+    pub fn reflected(self, normal: Self) -> Self
     {
         debug_assert!(normal.is_unit());
         self - normal * 2.0 * self.dot(normal)
     }
 
-    pub fn refracted(self, normal: Vec3, eta: f32) -> Option<Vec3>
+    pub fn refracted(self, normal: Self, eta: f32) -> Option<Self>
     {
         debug_assert!(self.is_unit());
         debug_assert!(normal.is_unit());
@@ -150,11 +150,11 @@ impl cmp::PartialEq for Vec3
 
 impl ops::Add<Vec3> for Vec3
 {
-    type Output = Vec3;
+    type Output = Self;
 
-    fn add(self, other: Vec3) -> Vec3
+    fn add(self, other: Self) -> Self
     {
-        Vec3
+        Self
         {
             x: self.x + other.x,
             y: self.y + other.y,
@@ -165,11 +165,11 @@ impl ops::Add<Vec3> for Vec3
 
 impl ops::Sub<Vec3> for Vec3
 {
-    type Output = Vec3;
+    type Output = Self;
 
-    fn sub(self, other: Vec3) -> Vec3
+    fn sub(self, other: Self) -> Self
     {
-        Vec3
+        Self
         {
             x: self.x - other.x,
             y: self.y - other.y,
@@ -180,11 +180,11 @@ impl ops::Sub<Vec3> for Vec3
 
 impl ops::Mul<f32> for Vec3
 {
-    type Output = Vec3;
+    type Output = Self;
 
-    fn mul(self, other: f32) -> Vec3
+    fn mul(self, other: f32) -> Self
     {
-        Vec3
+        Self
         {
             x: self.x * other,
             y: self.y * other,
@@ -195,11 +195,11 @@ impl ops::Mul<f32> for Vec3
 
 impl ops::Div<f32> for Vec3
 {
-    type Output = Vec3;
+    type Output = Self;
 
-    fn div(self, other: f32) -> Vec3
+    fn div(self, other: f32) -> Self
     {
-        Vec3
+        Self
         {
             x: self.x / other,
             y: self.y / other,

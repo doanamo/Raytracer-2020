@@ -17,14 +17,14 @@ impl Surface
         let mut pixels: Vec<Color> = Vec::new();
         pixels.resize(width * height, Color::new(0.0, 0.0, 0.0, 1.0));
 
-        Surface::from(width, height, pixels)
+        Self::from(width, height, pixels)
     }
 
     pub fn from(width: usize, height: usize, pixels: Vec<Color>) -> Self
     {
         debug_assert_eq!(pixels.len(), width * height);
 
-        Surface
+        Self
         {
             width,
             height,

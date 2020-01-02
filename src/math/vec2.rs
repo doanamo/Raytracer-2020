@@ -10,32 +10,32 @@ pub struct Vec2
 
 impl Vec2
 {
-    pub fn new(x: f32, y: f32) -> Vec2
+    pub fn new(x: f32, y: f32) -> Self
     {
-        Vec2
+        Self
         {
             x,
             y
         }
     }
 
-    pub fn random_direction() -> Vec2
+    pub fn random_direction() -> Self
     {
         let azimuth = rand::random::<f32>() * 2.0 * std::f32::consts::PI;
 
-        Vec2
+        Self
         {
             x: azimuth.cos(),
             y: azimuth.sin()
         }
     }
 
-    pub fn dot(self, other: Vec2) -> f32
+    pub fn dot(self, other: Self) -> f32
     {
         self.x * other.x + self.y * other.y
     }
 
-    pub fn cross(self, other: Vec2) -> f32
+    pub fn cross(self, other: Self) -> f32
     {
         self.x * other.y - self.y * other.x
     }
@@ -50,7 +50,7 @@ impl Vec2
         self.length_sqr().sqrt()
     }
 
-    pub fn normalized(self) -> Vec2
+    pub fn normalized(self) -> Self
     {
         self / self.length()
     }
@@ -72,11 +72,11 @@ impl cmp::PartialEq for Vec2
 
 impl ops::Add<Vec2> for Vec2
 {
-    type Output = Vec2;
+    type Output = Self;
 
-    fn add(self, other: Vec2) -> Vec2
+    fn add(self, other: Self) -> Self
     {
-        Vec2
+        Self
         {
             x: self.x + other.x,
             y: self.y + other.y
@@ -86,11 +86,11 @@ impl ops::Add<Vec2> for Vec2
 
 impl ops::Sub<Vec2> for Vec2
 {
-    type Output = Vec2;
+    type Output = Self;
 
-    fn sub(self, other: Vec2) -> Vec2
+    fn sub(self, other: Self) -> Self
     {
-        Vec2
+        Self
         {
             x: self.x - other.x,
             y: self.y - other.y
@@ -100,11 +100,11 @@ impl ops::Sub<Vec2> for Vec2
 
 impl ops::Mul<f32> for Vec2
 {
-    type Output = Vec2;
+    type Output = Self;
 
-    fn mul(self, other: f32) -> Vec2
+    fn mul(self, other: f32) -> Self
     {
-        Vec2
+        Self
         {
             x: self.x * other,
             y: self.y * other
@@ -114,11 +114,11 @@ impl ops::Mul<f32> for Vec2
 
 impl ops::Div<f32> for Vec2
 {
-    type Output = Vec2;
+    type Output = Self;
 
-    fn div(self, other: f32) -> Vec2
+    fn div(self, other: f32) -> Self
     {
-        Vec2
+        Self
         {
             x: self.x / other,
             y: self.y / other

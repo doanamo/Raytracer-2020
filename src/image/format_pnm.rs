@@ -14,12 +14,12 @@ pub struct FormatPNM
 
 impl FormatPNM
 {
-    pub fn new() -> FormatPNM
+    pub fn new() -> Self
     {
-        FormatPNM::default()
+        Self::default()
     }
 
-    pub fn save(&self, surface: &Surface, path: &Path) -> std::io::Result<()>
+    pub fn save(surface: &Surface, path: &Path) -> std::io::Result<()>
     {
         let mut image_buffer = BufWriter::new(OpenOptions::new()
             .write(true).truncate(true).create(true).open(path)?);
@@ -32,13 +32,8 @@ impl FormatPNM
         {
             for x in 0..surface.get_width()
             {
-                let color = surface.get_pixel(x, y);
-
-                let ir = (color.r * 255.99).floor() as i32;
-                let ig = (color.g * 255.99).floor() as i32;
-                let ib = (color.b * 255.99).floor() as i32;
-
-                writeln!(image_buffer, "{} {} {}", ir, ig, ib)?;
+                let color = surface.get_pixel(x, y).as_quantized_u8_array();
+                writeln!(image_buffer, "{} {} {}", color[0], color[1], color[2])?;
             }
         }
 
@@ -50,7 +45,7 @@ impl Format for FormatPNM
 {
     fn save(&self, surface: &Surface, path: &Path) -> Result<(), Error>
     {
-        FormatPNM::save(self, surface, path).or(Err(Error::SaveFailed))
+        Self::save(surface, path).or(Err(Error::SaveFailed))
     }
 
     fn get_name(&self) -> &'static str

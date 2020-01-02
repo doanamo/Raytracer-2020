@@ -22,7 +22,7 @@ impl Color
 {
     pub fn new(red: f32, green: f32, blue: f32, alpha: f32) -> Self
     {
-        Color
+        Self
         {
             r: red,
             g: green,
@@ -33,7 +33,7 @@ impl Color
 
     pub fn zero() -> Self
     {
-        Color
+        Self
         {
             r: 0.0,
             g: 0.0,
@@ -44,7 +44,7 @@ impl Color
 
     pub fn white() -> Self
     {
-        Color
+        Self
         {
             r: 1.0,
             g: 1.0,
@@ -55,7 +55,7 @@ impl Color
 
     pub fn black() -> Self
     {
-        Color
+        Self
         {
             r: 0.0,
             g: 0.0,
@@ -66,7 +66,7 @@ impl Color
 
     pub fn red() -> Self
     {
-        Color
+        Self
         {
             r: 1.0,
             g: 0.0,
@@ -77,7 +77,7 @@ impl Color
 
     pub fn green() -> Self
     {
-        Color
+        Self
         {
             r: 0.0,
             g: 1.0,
@@ -88,7 +88,7 @@ impl Color
 
     pub fn blue() -> Self
     {
-        Color
+        Self
         {
             r: 0.0,
             g: 0.0,
@@ -97,6 +97,8 @@ impl Color
         }
     }
 
+    #[allow(clippy::cast_sign_loss)]
+    #[allow(clippy::cast_possible_truncation)]
     pub fn as_quantized_u8_array(&self) -> [u8; 4]
     {
         debug_assert!(self.is_valid());
@@ -109,9 +111,9 @@ impl Color
         ]
     }
 
-    pub fn add_rgb(self, color: Color) -> Color
+    pub fn add_rgb(self, color: Self) -> Self
     {
-        Color
+        Self
         {
             r: self.r + color.r,
             g: self.g + color.g,
@@ -120,9 +122,9 @@ impl Color
         }
     }
 
-    pub fn sub_rgb(self, color: Color) -> Color
+    pub fn sub_rgb(self, color: Self) -> Self
     {
-        Color
+        Self
         {
             r: self.r - color.r,
             g: self.g - color.g,
@@ -131,9 +133,9 @@ impl Color
         }
     }
     
-    pub fn mul_rgb(self, value: f32) -> Color
+    pub fn mul_rgb(self, value: f32) -> Self
     {
-        Color
+        Self
         {
             r: self.r * value,
             g: self.g * value,
@@ -142,9 +144,9 @@ impl Color
         }
     }
 
-    pub fn div_rgb(self, value: f32) -> Color
+    pub fn div_rgb(self, value: f32) -> Self
     {
-        Color
+        Self
         {
             r: self.r / value,
             g: self.g / value,
@@ -153,9 +155,9 @@ impl Color
         }
     }
 
-    pub fn clamped(self) -> Color
+    pub fn clamped(self) -> Self
     {
-        Color
+        Self
         {
             r: self.r.max(0.0).min(1.0),
             g: self.g.max(0.0).min(1.0),
@@ -203,11 +205,11 @@ impl cmp::PartialEq for Color
 
 impl ops::Add<Color> for Color
 {
-    type Output = Color;
+    type Output = Self;
 
-    fn add(self, other: Self) -> Color
+    fn add(self, other: Self) -> Self
     {
-        Color
+        Self
         {
             r: self.r + other.r,
             g: self.g + other.g,
@@ -219,11 +221,11 @@ impl ops::Add<Color> for Color
 
 impl ops::Sub<Color> for Color
 {
-    type Output = Color;
+    type Output = Self;
 
-    fn sub(self, other: Self) -> Color
+    fn sub(self, other: Self) -> Self
     {
-        Color
+        Self
         {
             r: self.r - other.r,
             g: self.g - other.g,
@@ -235,11 +237,11 @@ impl ops::Sub<Color> for Color
 
 impl ops::Mul<Color> for Color
 {
-    type Output = Color;
+    type Output = Self;
 
-    fn mul(self, other: Self) -> Color
+    fn mul(self, other: Self) -> Self
     {
-        Color
+        Self
         {
             r: self.r * other.r,
             g: self.g * other.g,
@@ -251,11 +253,11 @@ impl ops::Mul<Color> for Color
 
 impl ops::Div<Color> for Color
 {
-    type Output = Color;
+    type Output = Self;
 
-    fn div(self, other: Self) -> Color
+    fn div(self, other: Self) -> Self
     {
-        Color
+        Self
         {
             r: self.r / other.r,
             g: self.g / other.g,
@@ -267,11 +269,11 @@ impl ops::Div<Color> for Color
 
 impl ops::Mul<f32> for Color
 {
-    type Output = Color;
+    type Output = Self;
 
-    fn mul(self, value: f32) -> Color
+    fn mul(self, value: f32) -> Self
     {
-        Color
+        Self
         {
             r: self.r * value,
             g: self.g * value,
@@ -283,11 +285,11 @@ impl ops::Mul<f32> for Color
 
 impl ops::Div<f32> for Color
 {
-    type Output = Color;
+    type Output = Self;
 
-    fn div(self, value: f32) -> Color
+    fn div(self, value: f32) -> Self
     {
-        Color
+        Self
         {
             r: self.r / value,
             g: self.g / value,

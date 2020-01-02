@@ -8,11 +8,10 @@ use super::scene::Scene;
 #[derive(Debug)]
 pub enum Error
 {
-    OpeningFileFailed,
-    CreatingFileFailed,
-
-    SerializationFailed,
-    DeserializationFailed,
+    OpeningFile,
+    CreatingFile,
+    Serialization,
+    Deserialization,
 }
 
 #[derive(Default, Serialize, Deserialize)]
@@ -26,12 +25,12 @@ impl Setup
 {
     pub fn new() -> Self
     {
-        Setup::default()
+        Self::default()
     }
 
     pub fn from_file<P: AsRef<Path>>(path: P) -> Result<Self, Error>
     {
-        let scene_file = OpenOptions::new().read(true).open(path).or(Err(Error::OpeningFileFailed))?;
+        let scene_file = OpenOptions::new().read(true).open(path).or(Err(Error::OpeningFile))?;
         let file_reader = BufReader::new(scene_file);
 
         match serde_json::from_reader(file_reader)
@@ -40,7 +39,7 @@ impl Setup
             Err(error) =>
             {
                 println!("Deserialization error: {}", error);
-                Err(Error::DeserializationFailed)
+                Err(Error::Deserialization)
             }
         }
     }
@@ -53,7 +52,7 @@ impl Setup
             {
                 let _ = std::fs::create_dir_all(directory);
             },
-            None => return Err(Error::CreatingFileFailed)
+            None => return Err(Error::CreatingFile)
         };
 
         let scene_file = OpenOptions::new().write(true).truncate(true).create(true).open(path).unwrap(); // .or(Err(Error::CreatingFileFailed))?;
@@ -65,7 +64,7 @@ impl Setup
             Err(error) =>
             {
                 println!("Serialization error: {}", error);
-                Err(Error::SerializationFailed)
+                Err(Error::Serialization)
             }
         }
     }

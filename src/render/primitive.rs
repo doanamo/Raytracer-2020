@@ -29,7 +29,7 @@ impl Sphere
 {
     pub fn new<MaterialType: Material + 'static>(center: Vec3, radius: f32, material: MaterialType) -> Self
     {
-        Sphere
+        Self
         {
             center,
             radius,

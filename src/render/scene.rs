@@ -1,13 +1,13 @@
 use serde::{ Serialize, Deserialize };
 use crate::math::Ray;
-use super::camera::Camera;
+use super::camera;
 use super::primitive::Primitive;
 use super::primitive::Intersection;
 
 #[derive(Default, Serialize, Deserialize)]
 pub struct Scene
 {
-    pub camera: Camera,
+    pub camera: camera::Parameters,
     primitives: Vec<Box<dyn Primitive>>
 }
 
@@ -15,10 +15,10 @@ impl Scene
 {
     pub fn new() -> Self
     {
-        Scene::default()
+        Self::default()
     }
 
-    pub fn set_camera(mut self, camera: Camera) -> Self
+    pub fn set_camera(mut self, camera: camera::Parameters) -> Self
     {
         self.camera = camera;
         self
@@ -35,7 +35,7 @@ impl Scene
         let mut closest_intersection: Option<Intersection> = None;
         let mut closest_length = max_length;
 
-        for primitive in self.primitives.iter()
+        for primitive in &self.primitives
         {
             if let Some(intersection) = primitive.intersect(ray, min_length, closest_length)
             {

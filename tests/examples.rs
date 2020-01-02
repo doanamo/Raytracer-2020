@@ -18,7 +18,7 @@ mod examples
             ..render::Parameters::default()
         };
 
-        let camera = render::Camera::new()
+        let camera = render::camera::Parameters::new()
             .set_origin(Vec3::new(0.0, -0.6, 0.0))
             .set_look_at(Some(Vec3::new(0.0, 1.0, -0.2)))
             .set_field_of_view(55.0);
@@ -74,7 +74,7 @@ mod examples
             ..render::Parameters::default()
         };
 
-        let camera = render::Camera::new()
+        let camera = render::camera::Parameters::new()
             .set_origin(Vec3::new(0.0, -0.6, 0.0))
             .set_look_at(Some(Vec3::new(0.0, 1.0, -0.2)))
             .set_field_of_view(55.0);
@@ -126,7 +126,7 @@ mod examples
             ..render::Parameters::default()
         };
 
-        let camera = render::Camera::new()
+        let camera = render::camera::Parameters::new()
             .set_origin(Vec3::new(0.0, -0.6, 0.0))
             .set_look_at(Some(Vec3::new(0.0, 1.0, -0.2)))
             .set_field_of_view(55.0);

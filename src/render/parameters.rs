@@ -21,7 +21,7 @@ impl Default for Parameters
 {
     fn default() -> Self
     {
-        Parameters
+        Self
         {
             image_width: 1024,
             image_height: 576,

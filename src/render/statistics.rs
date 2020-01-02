@@ -1,6 +1,6 @@
 use std::iter;
 
-pub struct RenderStats
+pub struct Statistics
 {
     pub pixels: usize,
     pub subpixels: usize,
@@ -10,11 +10,11 @@ pub struct RenderStats
     pub max_scatters: u16
 }
 
-impl Default for RenderStats
+impl Default for Statistics
 {
     fn default() -> Self
     {
-        RenderStats
+        Self
         {
             pixels: 0,
             subpixels: 0,
@@ -26,16 +26,16 @@ impl Default for RenderStats
     }
 }
 
-impl RenderStats
+impl Statistics
 {
     pub fn new() -> Self
     {
-        RenderStats::default()
+        Self::default()
     }
 
     pub fn new_pixel() -> Self
     {
-        RenderStats
+        Self
         {
             pixels: 1,
             subpixels: 0,
@@ -48,7 +48,7 @@ impl RenderStats
 
     pub fn print(&self)
     {
-        println!("Printing render stats:");
+        println!("Printing render statistics:");
         println!("  Pixels:        {}", self.pixels);
         println!("  Subpixels:     {} ({} per pixel)", self.subpixels, self.subpixels / self.pixels);
         println!("  Samples:       {} ({:.2} per pixel)", self.samples, self.samples as f32 / self.pixels as f32);
@@ -57,7 +57,7 @@ impl RenderStats
     }
 }
 
-impl iter::Sum<Self> for RenderStats
+impl iter::Sum<Self> for Statistics
 {
     fn sum<I: Iterator<Item = Self>>(iterator: I) -> Self
     {

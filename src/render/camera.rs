@@ -4,7 +4,7 @@ use crate::math::Ray;
 
 #[derive(Serialize, Deserialize)]
 #[serde(default)]
-pub struct Camera
+pub struct Parameters
 {
     pub origin: Vec3,
     pub up_direction: Vec3,
@@ -15,11 +15,11 @@ pub struct Camera
     pub aperture_radius: f32
 }
 
-impl Default for Camera
+impl Default for Parameters
 {
     fn default() -> Self
     {
-        Camera
+        Self
         {
             origin: Vec3::new(0.0, 0.0, 0.0),
             up_direction: Vec3::new(0.0, 0.0, 1.0),
@@ -32,11 +32,11 @@ impl Default for Camera
     }
 }
 
-impl Camera
+impl Parameters
 {
     pub fn new() -> Self
     {
-        Camera::default()
+        Self::default()
     }
 
     pub fn set_origin(mut self, position: Vec3) -> Self
@@ -75,7 +75,7 @@ impl Camera
         self
     }
 
-    pub fn build(&self, aspect_ratio: f32) -> CameraCompiled
+    pub fn build(&self, aspect_ratio: f32) -> Compiled
     {
         debug_assert!(self.up_direction.is_unit());
         debug_assert!(self.field_of_view > 0.0);
@@ -97,7 +97,7 @@ impl Camera
         let near_plane_width = right_direction * half_width * 2.0 * self.focus_distance;
         let near_plane_height = up_direction * half_height * 2.0 * self.focus_distance;
 
-        CameraCompiled
+        Compiled
         {
             origin: self.origin,
 
@@ -113,7 +113,7 @@ impl Camera
     }
 }
 
-pub struct CameraCompiled
+pub struct Compiled
 {
     origin: Vec3,
 
@@ -127,7 +127,7 @@ pub struct CameraCompiled
     up_direction: Vec3
 }
 
-impl CameraCompiled
+impl Compiled
 {
     pub fn calculate_ray(&self, u: f32, v: f32) -> Ray
     {

@@ -3,7 +3,7 @@ use crate::math::*;
 use crate::image;
 use super::parameters::Parameters;
 use super::parameters::DebugMode;
-use super::stats::RenderStats;
+use super::statistics::Statistics;
 use super::scene::Scene;
 use super::material;
 
@@ -71,7 +71,7 @@ impl<'a> Renderer<'a>
         // Create antialiasing kernel.
         assert!(parameters.antialias_samples >= 1, "Antialias samples must equal one or higher!");
         let antialias_subpixel_count = parameters.antialias_samples.pow(2) as usize;
-        let antialias_subpixel_step = 1.0 / parameters.antialias_samples as f32;
+        let antialias_subpixel_step = 1.0 / f32::from(parameters.antialias_samples);
 
         let antialias_kernel: Vec<(f32, f32)> = 
         {
@@ -81,8 +81,8 @@ impl<'a> Renderer<'a>
             {
                 for subpixel_y in 0..parameters.antialias_samples
                 {
-                    let offset_u = subpixel_x as f32 * antialias_subpixel_step;
-                    let offset_v = subpixel_y as f32 * antialias_subpixel_step;
+                    let offset_u = f32::from(subpixel_x) * antialias_subpixel_step;
+                    let offset_v = f32::from(subpixel_y) * antialias_subpixel_step;
 
                     kernel.push((offset_u, offset_v));
                 }
@@ -97,16 +97,16 @@ impl<'a> Renderer<'a>
         let mut image_pixels: Vec<Color> = Vec::with_capacity(image_pixel_count);
         image_pixels.resize(image_pixel_count, Color::new(0.0, 0.0, 0.0, 0.0));
 
-        let stats_sum: RenderStats = image_pixels.par_iter_mut().enumerate().map(|(index, pixel)|
+        let stats_sum: Statistics = image_pixels.par_iter_mut().enumerate().map(|(index, pixel)|
         {
-            let mut stats = RenderStats::new_pixel();
+            let mut stats = Statistics::new_pixel();
 
             let x = index % parameters.image_width as usize;
             let y = index / parameters.image_width as usize;
 
             let mut accumulated_color = Color::new(0.0, 0.0, 0.0, 0.0);
 
-            for (offset_u, offset_v) in antialias_kernel.iter()
+            for (offset_u, offset_v) in &antialias_kernel
             {
                 let u = (x as f32 + offset_u) * image_width_inv as f32;
                 let v = (y as f32 + offset_v) * image_height_inv as f32;
@@ -144,7 +144,7 @@ impl<'a> Renderer<'a>
         image::Surface::from(parameters.image_width, parameters.image_height, image_pixels)
     }
 
-    fn sample(&self, ray: Ray, scatter_index: u16, stats: &mut RenderStats) -> Color
+    fn sample(&self, ray: Ray, scatter_index: u16, stats: &mut Statistics) -> Color
     {
         let parameters = self.parameters.expect("Cannot render image without parameters!");
         let scene = self.scene.expect("Cannot render image without scene!");

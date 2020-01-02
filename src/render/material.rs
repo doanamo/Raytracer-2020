@@ -20,7 +20,7 @@ impl Default for Diffuse
 {
     fn default() -> Self
     {
-        Diffuse
+        Self
         {
             albedo: Color::new(0.5, 0.5, 0.5, 1.0)
         }
@@ -31,12 +31,12 @@ impl Diffuse
 {
     pub fn new() -> Self
     {
-        Diffuse::default()
+        Self::default()
     }
 
     pub fn from(albedo: Color) -> Self
     {
-        Diffuse
+        Self
         {
             albedo
         }
@@ -70,7 +70,7 @@ impl Normals
 {
     pub fn new() -> Self
     {
-        Normals::default()
+        Self::default()
     }
 }
 
@@ -103,7 +103,7 @@ impl Default for Metalic
 {
     fn default() -> Self
     {
-        Metalic
+        Self
         {
             albedo: Color::new(1.0, 1.0, 1.0, 1.0),
             roughness: 0.0
@@ -115,12 +115,12 @@ impl Metalic
 {
     pub fn new() -> Self
     {
-        Metalic::default()
+        Self::default()
     }
 
     pub fn from(albedo: Color, roughness: f32) -> Self
     {
-        Metalic
+        Self
         {
             albedo,
             roughness
@@ -164,7 +164,7 @@ impl Default for Refractive
 {
     fn default() -> Self
     {
-        Refractive
+        Self
         {
             albedo: Color::new(1.0, 1.0, 1.0, 1.0),
             refractive_index: 0.0
@@ -176,12 +176,12 @@ impl Refractive
 {
     pub fn new() -> Self
     {
-        Refractive::default()
+        Self::default()
     }
 
     pub fn from(albedo: Color, refractive_index: f32) -> Self
     {
-        Refractive
+        Self
         {
             albedo,
             refractive_index
