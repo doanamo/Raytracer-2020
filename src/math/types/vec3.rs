@@ -1,6 +1,6 @@
 use std::cmp;
 use std::ops;
-use super::Vec2;
+use super::vec2::Vec2;
 
 #[derive(Debug, Default, Copy, Clone)]
 pub struct Vec3

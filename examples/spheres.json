@@ -27,7 +27,7 @@
       "focus_distance": 1.0,
       "aperture_radius": 0.0
     },
-    "primitives": [
+    "objects": [
       {
         "Sphere": {
           "center": [

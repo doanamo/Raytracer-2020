@@ -1,14 +1,14 @@
 use serde::{ Serialize, Deserialize };
 use crate::math::Ray;
+use crate::math::Intersection;
 use super::camera;
-use super::primitive::Primitive;
-use super::primitive::Intersection;
+use super::objects::Object;
 
 #[derive(Default, Serialize, Deserialize)]
 pub struct Scene
 {
     pub camera: camera::Parameters,
-    primitives: Vec<Box<dyn Primitive>>
+    objects: Vec<Box<dyn Object>>
 }
 
 impl Scene
@@ -24,23 +24,23 @@ impl Scene
         self
     }
 
-    pub fn add_primitive<PrimitiveType: Primitive + 'static>(mut self, primitive: PrimitiveType) -> Self
+    pub fn add_object<ObjectType: Object + 'static>(mut self, object: ObjectType) -> Self
     {
-        self.primitives.push(Box::new(primitive));
+        self.objects.push(Box::new(object));
         self
     }
 
-    pub fn intersect(&self, ray: &Ray, min_length: f32, max_length: f32) -> Option<Intersection>
+    pub fn intersect(&self, ray: &Ray, min_length: f32, max_length: f32) -> Option<(Intersection, &dyn Object)>
     {
-        let mut closest_intersection: Option<Intersection> = None;
+        let mut closest_intersection: Option<(Intersection, &dyn Object)> = None;
         let mut closest_length = max_length;
 
-        for primitive in &self.primitives
+        for object in &self.objects
         {
-            if let Some(intersection) = primitive.intersect(ray, min_length, closest_length)
+            if let Some(intersection) = object.intersect(ray, min_length, closest_length)
             {
                 closest_length = intersection.length;
-                closest_intersection = Some(intersection);
+                closest_intersection = Some((intersection, object.as_ref()));
             }
         }
 

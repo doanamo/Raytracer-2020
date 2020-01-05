@@ -1,19 +1,20 @@
 use rayon::prelude::*;
-use crate::math::*;
-use crate::image;
+use super::math::Color;
+use super::math::Ray;
+use super::image;
 use super::parameters::Parameters;
 use super::parameters::DebugMode;
 use super::statistics::Statistics;
 use super::scene::Scene;
-use super::material;
+use super::materials;
 
 pub struct Renderer<'a>
 {
     parameters: Option<&'a Parameters>,
     scene: Option<&'a Scene>,
 
-    debug_diffuse_material: material::Diffuse,
-    debug_normals_material: material::Normals
+    debug_diffuse_material: materials::Diffuse,
+    debug_normals_material: materials::Normals
 }
 
 impl<'a> Default for Renderer<'a>
@@ -25,8 +26,8 @@ impl<'a> Default for Renderer<'a>
             parameters: None,
             scene: None,
 
-            debug_diffuse_material: material::Diffuse::from(Color::new(0.5, 0.5, 0.5, 1.0)),
-            debug_normals_material: material::Normals::new()
+            debug_diffuse_material: materials::Diffuse::from(Color::new(0.5, 0.5, 0.5, 1.0)),
+            debug_normals_material: materials::Normals::new()
         }
     }
 }
@@ -156,13 +157,13 @@ impl<'a> Renderer<'a>
 
         stats.samples += 1;
         
-        if let Some(intersection) = scene.intersect(&ray, 0.0001, std::f32::MAX)
+        if let Some((intersection, object)) = scene.intersect(&ray, 0.0001, std::f32::MAX)
         {
             stats.intersections += 1;
             
             let material = match parameters.debug_mode
             {
-                None => intersection.material,
+                None => object.get_material(),
                 Some(DebugMode::Diffuse) => &self.debug_diffuse_material,
                 Some(DebugMode::Normals) => &self.debug_normals_material,
             };

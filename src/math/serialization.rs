@@ -2,9 +2,9 @@ use std::fmt;
 use serde::{ Serialize, Serializer, Deserialize, Deserializer };
 use serde::ser::{ SerializeTuple };
 use serde::de::{ SeqAccess, Visitor, Error };
-use super::Color;
-use super::Vec2;
-use super::Vec3;
+use super::types::color::Color;
+use super::types::vec2::Vec2;
+use super::types::vec3::Vec3;
 
 impl Serialize for Color
 {

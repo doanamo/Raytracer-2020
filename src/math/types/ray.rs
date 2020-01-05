@@ -1,5 +1,7 @@
 use std::cmp;
-use super::Vec3;
+use super::vec3::Vec3;
+use super::intersection::Intersectable;
+use super::intersection::Intersection;
 
 #[derive(Debug, Copy, Clone)]
 pub struct Ray
@@ -33,11 +35,15 @@ impl Ray
         }
     }
 
+    pub fn intersect(&self, intersectable: &dyn Intersectable) -> Option<Intersection>
+    {
+        intersectable.intersect(self)
+    }
+
     pub fn point_at(&self, length: f32) -> Vec3
     {
         debug_assert!(length >= 0.0);
         debug_assert!(self.direction.is_unit());
-
 
         self.origin + self.direction * length
     }

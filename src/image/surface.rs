@@ -1,4 +1,4 @@
-use crate::math::Color;
+use super::math::Color;
 
 pub struct Surface
 {

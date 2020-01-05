@@ -1,5 +1,5 @@
 use std::path::{ Path, PathBuf };
-use super::Surface;
+use super::surface::Surface;
 
 #[derive(Debug)]
 pub enum Error

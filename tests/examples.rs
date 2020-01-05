@@ -3,8 +3,8 @@ mod examples
     use raytracer::math::{ Vec3, Color };
     use raytracer::image;
     use raytracer::render;
-    use render::primitive;
-    use render::material;
+    use render::objects;
+    use render::materials;
 
     #[test]
     fn spheres()
@@ -25,12 +25,12 @@ mod examples
         
         let scene = render::Scene::new()
             .set_camera(camera)
-            .add_primitive(primitive::Sphere::new(Vec3::new(0.3, 0.5, -0.3), 0.2, material::Refractive::from(Color::new(1.0, 1.0, 1.0, 1.0), 1.008)))
-            .add_primitive(primitive::Sphere::new(Vec3::new(-0.3, 0.5, -0.3), -0.2, material::Refractive::from(Color::new(1.0, 1.0, 1.0, 1.0), 1.3)))
-            .add_primitive(primitive::Sphere::new(Vec3::new(0.0, 1.4, 0.0), 0.5, material::Diffuse::from(Color::new(0.8, 0.3, 0.3, 1.0))))
-            .add_primitive(primitive::Sphere::new(Vec3::new(0.8, 1.0, -0.1), 0.4, material::Metalic::from(Color::new(0.8, 0.8, 0.8, 1.0), 0.0)))
-            .add_primitive(primitive::Sphere::new(Vec3::new(-0.8, 1.0, -0.1), 0.4, material::Metalic::from(Color::new(0.8, 0.8, 0.8, 1.0), 0.8)))
-            .add_primitive(primitive::Sphere::new(Vec3::new(0.0, 1.0, -100.5), 100.0, material::Diffuse::from(Color::new(0.8, 0.8, 0.0, 1.0))));
+            .add_object(objects::Sphere::new(Vec3::new(0.3, 0.5, -0.3), 0.2, materials::Refractive::from(Color::new(1.0, 1.0, 1.0, 1.0), 1.008)))
+            .add_object(objects::Sphere::new(Vec3::new(-0.3, 0.5, -0.3), -0.2, materials::Refractive::from(Color::new(1.0, 1.0, 1.0, 1.0), 1.3)))
+            .add_object(objects::Sphere::new(Vec3::new(0.0, 1.4, 0.0), 0.5, materials::Diffuse::from(Color::new(0.8, 0.3, 0.3, 1.0))))
+            .add_object(objects::Sphere::new(Vec3::new(0.8, 1.0, -0.1), 0.4, materials::Metalic::from(Color::new(0.8, 0.8, 0.8, 1.0), 0.0)))
+            .add_object(objects::Sphere::new(Vec3::new(-0.8, 1.0, -0.1), 0.4, materials::Metalic::from(Color::new(0.8, 0.8, 0.8, 1.0), 0.8)))
+            .add_object(objects::Sphere::new(Vec3::new(0.0, 1.0, -100.5), 100.0, materials::Diffuse::from(Color::new(0.8, 0.8, 0.0, 1.0))));
 
         let setup = render::Setup
         {
@@ -81,8 +81,8 @@ mod examples
         
         let scene = render::Scene::new()
             .set_camera(camera)
-            .add_primitive(primitive::Sphere::new(Vec3::new(0.0, 0.5, -0.1), 0.4, material::Diffuse::from(Color::new(0.8, 0.8, 0.8, 1.0))))
-            .add_primitive(primitive::Sphere::new(Vec3::new(0.0, 1.0, -100.5), 100.0, material::Diffuse::from(Color::new(0.8, 0.8, 0.8, 1.0))));
+            .add_object(objects::Sphere::new(Vec3::new(0.0, 0.5, -0.1), 0.4, materials::Diffuse::from(Color::new(0.8, 0.8, 0.8, 1.0))))
+            .add_object(objects::Sphere::new(Vec3::new(0.0, 1.0, -100.5), 100.0, materials::Diffuse::from(Color::new(0.8, 0.8, 0.8, 1.0))));
 
         let setup = render::Setup
         {
@@ -133,8 +133,8 @@ mod examples
         
         let scene = render::Scene::new()
             .set_camera(camera)
-            .add_primitive(primitive::Sphere::new(Vec3::new(0.0, 0.5, -0.1), 0.4, material::Diffuse::from(Color::new(0.8, 0.8, 0.8, 1.0))))
-            .add_primitive(primitive::Sphere::new(Vec3::new(0.0, 1.0, -100.5), 100.0, material::Diffuse::from(Color::new(0.8, 0.8, 0.8, 1.0))));
+            .add_object(objects::Sphere::new(Vec3::new(0.0, 0.5, -0.1), 0.4, materials::Diffuse::from(Color::new(0.8, 0.8, 0.8, 1.0))))
+            .add_object(objects::Sphere::new(Vec3::new(0.0, 1.0, -100.5), 100.0, materials::Diffuse::from(Color::new(0.8, 0.8, 0.8, 1.0))));
 
         let setup = render::Setup
         {

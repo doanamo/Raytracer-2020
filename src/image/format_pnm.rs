@@ -3,9 +3,9 @@ use std::io::BufWriter;
 use std::fs::OpenOptions;
 use std::path::Path;
 
-use super::Surface;
-use super::Format;
-use super::Error;
+use super::surface::Surface;
+use super::writer::Format;
+use super::writer::Error;
 
 #[derive(Default)]
 pub struct FormatPNM
