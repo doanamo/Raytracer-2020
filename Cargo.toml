@@ -18,6 +18,7 @@ file_diff = "1.0.0"
 bencher = "0.1.5"
 
 [profile.release]
+lto = true
 debug = true
 
 [[bench]]
