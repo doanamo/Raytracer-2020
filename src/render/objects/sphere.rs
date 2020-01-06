@@ -11,29 +11,28 @@ pub struct Sphere
 {
     #[serde(flatten)]
     pub shape: geometry::Sphere,
-    pub material: Box<dyn Material + Sync>
+    pub material: Material
 }
 
 impl Sphere
 {
-    pub fn new<MaterialType: Material + 'static>(center: Vec3, radius: f32, material: MaterialType) -> Self
+    pub fn new(center: Vec3, radius: f32, material: Material) -> Object
     {
-        Self
+        Object::Sphere(Self
         {
             shape: geometry::Sphere
             {
                 center,
                 radius
             },
-            material: Box::new(material)
-        }
+            material: material
+        })
     }
 }
 
-#[typetag::serde]
-impl Object for Sphere
+impl Sphere
 {
-    fn intersect(&self, ray: &Ray, min_length: f32, max_length: f32) -> Option<Intersection>
+    pub fn intersect(&self, ray: &Ray, min_length: f32, max_length: f32) -> Option<Intersection>
     {
         if let Some(intersection) = ray.intersect(&self.shape)
         {
@@ -46,8 +45,8 @@ impl Object for Sphere
         None
     }
 
-    fn get_material(&self) -> &dyn Material
+    pub fn get_material(&self) -> &Material
     {
-        self.material.as_ref()
+        &self.material
     }
 }

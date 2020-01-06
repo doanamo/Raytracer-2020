@@ -11,16 +11,12 @@ pub struct Normals
 
 impl Normals
 {
-    pub fn new() -> Self
+    pub fn new() -> Material
     {
-        Self::default()
+        Material::Normals(Self::default())
     }
-}
 
-#[typetag::serde]
-impl Material for Normals
-{
-    fn scatter(&self, _ray: &Ray, intersection: &Intersection, scatter_index: u16) -> (Option<Ray>, Color)
+    pub fn scatter(&self, _ray: &Ray, intersection: &Intersection, scatter_index: u16) -> (Option<Ray>, Color)
     {
         if scatter_index == 0
         {

@@ -25,25 +25,16 @@ impl Default for Refractive
 
 impl Refractive
 {
-    pub fn new() -> Self
+    pub fn new(albedo: Color, refractive_index: f32) -> Material
     {
-        Self::default()
-    }
-
-    pub fn from(albedo: Color, refractive_index: f32) -> Self
-    {
-        Self
+        Material::Refractive(Self
         {
             albedo,
             refractive_index
-        }
+        })
     }
-}
 
-#[typetag::serde]
-impl Material for Refractive
-{
-    fn scatter(&self, ray: &Ray, intersection: &Intersection, _scatter_index: u16) -> (Option<Ray>, Color)
+    pub fn scatter(&self, ray: &Ray, intersection: &Intersection, _scatter_index: u16) -> (Option<Ray>, Color)
     {
         let outward_normal;
         let cosine;

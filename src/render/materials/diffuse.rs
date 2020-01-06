@@ -24,30 +24,15 @@ impl Default for Diffuse
 
 impl Diffuse
 {
-    pub fn new() -> Self
+    pub fn new(albedo: Color) -> Material
     {
-        Self::default()
-    }
-
-    pub fn from(albedo: Color) -> Self
-    {
-        Self
+        Material::Diffuse(Self
         {
             albedo
-        }
+        })
     }
 
-    pub fn set_albedo(mut self, color: Color) -> Self
-    {
-        self.albedo = color;
-        self
-    }
-}
-
-#[typetag::serde]
-impl Material for Diffuse
-{
-    fn scatter(&self, _ray: &Ray, intersection: &Intersection, _scatter_index: u16) -> (Option<Ray>, Color)
+    pub fn scatter(&self, _ray: &Ray, intersection: &Intersection, _scatter_index: u16) -> (Option<Ray>, Color)
     {
         let scatter_target = intersection.point + intersection.normal + Vec3::random_in_unit_sphere();
         let scattered_ray = Ray::new(intersection.point, (scatter_target - intersection.point).normalized());

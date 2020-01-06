@@ -1,3 +1,5 @@
+use serde::{ Serialize, Deserialize };
+
 use super::math;
 use super::materials;
 use super::math::Ray;
@@ -7,9 +9,27 @@ use super::materials::Material;
 pub mod sphere;
 pub use sphere::Sphere;
 
-#[typetag::serde]
-pub trait Object: Sync
+#[derive(Serialize, Deserialize)]
+pub enum Object
 {
-    fn intersect(&self, ray: &Ray, min_length: f32, max_length: f32) -> Option<Intersection>;
-    fn get_material(&self) -> &dyn Material;
+    Sphere(Sphere)
+}
+
+impl Object
+{
+    pub fn intersect(&self, ray: &Ray, min_length: f32, max_length: f32) -> Option<Intersection>
+    {
+        match &self
+        {
+            Self::Sphere(sphere) => sphere.intersect(ray, min_length, max_length)
+        }
+    }
+
+    pub fn get_material(&self) -> &Material
+    {
+        match &self
+        {
+            Self::Sphere(sphere) => sphere.get_material()
+        }
+    }
 }

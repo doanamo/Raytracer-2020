@@ -8,7 +8,7 @@ use super::objects::Object;
 pub struct Scene
 {
     pub camera: camera::Parameters,
-    objects: Vec<Box<dyn Object>>
+    objects: Vec<Object>
 }
 
 impl Scene
@@ -24,15 +24,15 @@ impl Scene
         self
     }
 
-    pub fn add_object<ObjectType: Object + 'static>(mut self, object: ObjectType) -> Self
+    pub fn add_object(mut self, object: Object) -> Self
     {
-        self.objects.push(Box::new(object));
+        self.objects.push(object);
         self
     }
 
-    pub fn intersect(&self, ray: &Ray, min_length: f32, max_length: f32) -> Option<(Intersection, &dyn Object)>
+    pub fn intersect(&self, ray: &Ray, min_length: f32, max_length: f32) -> Option<(Intersection, &Object)>
     {
-        let mut closest_intersection: Option<(Intersection, &dyn Object)> = None;
+        let mut closest_intersection: Option<(Intersection, &Object)> = None;
         let mut closest_length = max_length;
 
         for object in &self.objects
@@ -40,7 +40,7 @@ impl Scene
             if let Some(intersection) = object.intersect(ray, min_length, closest_length)
             {
                 closest_length = intersection.length;
-                closest_intersection = Some((intersection, object.as_ref()));
+                closest_intersection = Some((intersection, &object));
             }
         }
 

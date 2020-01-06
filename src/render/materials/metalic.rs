@@ -26,37 +26,16 @@ impl Default for Metalic
 
 impl Metalic
 {
-    pub fn new() -> Self
+    pub fn new(albedo: Color, roughness: f32) -> Material
     {
-        Self::default()
-    }
-
-    pub fn from(albedo: Color, roughness: f32) -> Self
-    {
-        Self
+        Material::Metalic(Self
         {
             albedo,
             roughness
-        }
+        })
     }
 
-    pub fn set_albedo(mut self, color: Color) -> Self
-    {
-        self.albedo = color;
-        self
-    }
-
-    pub fn set_roughness(mut self, roughness: f32) -> Self
-    {
-        self.roughness = roughness;
-        self
-    }
-}
-
-#[typetag::serde]
-impl Material for Metalic
-{
-    fn scatter(&self, ray: &Ray, intersection: &Intersection, _scatter_index: u16) -> (Option<Ray>, Color)
+    pub fn scatter(&self, ray: &Ray, intersection: &Intersection, _scatter_index: u16) -> (Option<Ray>, Color)
     {
         let reflection_rougness = Vec3::random_in_unit_sphere() * self.roughness;
         let reflected_dir = (ray.direction.reflected(intersection.normal) + reflection_rougness).normalized();

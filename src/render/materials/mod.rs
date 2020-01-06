@@ -1,3 +1,5 @@
+use serde::{ Serialize, Deserialize };
+
 use super::math;
 use super::math::Ray;
 use super::math::Color;
@@ -12,8 +14,25 @@ pub use metalic::Metalic;
 pub mod refractive;
 pub use refractive::Refractive;
 
-#[typetag::serde]
-pub trait Material: Sync
+#[derive(Serialize, Deserialize)]
+pub enum Material
 {
-    fn scatter(&self, ray: &Ray, intersection: &Intersection, scatter_index: u16) -> (Option<Ray>, Color);
+    Diffuse(Diffuse),
+    Normals(Normals),
+    Metalic(Metalic),
+    Refractive(Refractive)
+}
+
+impl Material
+{
+    pub fn scatter(&self, ray: &Ray, intersection: &Intersection, scatter_index: u16) -> (Option<Ray>, Color)
+    {
+        match &self
+        {
+            Self::Diffuse(diffuse) => diffuse.scatter(ray, intersection, scatter_index),
+            Self::Normals(normals) => normals.scatter(ray, intersection, scatter_index),
+            Self::Metalic(metalic) => metalic.scatter(ray, intersection, scatter_index),
+            Self::Refractive(refractive) => refractive.scatter(ray, intersection, scatter_index)
+        }
+    }
 }

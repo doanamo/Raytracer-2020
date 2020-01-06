@@ -13,8 +13,8 @@ pub struct Renderer<'a>
     parameters: Option<&'a Parameters>,
     scene: Option<&'a Scene>,
 
-    debug_diffuse_material: materials::Diffuse,
-    debug_normals_material: materials::Normals
+    debug_diffuse_material: materials::Material,
+    debug_normals_material: materials::Material
 }
 
 impl<'a> Default for Renderer<'a>
@@ -26,7 +26,7 @@ impl<'a> Default for Renderer<'a>
             parameters: None,
             scene: None,
 
-            debug_diffuse_material: materials::Diffuse::from(Color::new(0.5, 0.5, 0.5, 1.0)),
+            debug_diffuse_material: materials::Diffuse::new(Color::new(0.5, 0.5, 0.5, 1.0)),
             debug_normals_material: materials::Normals::new()
         }
     }
@@ -163,9 +163,9 @@ impl<'a> Renderer<'a>
             
             let material = match parameters.debug_mode
             {
-                None => object.get_material(),
                 Some(DebugMode::Diffuse) => &self.debug_diffuse_material,
                 Some(DebugMode::Normals) => &self.debug_normals_material,
+                None => object.get_material()
             };
             
             let (scattered_ray, attenuation) = material.scatter(&ray, &intersection, scatter_index);
