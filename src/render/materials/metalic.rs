@@ -26,6 +26,7 @@ impl Default for Metalic
 
 impl Metalic
 {
+    #[allow(clippy::new_ret_no_self)]
     pub fn new(albedo: Color, roughness: f32) -> Material
     {
         Material::Metalic(Self
@@ -35,7 +36,7 @@ impl Metalic
         })
     }
 
-    pub fn scatter(&self, ray: &Ray, intersection: &Intersection, _scatter_index: u16) -> (Option<Ray>, Color)
+    pub fn scatter(&self, ray: &Ray, intersection: &Intersection) -> (Option<Ray>, Color)
     {
         let reflection_rougness = Vec3::random_in_unit_sphere() * self.roughness;
         let reflected_dir = (ray.direction.reflected(intersection.normal) + reflection_rougness).normalized();

@@ -16,6 +16,7 @@ pub struct Sphere
 
 impl Sphere
 {
+    #[allow(clippy::new_ret_no_self)]
     pub fn new(center: Vec3, radius: f32, material: Material) -> Object
     {
         Object::Sphere(Self
@@ -25,7 +26,7 @@ impl Sphere
                 center,
                 radius
             },
-            material: material
+            material
         })
     }
 }

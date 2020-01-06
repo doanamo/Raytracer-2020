@@ -24,6 +24,7 @@ impl Default for Diffuse
 
 impl Diffuse
 {
+    #[allow(clippy::new_ret_no_self)]
     pub fn new(albedo: Color) -> Material
     {
         Material::Diffuse(Self
@@ -32,7 +33,7 @@ impl Diffuse
         })
     }
 
-    pub fn scatter(&self, _ray: &Ray, intersection: &Intersection, _scatter_index: u16) -> (Option<Ray>, Color)
+    pub fn scatter(&self, intersection: &Intersection) -> (Option<Ray>, Color)
     {
         let scatter_target = intersection.point + intersection.normal + Vec3::random_in_unit_sphere();
         let scattered_ray = Ray::new(intersection.point, (scatter_target - intersection.point).normalized());

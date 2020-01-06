@@ -25,6 +25,7 @@ impl Default for Refractive
 
 impl Refractive
 {
+    #[allow(clippy::new_ret_no_self)]
     pub fn new(albedo: Color, refractive_index: f32) -> Material
     {
         Material::Refractive(Self
@@ -34,7 +35,7 @@ impl Refractive
         })
     }
 
-    pub fn scatter(&self, ray: &Ray, intersection: &Intersection, _scatter_index: u16) -> (Option<Ray>, Color)
+    pub fn scatter(&self, ray: &Ray, intersection: &Intersection) -> (Option<Ray>, Color)
     {
         let outward_normal;
         let cosine;

@@ -29,10 +29,10 @@ impl Material
     {
         match &self
         {
-            Self::Diffuse(diffuse) => diffuse.scatter(ray, intersection, scatter_index),
-            Self::Normals(normals) => normals.scatter(ray, intersection, scatter_index),
-            Self::Metalic(metalic) => metalic.scatter(ray, intersection, scatter_index),
-            Self::Refractive(refractive) => refractive.scatter(ray, intersection, scatter_index)
+            Self::Diffuse(diffuse) => diffuse.scatter(intersection),
+            Self::Normals(_normals) => Normals::scatter(intersection, scatter_index),
+            Self::Metalic(metalic) => metalic.scatter(ray, intersection),
+            Self::Refractive(refractive) => refractive.scatter(ray, intersection)
         }
     }
 }
