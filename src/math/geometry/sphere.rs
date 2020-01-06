@@ -11,6 +11,18 @@ pub struct Sphere
     pub radius: f32
 }
 
+impl Sphere
+{
+    pub fn new(center: Vec3, radius: f32) -> Self
+    {
+        Self
+        {
+            center,
+            radius
+        }
+    }
+}
+
 impl Intersectable for Sphere
 {
     fn intersect(&self, ray: &Ray) -> Option<Intersection>
