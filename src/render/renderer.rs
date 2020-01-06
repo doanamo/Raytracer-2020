@@ -98,30 +98,38 @@ impl<'a> Renderer<'a>
         let mut image_pixels: Vec<Color> = Vec::with_capacity(image_pixel_count);
         image_pixels.resize(image_pixel_count, Color::new(0.0, 0.0, 0.0, 0.0));
 
-        let stats_sum: Statistics = image_pixels.par_iter_mut().enumerate().map(|(index, pixel)|
+        let per_thread_chunk_size = 1; //image_pixel_count / rayon::current_num_threads();
+        let accumulated_stats: Statistics = image_pixels.par_chunks_mut(per_thread_chunk_size).enumerate().map(|(chunk_index, chunk)|
         {
-            let mut stats = Statistics::new_pixel();
+            let mut chunk_stats = Statistics::new();
 
-            let x = index % parameters.image_width as usize;
-            let y = index / parameters.image_width as usize;
-
-            let mut accumulated_color = Color::new(0.0, 0.0, 0.0, 0.0);
-
-            for (offset_u, offset_v) in &antialias_kernel
+            chunk.iter_mut().enumerate().for_each(|(pixel_index, pixel)|
             {
-                let u = (x as f32 + offset_u) * image_width_inv as f32;
-                let v = (y as f32 + offset_v) * image_height_inv as f32;
+                let mut pixel_stats = Statistics::new_pixel();
+
+                let x = (per_thread_chunk_size * chunk_index + pixel_index) % parameters.image_width as usize;
+                let y = (per_thread_chunk_size * chunk_index + pixel_index) / parameters.image_width as usize;
+
+                let mut accumulated_color = Color::new(0.0, 0.0, 0.0, 0.0);
+
+                for (offset_u, offset_v) in &antialias_kernel
+                {
+                    let u = (x as f32 + offset_u) * image_width_inv as f32;
+                    let v = (y as f32 + offset_v) * image_height_inv as f32;
+                    
+                    let sample = self.sample(camera.calculate_ray(u, v), 0, &mut pixel_stats);
+                    debug_assert!(sample.is_valid());
+
+                    accumulated_color += sample;
+                }
+
+                *pixel = accumulated_color / antialias_subpixel_count as f32;
                 
-                let sample = self.sample(camera.calculate_ray(u, v), 0, &mut stats);
-                debug_assert!(sample.is_valid());
+                pixel_stats.subpixels += antialias_subpixel_count;
+                chunk_stats = chunk_stats.accumulated(&pixel_stats);
+            });
 
-                accumulated_color += sample;
-            }
-
-            *pixel = accumulated_color / antialias_subpixel_count as f32;
-            
-            stats.subpixels += antialias_subpixel_count;
-            stats
+            chunk_stats
         }).sum();
 
         // Perform gamma correction on color values.
@@ -139,7 +147,7 @@ impl<'a> Renderer<'a>
 
         // Print render statistics.
         println!("Rendered image in {} seconds.", begin_time.elapsed().as_secs_f32());
-        stats_sum.print();
+        accumulated_stats.print();
 
         // Return image with rendered pixel data.
         image::Surface::from(parameters.image_width, parameters.image_height, image_pixels)

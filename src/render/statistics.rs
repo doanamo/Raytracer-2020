@@ -46,6 +46,19 @@ impl Statistics
         }
     }
 
+    pub fn accumulated(&self, other: &Self) -> Self
+    {
+        Self
+        {
+            pixels: self.pixels + other.pixels,
+            subpixels: self.subpixels + other.subpixels,
+            samples: self.samples + other.samples,
+            intersections: self.intersections + other.intersections,
+            scatters: self.scatters + other.scatters,
+            max_scatters: self.max_scatters.max(other.max_scatters)
+        }
+    }
+
     pub fn print(&self)
     {
         println!("Printing render statistics:");
@@ -63,15 +76,7 @@ impl iter::Sum<Self> for Statistics
     {
         iterator.fold(Self::new(), |a, b|
         {
-            Self
-            {
-                pixels: a.pixels + b.pixels,
-                subpixels: a.subpixels + b.subpixels,
-                samples: a.samples + b.samples,
-                intersections: a.intersections + b.intersections,
-                scatters: a.scatters + b.scatters,
-                max_scatters: std::cmp::max(a.max_scatters, b.max_scatters)
-            }
+            a.accumulated(&b)
         })
     }
 }
