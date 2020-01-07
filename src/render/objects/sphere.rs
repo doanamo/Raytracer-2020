@@ -35,15 +35,7 @@ impl Sphere
 {
     pub fn intersect(&self, ray: &Ray, min_length: f32, max_length: f32) -> Option<Intersection>
     {
-        if let Some(intersection) = ray.intersect(&self.shape)
-        {
-            if min_length < intersection.length && intersection.length < max_length
-            {
-                return Some(intersection);
-            }
-        }
-
-        None
+        ray.intersect(&self.shape, min_length, max_length)
     }
 
     pub fn get_material(&self) -> &Material

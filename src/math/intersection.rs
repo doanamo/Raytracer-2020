@@ -10,5 +10,5 @@ pub struct Intersection
 
 pub trait Intersectable
 {
-    fn intersect(&self, ray: &Ray) -> Option<Intersection>;
+    fn intersect(&self, ray: &Ray, min_length: f32, max_length: f32) -> Option<Intersection>;
 }

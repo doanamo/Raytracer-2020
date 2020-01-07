@@ -38,9 +38,9 @@ impl Ray
     }
 
     #[inline]
-    pub fn intersect(&self, intersectable: &dyn Intersectable) -> Option<Intersection>
+    pub fn intersect(&self, intersectable: &dyn Intersectable, min_length: f32, max_length: f32) -> Option<Intersection>
     {
-        intersectable.intersect(self)
+        intersectable.intersect(self, min_length, max_length)
     }
 
     #[inline]

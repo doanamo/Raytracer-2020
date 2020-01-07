@@ -25,7 +25,7 @@ impl Sphere
 
 impl Intersectable for Sphere
 {
-    fn intersect(&self, ray: &Ray) -> Option<Intersection>
+    fn intersect(&self, ray: &Ray, min_length: f32, max_length: f32) -> Option<Intersection>
     {
         // Implementation based on: http://viclw17.github.io/2018/07/16/raytracing-ray-sphere-intersection/
         // See comment from "T Jank" that explains and fixes a bug in the original implementation.
@@ -37,16 +37,14 @@ impl Intersectable for Sphere
         let a = ray.direction.dot(ray.direction);
         let b = 2.0 * oc.dot(ray.direction);
         let c = oc.dot(oc) - self.radius * self.radius;
-
-        let (t0, t1) = (b * b, 4.0 * a * c);
-        let discriminant = t0 - t1;
+        let discriminant = b * b - 4.0 * a * c;
 
         if discriminant >= 0.0
         {
             {
                 let r1 = -b - discriminant.sqrt();
                 
-                if r1 > 0.0
+                if min_length < r1 && r1 < max_length
                 {
                     let ray_length = r1 / (2.0 * a);
                     let intersection_point = ray.point_at(ray_length);
@@ -63,7 +61,7 @@ impl Intersectable for Sphere
             {
                 let r2 = -b + discriminant.sqrt();
 
-                if r2 > 0.0
+                if min_length < r2 && r2 < max_length
                 {
                     let ray_length = r2 / (2.0 * a);
                     let intersection_point = ray.point_at(ray_length);
