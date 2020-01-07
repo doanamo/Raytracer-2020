@@ -12,6 +12,7 @@ pub struct Vec3
 
 impl Vec3
 {
+    #[inline]
     pub fn new(x: f32, y: f32, z: f32) -> Self
     {
         Self
@@ -22,21 +23,25 @@ impl Vec3
         }
     }
 
+    #[inline]
     pub fn forward() -> Self
     {
         Self::new(0.0, 1.0, 0.0)
     }
 
+    #[inline]
     pub fn right() -> Self
     {
         Self::new(1.0, 0.0, 0.0)
     }
 
+    #[inline]
     pub fn up() -> Self
     {
         Self::new(0.0, 0.0, 1.0)
     }
 
+    #[inline]
     pub fn random_direction() -> Self
     {
         let z = 2.0 * rand::random::<f32>() - 1.0;
@@ -50,6 +55,7 @@ impl Vec3
         }
     }
 
+    #[inline]
     pub fn random_in_unit_sphere() -> Self
     {
         loop
@@ -63,6 +69,7 @@ impl Vec3
         }
     }
 
+    #[inline]
     pub fn random_in_unit_disc() -> Self
     {
         loop
@@ -76,11 +83,13 @@ impl Vec3
         }
     }
 
+    #[inline]
     pub fn dot(self, other: Self) -> f32
     {
         self.x * other.x + self.y * other.y + self.z * other.z
     }
 
+    #[inline]
     pub fn cross(self, other: Self) -> Self
     {
         Self
@@ -91,27 +100,32 @@ impl Vec3
         }
     }
 
+    #[inline]
     pub fn length_sqr(self) -> f32
     {
         self.dot(self)
     }
 
+    #[inline]
     pub fn length(self) -> f32
     {
         self.length_sqr().sqrt()
     }
 
+    #[inline]
     pub fn normalized(self) -> Self
     {
         self / self.length()
     }
 
+    #[inline]
     pub fn reflected(self, normal: Self) -> Self
     {
         debug_assert!(normal.is_unit());
         self - normal * 2.0 * self.dot(normal)
     }
 
+    #[inline]
     pub fn refracted(self, normal: Self, eta: f32) -> Option<Self>
     {
         debug_assert!(self.is_unit());
@@ -132,6 +146,7 @@ impl Vec3
         }
     }
 
+    #[inline]
     pub fn is_unit(self) -> bool
     {
         (self.length_sqr() - 1.0).abs() < 0.0001

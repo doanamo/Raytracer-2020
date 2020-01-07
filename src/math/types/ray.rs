@@ -12,6 +12,7 @@ pub struct Ray
 
 impl Default for Ray
 {
+    #[inline]
     fn default() -> Self
     {
         Self
@@ -24,6 +25,7 @@ impl Default for Ray
 
 impl Ray
 {
+    #[inline]
     pub fn new(origin: Vec3, direction: Vec3) -> Self
     {
         debug_assert!(direction.is_unit());
@@ -35,11 +37,13 @@ impl Ray
         }
     }
 
+    #[inline]
     pub fn intersect(&self, intersectable: &dyn Intersectable) -> Option<Intersection>
     {
         intersectable.intersect(self)
     }
 
+    #[inline]
     pub fn point_at(&self, length: f32) -> Vec3
     {
         debug_assert!(length >= 0.0);
@@ -48,6 +52,7 @@ impl Ray
         self.origin + self.direction * length
     }
 
+    #[inline]
     pub fn is_valid(&self) -> bool
     {
         self.direction.is_unit()
@@ -56,6 +61,7 @@ impl Ray
 
 impl cmp::PartialEq for Ray
 {
+    #[inline]
     fn eq(&self, other: &Self) -> bool
     {
         self.origin == other.origin &&

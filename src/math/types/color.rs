@@ -12,6 +12,7 @@ pub struct Color
 
 impl Default for Color
 {
+    #[inline]
     fn default() -> Self
     {
         Self::new(0.0, 0.0, 0.0, 1.0)
@@ -20,6 +21,7 @@ impl Default for Color
 
 impl Color
 {
+    #[inline]
     pub fn new(red: f32, green: f32, blue: f32, alpha: f32) -> Self
     {
         Self
@@ -31,6 +33,7 @@ impl Color
         }
     }
 
+    #[inline]
     pub fn zero() -> Self
     {
         Self
@@ -42,6 +45,7 @@ impl Color
         }
     }
 
+    #[inline]
     pub fn white() -> Self
     {
         Self
@@ -53,6 +57,7 @@ impl Color
         }
     }
 
+    #[inline]
     pub fn black() -> Self
     {
         Self
@@ -64,6 +69,7 @@ impl Color
         }
     }
 
+    #[inline]
     pub fn red() -> Self
     {
         Self
@@ -75,6 +81,7 @@ impl Color
         }
     }
 
+    #[inline]
     pub fn green() -> Self
     {
         Self
@@ -86,6 +93,7 @@ impl Color
         }
     }
 
+    #[inline]
     pub fn blue() -> Self
     {
         Self
@@ -97,6 +105,7 @@ impl Color
         }
     }
 
+    #[inline]
     #[allow(clippy::cast_sign_loss)]
     #[allow(clippy::cast_possible_truncation)]
     pub fn as_quantized_u8_array(&self) -> [u8; 4]
@@ -111,6 +120,7 @@ impl Color
         ]
     }
 
+    #[inline]
     pub fn add_rgb(self, color: Self) -> Self
     {
         Self
@@ -122,6 +132,7 @@ impl Color
         }
     }
 
+    #[inline]
     pub fn sub_rgb(self, color: Self) -> Self
     {
         Self
@@ -133,6 +144,7 @@ impl Color
         }
     }
     
+    #[inline]
     pub fn mul_rgb(self, value: f32) -> Self
     {
         Self
@@ -144,6 +156,7 @@ impl Color
         }
     }
 
+    #[inline]
     pub fn div_rgb(self, value: f32) -> Self
     {
         Self
@@ -155,6 +168,7 @@ impl Color
         }
     }
 
+    #[inline]
     pub fn clamped(self) -> Self
     {
         Self
@@ -166,6 +180,7 @@ impl Color
         }
     }
 
+    #[inline]
     pub fn is_valid(&self) -> bool
     {
         if self.r < 0.0 || 1.0 < self.r
@@ -194,6 +209,7 @@ impl Color
 
 impl cmp::PartialEq for Color
 {
+    #[inline]
     fn eq(&self, other: &Self) -> bool
     {
         self.r == other.r &&
@@ -207,6 +223,7 @@ impl ops::Add<Color> for Color
 {
     type Output = Self;
 
+    #[inline]
     fn add(self, other: Self) -> Self
     {
         Self
@@ -223,6 +240,7 @@ impl ops::Sub<Color> for Color
 {
     type Output = Self;
 
+    #[inline]
     fn sub(self, other: Self) -> Self
     {
         Self
@@ -239,6 +257,7 @@ impl ops::Mul<Color> for Color
 {
     type Output = Self;
 
+    #[inline]
     fn mul(self, other: Self) -> Self
     {
         Self
@@ -255,6 +274,7 @@ impl ops::Div<Color> for Color
 {
     type Output = Self;
 
+    #[inline]
     fn div(self, other: Self) -> Self
     {
         Self
@@ -271,6 +291,7 @@ impl ops::Mul<f32> for Color
 {
     type Output = Self;
 
+    #[inline]
     fn mul(self, value: f32) -> Self
     {
         Self
@@ -287,6 +308,7 @@ impl ops::Div<f32> for Color
 {
     type Output = Self;
 
+    #[inline]
     fn div(self, value: f32) -> Self
     {
         Self
@@ -301,6 +323,7 @@ impl ops::Div<f32> for Color
 
 impl ops::AddAssign for Color
 {
+    #[inline]
     fn add_assign(&mut self, other: Self)
     {
         self.r += other.r;

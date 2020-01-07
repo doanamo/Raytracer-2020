@@ -10,6 +10,7 @@ pub struct Vec2
 
 impl Vec2
 {
+    #[inline]
     pub fn new(x: f32, y: f32) -> Self
     {
         Self
@@ -19,6 +20,7 @@ impl Vec2
         }
     }
 
+    #[inline]
     pub fn random_direction() -> Self
     {
         let azimuth = rand::random::<f32>() * 2.0 * std::f32::consts::PI;
@@ -30,31 +32,37 @@ impl Vec2
         }
     }
 
+    #[inline]
     pub fn dot(self, other: Self) -> f32
     {
         self.x * other.x + self.y * other.y
     }
 
+    #[inline]
     pub fn cross(self, other: Self) -> f32
     {
         self.x * other.y - self.y * other.x
     }
 
+    #[inline]
     pub fn length_sqr(self) -> f32
     {
         self.dot(self)
     }
 
+    #[inline]
     pub fn length(self) -> f32
     {
         self.length_sqr().sqrt()
     }
 
+    #[inline]
     pub fn normalized(self) -> Self
     {
         self / self.length()
     }
 
+    #[inline]
     pub fn is_unit(self) -> bool
     {
         (self.length_sqr() - 1.0).abs() < 0.0001
@@ -63,6 +71,7 @@ impl Vec2
 
 impl cmp::PartialEq for Vec2
 {
+    #[inline]
     fn eq(&self, other: &Self) -> bool
     {
         self.x == other.x &&
@@ -74,6 +83,7 @@ impl ops::Add<Vec2> for Vec2
 {
     type Output = Self;
 
+    #[inline]
     fn add(self, other: Self) -> Self
     {
         Self
@@ -88,6 +98,7 @@ impl ops::Sub<Vec2> for Vec2
 {
     type Output = Self;
 
+    #[inline]
     fn sub(self, other: Self) -> Self
     {
         Self
@@ -102,6 +113,7 @@ impl ops::Mul<f32> for Vec2
 {
     type Output = Self;
 
+    #[inline]
     fn mul(self, other: f32) -> Self
     {
         Self
@@ -116,6 +128,7 @@ impl ops::Div<f32> for Vec2
 {
     type Output = Self;
 
+    #[inline]
     fn div(self, other: f32) -> Self
     {
         Self
