@@ -1,7 +1,5 @@
 use std::cmp;
 use super::vec3::Vec3;
-use super::intersection::Intersectable;
-use super::intersection::Intersection;
 
 #[derive(Debug, Copy, Clone)]
 pub struct Ray
@@ -35,12 +33,6 @@ impl Ray
             origin,
             direction,
         }
-    }
-
-    #[inline]
-    pub fn intersect(&self, intersectable: &dyn Intersectable, min_length: f32, max_length: f32) -> Option<Intersection>
-    {
-        intersectable.intersect(self, min_length, max_length)
     }
 
     #[inline]

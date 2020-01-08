@@ -4,6 +4,7 @@ use super::math;
 use super::materials;
 use super::math::Ray;
 use super::math::Intersection;
+use super::math::Intersectable;
 use super::materials::Material;
 
 pub mod sphere;
@@ -21,7 +22,7 @@ impl Object
     {
         match &self
         {
-            Self::Sphere(sphere) => sphere.intersect(ray, min_length, max_length)
+            Self::Sphere(sphere) => sphere.shape.intersect(ray, min_length, max_length)
         }
     }
 
@@ -29,7 +30,7 @@ impl Object
     {
         match &self
         {
-            Self::Sphere(sphere) => sphere.get_material()
+            Self::Sphere(sphere) => &sphere.material
         }
     }
 }

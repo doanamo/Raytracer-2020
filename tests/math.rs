@@ -5,6 +5,7 @@ mod math
     use std::fs::OpenOptions;
     use serde::Serialize;
     use raytracer::math;
+    use raytracer::math::Intersectable;
 
     #[test]
     fn intersect_ray_sphere()
@@ -12,14 +13,14 @@ mod math
         let sphere = math::Sphere::new(math::Vec3::new(0.0, 10.0, 0.0), 1.0);
         
         let ray_forward = math::Ray::new(math::Vec3::new(0.0, 2.0, 0.0), math::Vec3::new(0.0, 1.0, 0.0));
-        let intersection = ray_forward.intersect(&sphere).unwrap();
+        let intersection = sphere.intersect(&ray_forward, 0.0001, std::f32::MAX).unwrap();
         
         assert_eq!(intersection.point, math::Vec3::new(0.0, 9.0, 0.0));
         assert_eq!(intersection.normal, math::Vec3::new(0.0, -1.0, 0.0));
         assert_eq!(intersection.length, 7.0);
 
         let ray_backward = math::Ray::new(math::Vec3::new(0.0, 2.0, 0.0), math::Vec3::new(0.0, -1.0, 0.0));
-        assert!(ray_backward.intersect(&sphere).is_none());
+        assert!(sphere.intersect(&ray_backward, 0.0001, std::f32::MAX).is_none());
     }
 
     #[test]

@@ -1,7 +1,5 @@
 use serde::{ Serialize, Deserialize };
 use super::math::Vec3;
-use super::math::Ray;
-use super::math::Intersection;
 use super::math::geometry;
 use super::materials::Material;
 use super::Object;
@@ -28,18 +26,5 @@ impl Sphere
             },
             material
         })
-    }
-}
-
-impl Sphere
-{
-    pub fn intersect(&self, ray: &Ray, min_length: f32, max_length: f32) -> Option<Intersection>
-    {
-        ray.intersect(&self.shape, min_length, max_length)
-    }
-
-    pub fn get_material(&self) -> &Material
-    {
-        &self.material
     }
 }
