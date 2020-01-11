@@ -110,7 +110,7 @@ impl<'a> Renderer<'a>
             chunk.iter_mut().enumerate().for_each(|(pixel_index, pixel)|
             {
             */
-            
+
                 let mut pixel_stats = Statistics::new_pixel();
 
                 let x = (/* per_thread_chunk_size * chunk_index + */ pixel_index) % parameters.image_width as usize;
@@ -182,9 +182,9 @@ impl<'a> Renderer<'a>
             
             let material = match parameters.debug_mode
             {
+                None => object.get_material(),
                 Some(DebugMode::Diffuse) => &self.debug_diffuse_material,
-                Some(DebugMode::Normals) => &self.debug_normals_material,
-                None => object.get_material()
+                Some(DebugMode::Normals) => &self.debug_normals_material
             };
             
             let (scattered_ray, attenuation) = material.scatter(&ray, &intersection, scatter_index);
@@ -205,13 +205,13 @@ impl<'a> Renderer<'a>
         {
             match parameters.debug_mode
             {
-                Some(DebugMode::Diffuse) => Color::new(0.5, 0.5, 0.5, 1.0),
-                Some(DebugMode::Normals) => Color::new(0.5, 0.0, 0.5, 1.0),
                 None =>
                 {
                     let alpha = (ray.direction.get_z() + 1.0) * 0.5;
                     Color::new(1.0, 1.0, 1.0, 1.0).mul_rgb(1.0 - alpha).add_rgb(Color::new(0.5, 0.7, 1.0, 1.0).mul_rgb(alpha))
-                }
+                },
+                Some(DebugMode::Diffuse) => Color::new(0.5, 0.5, 0.5, 1.0),
+                Some(DebugMode::Normals) => Color::new(0.5, 0.0, 0.5, 1.0)
             }
         }
     }
