@@ -98,17 +98,23 @@ impl<'a> Renderer<'a>
         let mut image_pixels: Vec<Color> = Vec::with_capacity(image_pixel_count);
         image_pixels.resize(image_pixel_count, Color::new(0.0, 0.0, 0.0, 0.0));
 
+        /* chunk rendering
         let per_thread_chunk_size = 1; //image_pixel_count / rayon::current_num_threads();
-        let accumulated_stats: Statistics = image_pixels.par_chunks_mut(per_thread_chunk_size).enumerate().map(|(chunk_index, chunk)|
-        {
-            let mut chunk_stats = Statistics::new();
+        let accumulated_stats: Statistics = image_pixels.par_chunk_mut(per_thread_chunk_size).enumerate().map(|(chunk_index, chunk)|
+        */
 
+        let accumulated_stats: Statistics = image_pixels.par_iter_mut().enumerate().map(|(pixel_index, pixel)|
+        {
+            /* chunk rendering
+            let mut chunk_stats = Statistics::new();
             chunk.iter_mut().enumerate().for_each(|(pixel_index, pixel)|
             {
+            */
+            
                 let mut pixel_stats = Statistics::new_pixel();
 
-                let x = (per_thread_chunk_size * chunk_index + pixel_index) % parameters.image_width as usize;
-                let y = (per_thread_chunk_size * chunk_index + pixel_index) / parameters.image_width as usize;
+                let x = (/* per_thread_chunk_size * chunk_index + */ pixel_index) % parameters.image_width as usize;
+                let y = (/* per_thread_chunk_size * chunk_index + */ pixel_index) / parameters.image_width as usize;
 
                 let mut accumulated_color = Color::new(0.0, 0.0, 0.0, 0.0);
 
@@ -126,10 +132,15 @@ impl<'a> Renderer<'a>
                 *pixel = accumulated_color / antialias_subpixel_count as f32;
                 
                 pixel_stats.subpixels += antialias_subpixel_count;
+
+            /* chunk rendering
                 chunk_stats = chunk_stats.accumulated(&pixel_stats);
             });
 
             chunk_stats
+            */
+
+            pixel_stats
         }).sum();
 
         // Perform gamma correction on color values.
