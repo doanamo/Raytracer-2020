@@ -39,6 +39,8 @@ impl Scene
         {
             if let Some(intersection) = object.intersect(ray, min_length, closest_length)
             {
+                debug_assert!(intersection.length <= closest_length);
+
                 closest_length = intersection.length;
                 closest_intersection = Some((intersection, &object));
             }

@@ -42,35 +42,33 @@ impl Intersectable for Sphere
         if discriminant >= 0.0
         {
             {
-                let r1 = -b - discriminant.sqrt();
+                let r1 = (-b - discriminant.sqrt()) / (2.0 * a);
                 
                 if min_length < r1 && r1 < max_length
                 {
-                    let ray_length = r1 / (2.0 * a);
-                    let intersection_point = ray.point_at(ray_length);
+                    let intersection_point = ray.point_at(r1);
 
                     return Some(Intersection
                     {
                         point: intersection_point,
                         normal: (intersection_point - self.center) / self.radius,
-                        length: ray_length
+                        length: r1
                     });
                 }
             }
 
             {
-                let r2 = -b + discriminant.sqrt();
+                let r2 = (-b + discriminant.sqrt()) / (2.0 * a);
 
                 if min_length < r2 && r2 < max_length
                 {
-                    let ray_length = r2 / (2.0 * a);
-                    let intersection_point = ray.point_at(ray_length);
+                    let intersection_point = ray.point_at(r2);
 
                     return Some(Intersection
                     {
                         point: intersection_point,
                         normal: (intersection_point - self.center) / self.radius,
-                        length: ray_length
+                        length: r2
                     });
                 }
             }
