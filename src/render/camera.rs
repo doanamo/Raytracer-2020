@@ -132,7 +132,7 @@ impl Compiled
     pub fn calculate_ray(&self, u: f32, v: f32) -> Ray
     {
         let random = Vec3::random_in_unit_disc() * self.aperture_radius;
-        let offset = self.right_direction * random.x + self.up_direction * random.y;
+        let offset = self.right_direction * random.get_x() + self.up_direction * random.get_y();
 
         let origin = self.origin + offset;
         let direction = self.near_plane_corner + self.near_plane_width * u + self.near_plane_height * v - self.origin - offset;

@@ -111,9 +111,9 @@ impl Serialize for Vec3
     fn serialize<T: Serializer>(&self, serializer: T) -> Result<T::Ok, T::Error>
     {
         let mut tuple = serializer.serialize_tuple(4)?;
-        tuple.serialize_element(&self.x)?;
-        tuple.serialize_element(&self.y)?;
-        tuple.serialize_element(&self.z)?;
+        tuple.serialize_element(&self.get_x())?;
+        tuple.serialize_element(&self.get_y())?;
+        tuple.serialize_element(&self.get_z())?;
         tuple.end()
     }
 }
@@ -147,11 +147,10 @@ impl<'de> Visitor<'de> for Vec3Visitor
 
     fn visit_seq<A: SeqAccess<'de>>(self, mut access: A) -> Result<Self::Value, A::Error>
     {
-        Ok(Vec3
-        {
-            x: access.next_element()?.ok_or_else(|| A::Error::invalid_length(1, &self))?,
-            y: access.next_element()?.ok_or_else(|| A::Error::invalid_length(2, &self))?,
-            z: access.next_element()?.ok_or_else(|| A::Error::invalid_length(3, &self))?
-        })
+        let x = access.next_element()?.ok_or_else(|| A::Error::invalid_length(1, &self))?;
+        let y = access.next_element()?.ok_or_else(|| A::Error::invalid_length(2, &self))?;
+        let z = access.next_element()?.ok_or_else(|| A::Error::invalid_length(3, &self))?;
+
+        Ok(Vec3::new(x, y, z))
     }
 }

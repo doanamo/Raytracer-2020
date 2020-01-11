@@ -21,7 +21,7 @@ impl Normals
     {
         debug_assert!(scatter_index == 0, "Did not expect debug material for normals to scatter!");
 
-        let normal_color = Color::new(intersection.normal.x + 1.0, intersection.normal.y + 1.0, intersection.normal.z + 1.0, 1.0).mul_rgb(0.5);
+        let normal_color = Color::new(intersection.normal.get_x() + 1.0, intersection.normal.get_y() + 1.0, intersection.normal.get_z() + 1.0, 1.0).mul_rgb(0.5);
 
         (None, normal_color)
     }
