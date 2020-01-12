@@ -1,4 +1,5 @@
 use super::vec2::Vec2;
+use rand::Rng;
 
 #[cfg(target_feature = "sse2")]
 pub use self::sse2::*;
@@ -618,9 +619,11 @@ macro_rules! vec3_shared
             #[inline]
             pub fn random_in_unit_sphere() -> Self
             {
+                let mut thread_rng = rand::thread_rng();
+
                 loop
                 {
-                    let point = Self::new(rand::random::<f32>(), rand::random::<f32>(), rand::random::<f32>()) * 2.0 - Self::new(1.0, 1.0, 1.0);
+                    let point = Self::new(thread_rng.gen::<f32>(), thread_rng.gen::<f32>(), thread_rng.gen::<f32>()) * 2.0 - Self::new(1.0, 1.0, 1.0);
 
                     if point.length_sqr() <= 1.0
                     {
@@ -632,9 +635,11 @@ macro_rules! vec3_shared
             #[inline]
             pub fn random_in_unit_disc() -> Self
             {
+                let mut thread_rng = rand::thread_rng();
+
                 loop
                 {
-                    let point = Self::new(rand::random::<f32>(), rand::random::<f32>(), 0.0) * 2.0 - Self::new(1.0, 1.0, 0.0);
+                    let point = Self::new(thread_rng.gen::<f32>(), thread_rng.gen::<f32>(), 0.0) * 2.0 - Self::new(1.0, 1.0, 0.0);
 
                     if point.length_sqr() <= 1.0
                     {
