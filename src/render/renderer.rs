@@ -1,5 +1,5 @@
 use rayon::prelude::*;
-use super::math::Color;
+use super::math::Vec4;
 use super::math::Ray;
 use super::image;
 use super::parameters::Parameters;
@@ -26,7 +26,7 @@ impl<'a> Default for Renderer<'a>
             parameters: None,
             scene: None,
 
-            debug_diffuse_material: materials::Diffuse::new(Color::new(0.5, 0.5, 0.5, 1.0)),
+            debug_diffuse_material: materials::Diffuse::new(Vec4::new(0.5, 0.5, 0.5, 1.0)),
             debug_normals_material: materials::Normals::new()
         }
     }
@@ -95,8 +95,8 @@ impl<'a> Renderer<'a>
         debug_assert!(antialias_kernel.len() == antialias_subpixel_count);
 
         // Render pixels in parallel and collect stats.
-        let mut image_pixels: Vec<Color> = Vec::with_capacity(image_pixel_count);
-        image_pixels.resize(image_pixel_count, Color::new(0.0, 0.0, 0.0, 0.0));
+        let mut image_pixels: Vec<Vec4> = Vec::with_capacity(image_pixel_count);
+        image_pixels.resize(image_pixel_count, Vec4::new(0.0, 0.0, 0.0, 0.0));
 
         /* chunk rendering
         let per_thread_chunk_size = 1; //image_pixel_count / rayon::current_num_threads();
@@ -116,7 +116,7 @@ impl<'a> Renderer<'a>
                 let x = (/* per_thread_chunk_size * chunk_index + */ pixel_index) % parameters.image_width as usize;
                 let y = (/* per_thread_chunk_size * chunk_index + */ pixel_index) / parameters.image_width as usize;
 
-                let mut accumulated_color = Color::new(0.0, 0.0, 0.0, 0.0);
+                let mut accumulated_color = Vec4::new(0.0, 0.0, 0.0, 0.0);
 
                 for (offset_u, offset_v) in &antialias_kernel
                 {
@@ -148,12 +148,12 @@ impl<'a> Renderer<'a>
 
         image_pixels.par_iter_mut().for_each(|pixel|
         {
-            pixel.r = pixel.r.powf(gamma_correction);
-            pixel.g = pixel.g.powf(gamma_correction);
-            pixel.b = pixel.b.powf(gamma_correction);
+            pixel.set_r(pixel.get_r().powf(gamma_correction));
+            pixel.set_g(pixel.get_g().powf(gamma_correction));
+            pixel.set_b(pixel.get_b().powf(gamma_correction));
             
             debug_assert!(pixel.is_valid());
-            debug_assert!((pixel.a - 1.0).abs() < std::f32::EPSILON);
+            debug_assert!((pixel.get_a() - 1.0).abs() < std::f32::EPSILON);
         });
 
         // Print render statistics.
@@ -164,14 +164,14 @@ impl<'a> Renderer<'a>
         image::Surface::from(parameters.image_width, parameters.image_height, image_pixels)
     }
 
-    fn sample(&self, ray: Ray, scatter_index: u16, stats: &mut Statistics) -> Color
+    fn sample(&self, ray: Ray, scatter_index: u16, stats: &mut Statistics) -> Vec4
     {
         let parameters = self.parameters.expect("Cannot render image without parameters!");
         let scene = self.scene.expect("Cannot render image without scene!");
 
         if scatter_index > parameters.scatter_limit
         {
-            return Color::black();
+            return Vec4::black();
         }
 
         stats.samples += 1;
@@ -208,10 +208,10 @@ impl<'a> Renderer<'a>
                 None =>
                 {
                     let alpha = (ray.direction.get_z() + 1.0) * 0.5;
-                    Color::new(1.0, 1.0, 1.0, 1.0).mul_rgb(1.0 - alpha).add_rgb(Color::new(0.5, 0.7, 1.0, 1.0).mul_rgb(alpha))
+                    Vec4::new(1.0, 1.0, 1.0, 1.0) * (1.0 - alpha) + Vec4::new(0.5, 0.7, 1.0, 1.0) * alpha
                 },
-                Some(DebugMode::Diffuse) => Color::new(0.5, 0.5, 0.5, 1.0),
-                Some(DebugMode::Normals) => Color::new(0.5, 0.0, 0.5, 1.0)
+                Some(DebugMode::Diffuse) => Vec4::new(0.5, 0.5, 0.5, 1.0),
+                Some(DebugMode::Normals) => Vec4::new(0.5, 0.0, 0.5, 1.0)
             }
         }
     }

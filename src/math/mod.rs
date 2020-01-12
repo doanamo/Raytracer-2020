@@ -1,7 +1,7 @@
 pub mod types;
-pub use types::color::Color;
 pub use types::vec2::Vec2;
 pub use types::vec3::Vec3;
+pub use types::vec4::Vec4;
 pub use types::ray::Ray;
 pub mod geometry;
 pub use geometry::sphere::Sphere;

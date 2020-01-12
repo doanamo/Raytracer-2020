@@ -2,7 +2,7 @@ mod image
 {
     use std::path::Path;
     use raytracer::image;
-    use raytracer::math;
+    use raytracer::math::Vec4;
 
     #[test]
     fn write_pnm()
@@ -13,13 +13,13 @@ mod image
             let _ = std::fs::remove_dir_all(directory);
             let _ = std::fs::create_dir_all(directory);
 
-            let mut pixels: Vec<math::Color> = Vec::with_capacity(16 * 16);
+            let mut pixels: Vec<Vec4> = Vec::with_capacity(16 * 16);
 
             for _x in 0..16
             {
                 for _y in 0..16
                 {
-                    pixels.push(math::Color::red());
+                    pixels.push(Vec4::red());
                 }
             }
     
@@ -43,13 +43,13 @@ mod image
             let _ = std::fs::remove_dir_all(directory);
             let _ = std::fs::create_dir_all(directory);
 
-            let mut pixels: Vec<math::Color> = Vec::with_capacity(16 * 16);
+            let mut pixels: Vec<Vec4> = Vec::with_capacity(16 * 16);
 
             for _x in 0..16
             {
                 for _y in 0..16
                 {
-                    pixels.push(math::Color::green());
+                    pixels.push(Vec4::green());
                 }
             }
 

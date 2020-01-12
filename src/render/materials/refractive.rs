@@ -1,5 +1,5 @@
 use serde::{ Serialize, Deserialize };
-use super::math::Color;
+use super::math::Vec4;
 use super::math::Ray;
 use super::math::Intersection;
 use super::Material;
@@ -7,7 +7,7 @@ use super::Material;
 #[derive(Serialize, Deserialize)]
 pub struct Refractive
 {
-    albedo: Color,
+    albedo: Vec4,
     refractive_index: f32
 }
 
@@ -17,7 +17,7 @@ impl Default for Refractive
     {
         Self
         {
-            albedo: Color::new(1.0, 1.0, 1.0, 1.0),
+            albedo: Vec4::new(1.0, 1.0, 1.0, 1.0),
             refractive_index: 0.0
         }
     }
@@ -26,7 +26,7 @@ impl Default for Refractive
 impl Refractive
 {
     #[allow(clippy::new_ret_no_self)]
-    pub fn new(albedo: Color, refractive_index: f32) -> Material
+    pub fn new(albedo: Vec4, refractive_index: f32) -> Material
     {
         Material::Refractive(Self
         {
@@ -35,7 +35,7 @@ impl Refractive
         })
     }
 
-    pub fn scatter(&self, ray: &Ray, intersection: &Intersection) -> (Option<Ray>, Color)
+    pub fn scatter(&self, ray: &Ray, intersection: &Intersection) -> (Option<Ray>, Vec4)
     {
         let outward_normal;
         let cosine;

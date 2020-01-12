@@ -1,8 +1,8 @@
 use serde::{ Serialize, Deserialize };
 
 use super::math;
+use super::math::Vec4;
 use super::math::Ray;
-use super::math::Color;
 use super::math::Intersection;
 
 pub mod diffuse;
@@ -25,7 +25,7 @@ pub enum Material
 
 impl Material
 {
-    pub fn scatter(&self, ray: &Ray, intersection: &Intersection, scatter_index: u16) -> (Option<Ray>, Color)
+    pub fn scatter(&self, ray: &Ray, intersection: &Intersection, scatter_index: u16) -> (Option<Ray>, Vec4)
     {
         match &self
         {

@@ -1,6 +1,7 @@
 mod examples
 {
-    use raytracer::math::{ Vec3, Color };
+    use raytracer::math::Vec3;
+    use raytracer::math::Vec4;
     use raytracer::image;
     use raytracer::render;
     use render::objects;
@@ -25,12 +26,12 @@ mod examples
         
         let scene = render::Scene::new()
             .set_camera(camera)
-            .add_object(objects::Sphere::new(Vec3::new(0.3, 0.5, -0.3), 0.2, materials::Refractive::new(Color::new(1.0, 1.0, 1.0, 1.0), 1.008)))
-            .add_object(objects::Sphere::new(Vec3::new(-0.3, 0.5, -0.3), -0.2, materials::Refractive::new(Color::new(1.0, 1.0, 1.0, 1.0), 1.3)))
-            .add_object(objects::Sphere::new(Vec3::new(0.0, 1.4, 0.0), 0.5, materials::Diffuse::new(Color::new(0.8, 0.3, 0.3, 1.0))))
-            .add_object(objects::Sphere::new(Vec3::new(0.8, 1.0, -0.1), 0.4, materials::Metalic::new(Color::new(0.8, 0.8, 0.8, 1.0), 0.0)))
-            .add_object(objects::Sphere::new(Vec3::new(-0.8, 1.0, -0.1), 0.4, materials::Metalic::new(Color::new(0.8, 0.8, 0.8, 1.0), 0.8)))
-            .add_object(objects::Sphere::new(Vec3::new(0.0, 1.0, -100.5), 100.0, materials::Diffuse::new(Color::new(0.8, 0.8, 0.0, 1.0))));
+            .add_object(objects::Sphere::new(Vec3::new(0.3, 0.5, -0.3), 0.2, materials::Refractive::new(Vec4::new(1.0, 1.0, 1.0, 1.0), 1.008)))
+            .add_object(objects::Sphere::new(Vec3::new(-0.3, 0.5, -0.3), -0.2, materials::Refractive::new(Vec4::new(1.0, 1.0, 1.0, 1.0), 1.3)))
+            .add_object(objects::Sphere::new(Vec3::new(0.0, 1.4, 0.0), 0.5, materials::Diffuse::new(Vec4::new(0.8, 0.3, 0.3, 1.0))))
+            .add_object(objects::Sphere::new(Vec3::new(0.8, 1.0, -0.1), 0.4, materials::Metalic::new(Vec4::new(0.8, 0.8, 0.8, 1.0), 0.0)))
+            .add_object(objects::Sphere::new(Vec3::new(-0.8, 1.0, -0.1), 0.4, materials::Metalic::new(Vec4::new(0.8, 0.8, 0.8, 1.0), 0.8)))
+            .add_object(objects::Sphere::new(Vec3::new(0.0, 1.0, -100.5), 100.0, materials::Diffuse::new(Vec4::new(0.8, 0.8, 0.0, 1.0))));
 
         let setup = render::Setup
         {
@@ -81,8 +82,8 @@ mod examples
         
         let scene = render::Scene::new()
             .set_camera(camera)
-            .add_object(objects::Sphere::new(Vec3::new(0.0, 0.5, -0.1), 0.4, materials::Diffuse::new(Color::new(0.8, 0.8, 0.8, 1.0))))
-            .add_object(objects::Sphere::new(Vec3::new(0.0, 1.0, -100.5), 100.0, materials::Diffuse::new(Color::new(0.8, 0.8, 0.8, 1.0))));
+            .add_object(objects::Sphere::new(Vec3::new(0.0, 0.5, -0.1), 0.4, materials::Diffuse::new(Vec4::new(0.8, 0.8, 0.8, 1.0))))
+            .add_object(objects::Sphere::new(Vec3::new(0.0, 1.0, -100.5), 100.0, materials::Diffuse::new(Vec4::new(0.8, 0.8, 0.8, 1.0))));
 
         let setup = render::Setup
         {
@@ -133,8 +134,8 @@ mod examples
         
         let scene = render::Scene::new()
             .set_camera(camera)
-            .add_object(objects::Sphere::new(Vec3::new(0.0, 0.5, -0.1), 0.4, materials::Diffuse::new(Color::new(0.8, 0.8, 0.8, 1.0))))
-            .add_object(objects::Sphere::new(Vec3::new(0.0, 1.0, -100.5), 100.0, materials::Diffuse::new(Color::new(0.8, 0.8, 0.8, 1.0))));
+            .add_object(objects::Sphere::new(Vec3::new(0.0, 0.5, -0.1), 0.4, materials::Diffuse::new(Vec4::new(0.8, 0.8, 0.8, 1.0))))
+            .add_object(objects::Sphere::new(Vec3::new(0.0, 1.0, -100.5), 100.0, materials::Diffuse::new(Vec4::new(0.8, 0.8, 0.8, 1.0))));
 
         let setup = render::Setup
         {

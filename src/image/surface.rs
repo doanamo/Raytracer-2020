@@ -1,10 +1,10 @@
-use super::math::Color;
+use super::math::Vec4;
 
 pub struct Surface
 {
     width: usize,
     height: usize,
-    pixels: Vec<Color>,
+    pixels: Vec<Vec4>,
 }
 
 impl Surface
@@ -14,13 +14,13 @@ impl Surface
         debug_assert!(width > 0);
         debug_assert!(height > 0);
 
-        let mut pixels: Vec<Color> = Vec::new();
-        pixels.resize(width * height, Color::new(0.0, 0.0, 0.0, 1.0));
+        let mut pixels: Vec<Vec4> = Vec::new();
+        pixels.resize(width * height, Vec4::new(0.0, 0.0, 0.0, 1.0));
 
         Self::from(width, height, pixels)
     }
 
-    pub fn from(width: usize, height: usize, pixels: Vec<Color>) -> Self
+    pub fn from(width: usize, height: usize, pixels: Vec<Vec4>) -> Self
     {
         debug_assert_eq!(pixels.len(), width * height);
 
@@ -49,22 +49,22 @@ impl Surface
 
     pub fn get_data_size(&self) -> usize
     {
-        self.get_pixel_count() * std::mem::size_of::<Color>()
+        self.get_pixel_count() * std::mem::size_of::<Vec4>()
     }
 
-    pub fn set_pixel(&mut self, x: usize, y: usize, color: Color)
+    pub fn set_pixel(&mut self, x: usize, y: usize, color: Vec4)
     {
         let index = y * self.width + x;
         self.pixels[index] = color;
     }
 
-    pub fn get_pixel(&self, x: usize, y: usize) -> Color
+    pub fn get_pixel(&self, x: usize, y: usize) -> Vec4
     {
         let index = y * self.width + x;
         self.pixels[index]
     }
 
-    pub fn as_pixel_slice(&self) -> &[Color]
+    pub fn as_pixel_slice(&self) -> &[Vec4]
     {
         self.pixels.as_slice()
     }
@@ -88,7 +88,7 @@ mod tests
         assert_eq!(surface.get_height(), 1080);
         assert_eq!(surface.get_pixel_count(), 1920 * 1080);
         assert_eq!(surface.get_data_size(), 1920 * 1080 * 4 * 4);
-        assert_eq!(surface.get_pixel(0, 0), Color::new(0.0, 0.0, 0.0, 1.0));
+        assert_eq!(surface.get_pixel(0, 0), Vec4::new(0.0, 0.0, 0.0, 1.0));
     }
 
     #[test]
@@ -102,8 +102,8 @@ mod tests
     fn from()
     {
         let mut pixels = Vec::with_capacity(1920 * 1080);
-        pixels.resize(1920 * 1080, Color::new(0.0, 0.0, 0.0, 1.0));
-        pixels[1079 * 1920 + 1919] = Color::new(0.1, 0.2, 0.3, 0.4);
+        pixels.resize(1920 * 1080, Vec4::new(0.0, 0.0, 0.0, 1.0));
+        pixels[1079 * 1920 + 1919] = Vec4::new(0.1, 0.2, 0.3, 0.4);
 
         let surface = Surface::from(1920, 1080, pixels);
 
@@ -115,8 +115,8 @@ mod tests
         assert_eq!(surface.get_height(), 1080);
         assert_eq!(surface.get_pixel_count(), 1920 * 1080);
         assert_eq!(surface.get_data_size(), 1920 * 1080 * 4 * 4);
-        assert_eq!(surface.get_pixel(0, 0), Color::new(0.0, 0.0, 0.0, 1.0));
-        assert_eq!(surface.get_pixel(1919, 1079), Color::new(0.1, 0.2, 0.3, 0.4));
+        assert_eq!(surface.get_pixel(0, 0), Vec4::new(0.0, 0.0, 0.0, 1.0));
+        assert_eq!(surface.get_pixel(1919, 1079), Vec4::new(0.1, 0.2, 0.3, 0.4));
     }
 
     #[test]
@@ -124,7 +124,7 @@ mod tests
     fn from_bad_size()
     {
         let mut pixels = Vec::with_capacity(1920 * 1080);
-        pixels.resize(1920 * 1080, Color::new(0.0, 0.0, 0.0, 1.0));
+        pixels.resize(1920 * 1080, Vec4::new(0.0, 0.0, 0.0, 1.0));
 
         Surface::from(1024, 576, pixels);
     }
@@ -134,18 +134,18 @@ mod tests
     {
         let mut surface = Surface::new(1920, 1080);
 
-        surface.set_pixel(1919, 1079, Color::new(0.1, 0.2, 0.3, 0.4));
-        assert_eq!(surface.get_pixel(1919, 1079), Color::new(0.1, 0.2, 0.3, 0.4));
+        surface.set_pixel(1919, 1079, Vec4::new(0.1, 0.2, 0.3, 0.4));
+        assert_eq!(surface.get_pixel(1919, 1079), Vec4::new(0.1, 0.2, 0.3, 0.4));
     }
 
     #[test]
     fn as_pixel_slice()
     {
         let mut surface = Surface::new(1920, 1080);
-        surface.set_pixel(1919, 1079, Color::new(0.1, 0.2, 0.3, 0.4));
+        surface.set_pixel(1919, 1079, Vec4::new(0.1, 0.2, 0.3, 0.4));
 
         let surface_slice = surface.as_pixel_slice();
         assert_eq!(surface_slice.len(), 1920 * 1080);
-        assert_eq!(surface_slice[1079 * 1920 + 1919], Color::new(0.1, 0.2, 0.3, 0.4));
+        assert_eq!(surface_slice[1079 * 1920 + 1919], Vec4::new(0.1, 0.2, 0.3, 0.4));
     }
 }

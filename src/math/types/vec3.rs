@@ -7,7 +7,7 @@ pub use self::sse2::*;
 pub use self::scalar::*;
 
 #[cfg(target_feature = "sse2")]
-mod sse2
+pub mod sse2
 {
     #[cfg(target_arch = "x86")]
     use std::arch::x86::*;
@@ -57,19 +57,13 @@ mod sse2
         #[inline]
         pub fn zero() -> Self
         {
-            unsafe
-            {
-                Self(_mm_set1_ps(0.0))
-            }
+            Self::new(0.0, 0.0, 0.0)
         }
 
         #[inline]
         pub fn one() -> Self
         {
-            unsafe
-            {
-                Self(_mm_set1_ps(1.0))
-            }
+            Self::new(1.0, 1.0, 1.0)
         }
 
         #[inline]
@@ -259,11 +253,11 @@ mod sse2
         type Output = Self;
 
         #[inline]
-        fn mul(self, other: f32) -> Self
+        fn mul(self, value: f32) -> Self
         {
             unsafe
             {
-                Self(_mm_mul_ps(self.0, _mm_set1_ps(other)))
+                Self(_mm_mul_ps(self.0, _mm_set1_ps(value)))
             }
         }
     }
@@ -273,11 +267,11 @@ mod sse2
         type Output = Self;
 
         #[inline]
-        fn div(self, other: f32) -> Self
+        fn div(self, value: f32) -> Self
         {
             unsafe
             {
-                Self(_mm_div_ps(self.0, _mm_set1_ps(other)))
+                Self(_mm_div_ps(self.0, _mm_set1_ps(value)))
             }
         }
     }
@@ -291,13 +285,13 @@ mod sse2
     }
 }
 
-mod scalar
+pub mod scalar
 {
     use std::cmp;
     use std::ops;
 
     #[derive(Debug, Default, Copy, Clone)]
-    pub struct Vec3(f32, f32, f32);
+    pub struct Vec3(pub f32, pub f32, pub f32);
 
     impl Vec3
     {
@@ -526,6 +520,42 @@ macro_rules! vec3_shared
         impl $module::Vec3
         {
             #[inline]
+            pub fn set_r(&mut self, r: f32)
+            {
+                self.set_x(r);
+            }
+
+            #[inline]
+            pub fn set_g(&mut self, g: f32)
+            {
+                self.set_y(g);
+            }
+
+            #[inline]
+            pub fn set_b(&mut self, b: f32)
+            {
+                self.set_z(b)
+            }
+
+            #[inline]
+            pub fn get_r(self) -> f32
+            {
+                self.get_x()
+            }
+
+            #[inline]
+            pub fn get_g(self) -> f32
+            {
+                self.get_y()
+            }
+
+            #[inline]
+            pub fn get_b(self) -> f32
+            {
+                self.get_z()
+            }
+
+            #[inline]
             pub fn length_sqr(self) -> f32
             {
                 self.dot(self)
@@ -645,15 +675,19 @@ mod tests
                     assert_eq!(vector.get_x(), 1.0);
                     assert_eq!(vector.get_y(), 2.0);
                     assert_eq!(vector.get_z(), 3.0);
-
+                    
                     vector.set_x(4.0);
                     vector.set_y(5.0);
                     vector.set_z(6.0);
-
+                    
                     assert_eq!(vector.get_x(), 4.0);
                     assert_eq!(vector.get_y(), 5.0);
                     assert_eq!(vector.get_z(), 6.0);
 
+                    assert_eq!(vector.get_r(), vector.get_x());
+                    assert_eq!(vector.get_g(), vector.get_y());
+                    assert_eq!(vector.get_b(), vector.get_z());
+                    
                     assert_eq!(vector.as_yzx(), Vec3::new(5.0, 6.0, 4.0));
                     assert_eq!(vector.as_zxy(), Vec3::new(6.0, 4.0, 5.0));
 
