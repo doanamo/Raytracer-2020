@@ -41,8 +41,10 @@ impl Intersectable for Sphere
 
         if discriminant >= 0.0
         {
+            let discriminant_sqrt = discriminant.sqrt();
+
             {
-                let r1 = (-b - discriminant.sqrt()) / (2.0 * a);
+                let r1 = (-b - discriminant_sqrt) / (2.0 * a);
                 
                 if min_length < r1 && r1 < max_length
                 {
@@ -58,7 +60,7 @@ impl Intersectable for Sphere
             }
 
             {
-                let r2 = (-b + discriminant.sqrt()) / (2.0 * a);
+                let r2 = (-b + discriminant_sqrt) / (2.0 * a);
 
                 if min_length < r2 && r2 < max_length
                 {
