@@ -135,7 +135,7 @@ impl Compiled
         let offset = self.right_direction * random.get_x() + self.up_direction * random.get_y();
 
         let origin = self.origin + offset;
-        let direction = self.near_plane_corner + self.near_plane_width * u + self.near_plane_height * v - self.origin - offset;
+        let direction = self.near_plane_corner + self.near_plane_width * u + self.near_plane_height * v - origin;
 
         Ray::new(origin, direction.normalized())
     }
