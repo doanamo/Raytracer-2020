@@ -1,3 +1,4 @@
+.vs/*
 target/*
 renders/*
 !renders/spheres.png
