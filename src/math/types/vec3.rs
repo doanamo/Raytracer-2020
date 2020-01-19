@@ -571,7 +571,7 @@ macro_rules! vec3_shared
             #[inline]
             pub fn is_unit(self) -> bool
             {
-                (self.length_sqr() - 1.0).abs() < 0.0001
+                (self.length_sqr() - 1.0).abs() < 0.001
             }
 
             #[inline]
