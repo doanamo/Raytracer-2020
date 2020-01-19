@@ -13,6 +13,7 @@ Usage
 Showcase
 ====
 ![](renders/spheres.png)
+![](renders/metallic.png)
 
 License
 ====

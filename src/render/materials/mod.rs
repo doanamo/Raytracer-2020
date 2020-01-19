@@ -9,8 +9,8 @@ pub mod diffuse;
 pub use diffuse::Diffuse;
 pub mod normals;
 pub use normals::Normals;
-pub mod metalic;
-pub use metalic::Metalic;
+pub mod metallic;
+pub use metallic::Metallic;
 pub mod refractive;
 pub use refractive::Refractive;
 
@@ -19,7 +19,7 @@ pub enum Material
 {
     Diffuse(Diffuse),
     Normals(Normals),
-    Metalic(Metalic),
+    Metallic(Metallic),
     Refractive(Refractive)
 }
 
@@ -31,7 +31,7 @@ impl Material
         {
             Self::Diffuse(diffuse) => diffuse.scatter(intersection),
             Self::Normals(_normals) => Normals::scatter(intersection, scatter_index),
-            Self::Metalic(metalic) => metalic.scatter(ray, intersection),
+            Self::Metallic(metallic) => metallic.scatter(ray, intersection),
             Self::Refractive(refractive) => refractive.scatter(ray, intersection)
         }
     }

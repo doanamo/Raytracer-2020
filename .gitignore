@@ -2,3 +2,4 @@
 target/*
 renders/*
 !renders/spheres.png
+!renders/metallic.png

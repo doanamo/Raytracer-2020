@@ -99,7 +99,7 @@
           ],
           "radius": 0.4,
           "material": {
-            "Metalic": {
+            "Metallic": {
               "albedo": [
                 0.8,
                 0.8,
@@ -120,7 +120,7 @@
           ],
           "radius": 0.4,
           "material": {
-            "Metalic": {
+            "Metallic": {
               "albedo": [
                 0.8,
                 0.8,

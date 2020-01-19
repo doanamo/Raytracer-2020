@@ -6,13 +6,13 @@ use super::math::Intersection;
 use super::Material;
 
 #[derive(Serialize, Deserialize)]
-pub struct Metalic
+pub struct Metallic
 {
     albedo: Vec4,
     roughness: f32
 }
 
-impl Default for Metalic
+impl Default for Metallic
 {
     fn default() -> Self
     {
@@ -24,12 +24,12 @@ impl Default for Metalic
     }
 }
 
-impl Metalic
+impl Metallic
 {
     #[allow(clippy::new_ret_no_self)]
     pub fn new(albedo: Vec4, roughness: f32) -> Material
     {
-        Material::Metalic(Self
+        Material::Metallic(Self
         {
             albedo,
             roughness
