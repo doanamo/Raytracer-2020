@@ -13,6 +13,8 @@ pub struct Renderer<'a>
     parameters: Option<&'a Parameters>,
     scene: Option<&'a Scene>,
 
+    thread_pool: rayon::ThreadPool,
+
     debug_diffuse_material: materials::Material,
     debug_normals_material: materials::Material
 }
@@ -21,10 +23,15 @@ impl<'a> Default for Renderer<'a>
 {
     fn default() -> Self
     {
+        let thread_pool = rayon::ThreadPoolBuilder::new()
+            .build().expect("Failed to create a thread pool!");
+
         Renderer
         {
             parameters: None,
             scene: None,
+
+            thread_pool,
 
             debug_diffuse_material: materials::Diffuse::new(Vec4::new(0.5, 0.5, 0.5, 1.0)),
             debug_normals_material: materials::Normals::new()
@@ -103,45 +110,48 @@ impl<'a> Renderer<'a>
         let accumulated_stats: Statistics = image_pixels.par_chunk_mut(per_thread_chunk_size).enumerate().map(|(chunk_index, chunk)|
         */
 
-        let accumulated_stats: Statistics = image_pixels.par_iter_mut().enumerate().map(|(pixel_index, pixel)|
+        let accumulated_stats: Statistics = self.thread_pool.install(||
         {
-            /* chunk rendering
-            let mut chunk_stats = Statistics::new();
-            chunk.iter_mut().enumerate().for_each(|(pixel_index, pixel)|
+            image_pixels.par_iter_mut().enumerate().map(|(pixel_index, pixel)|
             {
-            */
-
-                let mut pixel_stats = Statistics::new_pixel();
-
-                let x = (/* per_thread_chunk_size * chunk_index + */ pixel_index) % parameters.image_width as usize;
-                let y = (/* per_thread_chunk_size * chunk_index + */ pixel_index) / parameters.image_width as usize;
-
-                let mut accumulated_color = Vec4::new(0.0, 0.0, 0.0, 0.0);
-
-                for (offset_u, offset_v) in &antialias_kernel
+                /* chunk rendering
+                let mut chunk_stats = Statistics::new();
+                chunk.iter_mut().enumerate().for_each(|(pixel_index, pixel)|
                 {
-                    let u = (x as f32 + offset_u) * image_width_inv as f32;
-                    let v = (y as f32 + offset_v) * image_height_inv as f32;
+                */
+
+                    let mut pixel_stats = Statistics::new_pixel();
+
+                    let x = (/* per_thread_chunk_size * chunk_index + */ pixel_index) % parameters.image_width as usize;
+                    let y = (/* per_thread_chunk_size * chunk_index + */ pixel_index) / parameters.image_width as usize;
+
+                    let mut accumulated_color = Vec4::new(0.0, 0.0, 0.0, 0.0);
+
+                    for (offset_u, offset_v) in &antialias_kernel
+                    {
+                        let u = (x as f32 + offset_u) * image_width_inv as f32;
+                        let v = (y as f32 + offset_v) * image_height_inv as f32;
+                        
+                        let sample = self.sample(camera.calculate_ray(u, v), 0, &mut pixel_stats);
+                        debug_assert!(sample.is_valid());
+
+                        accumulated_color += sample;
+                    }
+
+                    *pixel = accumulated_color / antialias_subpixel_count as f32;
                     
-                    let sample = self.sample(camera.calculate_ray(u, v), 0, &mut pixel_stats);
-                    debug_assert!(sample.is_valid());
+                    pixel_stats.subpixels += antialias_subpixel_count;
 
-                    accumulated_color += sample;
-                }
+                /* chunk rendering
+                    chunk_stats = chunk_stats.accumulated(&pixel_stats);
+                });
 
-                *pixel = accumulated_color / antialias_subpixel_count as f32;
-                
-                pixel_stats.subpixels += antialias_subpixel_count;
+                chunk_stats
+                */
 
-            /* chunk rendering
-                chunk_stats = chunk_stats.accumulated(&pixel_stats);
-            });
-
-            chunk_stats
-            */
-
-            pixel_stats
-        }).sum();
+                pixel_stats
+            }).sum()
+        });
 
         // Perform gamma correction on color values.
         let gamma_correction = 1.0 / 2.2;
