@@ -15,7 +15,7 @@ mod examples
             image_width: 1024,
             image_height: 576,
             antialias_samples: 8,
-            scatter_limit: 32,
+            scatter_limit: 16,
             ..render::Parameters::default()
         };
 
