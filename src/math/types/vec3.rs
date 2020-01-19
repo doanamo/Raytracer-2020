@@ -577,6 +577,7 @@ macro_rules! vec3_shared
             #[inline]
             pub fn normalized(self) -> Self
             {
+                debug_assert_ne!(self.length_sqr(), 0.0);
                 self / self.length()
             }
 
@@ -751,6 +752,13 @@ mod tests
                     assert_eq!(vec_a - vec_b, Vec3::new(-1.0, -2.0, -3.0));
                     assert_eq!(vec_a * 4.0, Vec3::new(4.0, 8.0, 12.0));
                     assert_eq!(vec_b / 2.0, Vec3::new(1.0, 2.0, 3.0));
+                }
+
+                #[test]
+                #[should_panic]
+                fn normalize_bad_length()
+                {
+                    Vec3::zero().normalized();
                 }
 
                 #[test]

@@ -87,7 +87,15 @@ impl Parameters
         let look_at = self.look_at.unwrap_or(self.origin + Vec3::new(0.0, 1.0, 0.0));
 
         let forward_direction = (look_at - self.origin).normalized();
-        let right_direction = forward_direction.cross(self.up_direction).normalized();
+        let right_cross_product = forward_direction.cross(self.up_direction);
+        let right_direction = if right_cross_product != Vec3::zero()
+        {
+            right_cross_product.normalized()
+        }
+        else
+        {
+            Vec3::right()
+        };
         let up_direction = right_direction.cross(forward_direction);
 
         let near_plane_left_offset = right_direction * half_width * self.focus_distance;
