@@ -577,7 +577,7 @@ macro_rules! vec3_shared
             #[inline]
             pub fn normalized(self) -> Self
             {
-                debug_assert!(self.length_sqr() > 0.001);
+                debug_assert!(self.length_sqr() > 0.0001);
                 self / self.length()
             }
 
