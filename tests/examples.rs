@@ -7,6 +7,41 @@ mod examples
     use render::objects;
     use render::materials;
 
+    fn save_and_test_example(name: &str, parameters: render::Parameters, scene: render::Scene)
+    {
+        let save_path = format!("examples/{}.json", name);
+        let render_dir = format!("target/tests/examples/{}", name);
+        let render_path = format!("{}/output.png", render_dir);
+
+        let setup = render::Setup
+        {
+            parameters,
+            scene
+        };
+
+        setup.save(save_path).expect("Saving setup file failed!");
+
+        let _ = std::fs::remove_dir_all(render_dir);
+
+        let test_parameters = render::Parameters
+        {
+            image_width: setup.parameters.image_width / 16,
+            image_height: setup.parameters.image_height / 16,
+            antialias_samples: 1,
+            scatter_limit: 8,
+            ..setup.parameters
+        };
+
+        let image = render::Renderer::new()
+            .set_parameters(&test_parameters)
+            .set_scene(&setup.scene)
+            .render();
+
+        image::Writer::new(image::FormatPNG::new())
+            .input(&image).output(render_path)
+            .save().expect("Failed to save rendered image!");
+    }
+
     #[test]
     fn spheres()
     {
@@ -33,33 +68,7 @@ mod examples
             .add_object(objects::Sphere::new(Vec3::new(-0.8, 1.0, -0.1), 0.4, materials::Metallic::new(Vec4::new(0.8, 0.8, 0.8, 1.0), 0.8)))
             .add_object(objects::Sphere::new(Vec3::new(0.0, 1.0, -100.5), 100.0, materials::Diffuse::new(Vec4::new(0.8, 0.8, 0.0, 1.0))));
 
-        let setup = render::Setup
-        {
-            parameters,
-            scene
-        };
-
-        setup.save("examples/spheres.json").expect("Saving setup file failed!");
-
-        let _ = std::fs::remove_dir_all("target/tests/examples/spheres/");
-
-        let test_parameters = render::Parameters
-        {
-            image_width: setup.parameters.image_width / 16,
-            image_height: setup.parameters.image_height / 16,
-            antialias_samples: 1,
-            scatter_limit: 8,
-            ..setup.parameters
-        };
-
-        let image = render::Renderer::new()
-            .set_parameters(&test_parameters)
-            .set_scene(&setup.scene)
-            .render();
-
-        image::Writer::new(image::FormatPNG::new())
-            .input(&image).output("target/tests/examples/spheres/output.png")
-            .save().expect("Failed to save rendered image!");
+        save_and_test_example("spheres", parameters, scene);
     }
 
     #[test]
@@ -91,33 +100,7 @@ mod examples
             );
         }
 
-        let setup = render::Setup
-        {
-            parameters,
-            scene
-        };
-
-        setup.save("examples/metallic.json").expect("Saving setup file failed!");
-
-        let _ = std::fs::remove_dir_all("target/tests/examples/metallic/");
-
-        let test_parameters = render::Parameters
-        {
-            image_width: setup.parameters.image_width / 16,
-            image_height: setup.parameters.image_height / 16,
-            antialias_samples: 1,
-            scatter_limit: 8,
-            ..setup.parameters
-        };
-
-        let image = render::Renderer::new()
-            .set_parameters(&test_parameters)
-            .set_scene(&setup.scene)
-            .render();
-
-        image::Writer::new(image::FormatPNG::new())
-            .input(&image).output("target/tests/examples/metallic/output.png")
-            .save().expect("Failed to save rendered image!");
+        save_and_test_example("metallic", parameters, scene);
     }
 
     #[test]
@@ -152,33 +135,7 @@ mod examples
             .add_object(objects::Sphere::new(Vec3::new(1.0, -1.0, 0.0), 0.5, materials::Diffuse::new(Vec4::new(0.3, 0.3, 1.0, 1.0))))
             .add_object(objects::Sphere::new(Vec3::new(0.0, 0.0, 0.0), 0.5, materials::Metallic::new(Vec4::new(0.8, 0.8, 0.8, 1.0), 0.0)));
 
-        let setup = render::Setup
-        {
-            parameters,
-            scene
-        };
-
-        setup.save("examples/focus.json").expect("Saving setup file failed!");
-
-        let _ = std::fs::remove_dir_all("target/tests/examples/focus/");
-
-        let test_parameters = render::Parameters
-        {
-            image_width: setup.parameters.image_width / 16,
-            image_height: setup.parameters.image_height / 16,
-            antialias_samples: 1,
-            scatter_limit: 8,
-            ..setup.parameters
-        };
-
-        let image = render::Renderer::new()
-            .set_parameters(&test_parameters)
-            .set_scene(&setup.scene)
-            .render();
-
-        image::Writer::new(image::FormatPNG::new())
-            .input(&image).output("target/tests/examples/focus/output.png")
-            .save().expect("Failed to save rendered image!");
+        save_and_test_example("focus", parameters, scene);
     }
 
     #[test]
@@ -204,33 +161,7 @@ mod examples
             .add_object(objects::Sphere::new(Vec3::new(0.0, 0.5, -0.1), 0.4, materials::Diffuse::new(Vec4::new(0.8, 0.8, 0.8, 1.0))))
             .add_object(objects::Sphere::new(Vec3::new(0.0, 1.0, -100.5), 100.0, materials::Diffuse::new(Vec4::new(0.8, 0.8, 0.8, 1.0))));
 
-        let setup = render::Setup
-        {
-            parameters,
-            scene
-        };
-
-        setup.save("examples/diffuse.json").expect("Saving setup file failed!");
-
-        let _ = std::fs::remove_dir_all("target/tests/examples/diffuse/");
-
-        let test_parameters = render::Parameters
-        {
-            image_width: setup.parameters.image_width / 16,
-            image_height: setup.parameters.image_height / 16,
-            antialias_samples: 1,
-            scatter_limit: 8,
-            ..setup.parameters
-        };
-
-        let image = render::Renderer::new()
-            .set_parameters(&test_parameters)
-            .set_scene(&setup.scene)
-            .render();
-
-        image::Writer::new(image::FormatPNG::new())
-            .input(&image).output("target/tests/examples/diffuse/output.png")
-            .save().expect("Failed to save rendered image!");
+        save_and_test_example("diffuse", parameters, scene);
     }
 
     #[test]
@@ -240,7 +171,7 @@ mod examples
         {
             image_width: 1024,
             image_height: 576,
-            antialias_samples: 4,
+            antialias_samples: 16,
             scatter_limit: 1,
             debug_mode: Some(render::DebugMode::Normals),
             ..render::Parameters::default()
@@ -256,31 +187,6 @@ mod examples
             .add_object(objects::Sphere::new(Vec3::new(0.0, 0.5, -0.1), 0.4, materials::Diffuse::new(Vec4::new(0.8, 0.8, 0.8, 1.0))))
             .add_object(objects::Sphere::new(Vec3::new(0.0, 1.0, -100.5), 100.0, materials::Diffuse::new(Vec4::new(0.8, 0.8, 0.8, 1.0))));
 
-        let setup = render::Setup
-        {
-            parameters,
-            scene
-        };
-
-        setup.save("examples/normals.json").expect("Saving setup file failed!");
-
-        let _ = std::fs::remove_dir_all("target/tests/examples/normals/");
-
-        let test_parameters = render::Parameters
-        {
-            image_width: setup.parameters.image_width / 16,
-            image_height: setup.parameters.image_height / 16,
-            antialias_samples: 1,
-            ..setup.parameters
-        };
-
-        let image = render::Renderer::new()
-            .set_parameters(&test_parameters)
-            .set_scene(&setup.scene)
-            .render();
-
-        image::Writer::new(image::FormatPNG::new())
-            .input(&image).output("target/tests/examples/normals/output.png")
-            .save().expect("Failed to save rendered image!");
+        save_and_test_example("normals", parameters, scene);
     }
 }
