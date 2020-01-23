@@ -3,7 +3,7 @@
     "configurations":
     [
         {
-            "name": "Launch Debug (Windows)",
+            "name": "Debug",
             "type": "cppvsdbg",
             "request": "launch",
             "program": "${workspaceFolder}/target/debug/raytracer.exe",
@@ -14,11 +14,22 @@
             "externalConsole": false
         },
         {
-            "name": "Launch Release (Windows)",
+            "name": "Release",
             "type": "cppvsdbg",
             "request": "launch",
             "program": "${workspaceFolder}/target/release/raytracer.exe",
             "args": ["examples/spheres.json"],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "externalConsole": false
+        },
+        {
+            "name": "Test",
+            "type": "cppvsdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/target/debug/deps/examples-46ba13f0d3ecbaa3.exe",
+            "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [],

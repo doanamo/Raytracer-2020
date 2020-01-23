@@ -14,6 +14,7 @@ Showcase
 ====
 ![](renders/spheres.png)
 ![](renders/metallic.png)
+![](renders/focus.png)
 
 License
 ====

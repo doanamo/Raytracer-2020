@@ -69,6 +69,16 @@ impl Parameters
         self
     }
 
+    pub fn set_focus_on_look_at(mut self, modifier: f32) -> Self
+    {
+        if let Some(look_at) = self.look_at
+        {
+            self.focus_distance = (self.origin - look_at).length() + modifier;
+        }
+
+        self
+    }
+
     pub fn set_aperture_size(mut self, radius: f32) -> Self
     {
         self.aperture_radius = radius;
