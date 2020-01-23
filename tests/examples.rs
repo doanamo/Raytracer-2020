@@ -188,7 +188,7 @@ mod examples
         {
             image_width: 1024,
             image_height: 576,
-            antialias_samples: 4,
+            antialias_samples: 16,
             scatter_limit: 32,
             debug_mode: Some(render::DebugMode::Diffuse),
             ..render::Parameters::default()
