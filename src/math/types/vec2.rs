@@ -33,37 +33,37 @@ impl Vec2
     }
 
     #[inline]
-    pub fn dot(self, other: Self) -> f32
+    pub fn dot(&self, other: Self) -> f32
     {
         self.x * other.x + self.y * other.y
     }
 
     #[inline]
-    pub fn cross(self, other: Self) -> f32
+    pub fn cross(&self, other: Self) -> f32
     {
         self.x * other.y - self.y * other.x
     }
 
     #[inline]
-    pub fn length_sqr(self) -> f32
+    pub fn length_sqr(&self) -> f32
     {
-        self.dot(self)
+        self.dot(*self)
     }
 
     #[inline]
-    pub fn length(self) -> f32
+    pub fn length(&self) -> f32
     {
         self.length_sqr().sqrt()
     }
 
     #[inline]
-    pub fn normalized(self) -> Self
+    pub fn normalized(&self) -> Self
     {
-        self / self.length()
+        *self / self.length()
     }
 
     #[inline]
-    pub fn is_unit(self) -> bool
+    pub fn is_unit(&self) -> bool
     {
         (self.length_sqr() - 1.0).abs() < 0.0001
     }

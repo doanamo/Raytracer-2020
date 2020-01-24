@@ -117,7 +117,7 @@ pub mod sse2
         }
 
         #[inline]
-        pub fn get_x(self) -> f32
+        pub fn get_x(&self) -> f32
         {
             unsafe
             {
@@ -126,7 +126,7 @@ pub mod sse2
         }
 
         #[inline]
-        pub fn get_y(self) -> f32
+        pub fn get_y(&self) -> f32
         {
             unsafe
             {
@@ -135,7 +135,7 @@ pub mod sse2
         }
 
         #[inline]
-        pub fn get_z(self) -> f32
+        pub fn get_z(&self) -> f32
         {
             unsafe
             {
@@ -144,7 +144,7 @@ pub mod sse2
         }
 
         #[inline]
-        pub fn as_yzx(self) -> Self
+        pub fn as_yzx(&self) -> Self
         {
             unsafe
             {
@@ -153,7 +153,7 @@ pub mod sse2
         }
 
         #[inline]
-        pub fn as_zxy(self) -> Self
+        pub fn as_zxy(&self) -> Self
         {
             unsafe
             {
@@ -162,21 +162,21 @@ pub mod sse2
         }
 
         #[inline]
-        pub fn sum(self) -> f32
+        pub fn sum(&self) -> f32
         {
             self.get_x() + self.get_y() + self.get_z()
         }
 
         #[inline]
-        pub fn dot(self, other: Self) -> f32
+        pub fn dot(&self, other: Self) -> f32
         {
-            (self * other).sum()
+            (*self * other).sum()
         }
 
         #[inline]
-        pub fn cross(self, other: Self) -> Self
+        pub fn cross(&self, other: Self) -> Self
         {
-            (self.as_zxy() * other - self * other.as_zxy()).as_zxy()
+            (self.as_zxy() * other - *self * other.as_zxy()).as_zxy()
         }
     }
 
@@ -351,43 +351,43 @@ pub mod scalar
         }
 
         #[inline]
-        pub fn get_x(self) -> f32
+        pub fn get_x(&self) -> f32
         {
             self.0
         }
 
         #[inline]
-        pub fn get_y(self) -> f32
+        pub fn get_y(&self) -> f32
         {
             self.1
         }
 
         #[inline]
-        pub fn get_z(self) -> f32
+        pub fn get_z(&self) -> f32
         {
             self.2
         }
 
         #[inline]
-        pub fn as_yzx(self) -> Self
+        pub fn as_yzx(&self) -> Self
         {
             Self(self.1, self.2, self.0)
         }
 
         #[inline]
-        pub fn as_zxy(self) -> Self
+        pub fn as_zxy(&self) -> Self
         {
             Self(self.2, self.0, self.1)
         }
 
         #[inline]
-        pub fn sum(self) -> f32
+        pub fn sum(&self) -> f32
         {
             self.0 + self.1 + self.2
         }
 
         #[inline]
-        pub fn dot(self, other: Self) -> f32
+        pub fn dot(&self, other: Self) -> f32
         {
             self.0 * other.0 +
             self.1 * other.1 +
@@ -395,7 +395,7 @@ pub mod scalar
         }
 
         #[inline]
-        pub fn cross(self, other: Self) -> Self
+        pub fn cross(&self, other: Self) -> Self
         {
             Self
             (
@@ -539,57 +539,63 @@ macro_rules! vec3_shared
             }
 
             #[inline]
-            pub fn get_r(self) -> f32
+            pub fn get_r(&self) -> f32
             {
                 self.get_x()
             }
 
             #[inline]
-            pub fn get_g(self) -> f32
+            pub fn get_g(&self) -> f32
             {
                 self.get_y()
             }
 
             #[inline]
-            pub fn get_b(self) -> f32
+            pub fn get_b(&self) -> f32
             {
                 self.get_z()
             }
 
             #[inline]
-            pub fn length_sqr(self) -> f32
+            pub fn length_sqr(&self) -> f32
             {
-                self.dot(self)
+                self.dot(*self)
             }
 
             #[inline]
-            pub fn length(self) -> f32
+            pub fn length(&self) -> f32
             {
                 self.length_sqr().sqrt()
             }
 
             #[inline]
-            pub fn is_unit(self) -> bool
+            pub fn is_unit(&self) -> bool
             {
                 (self.length_sqr() - 1.0).abs() < 0.001
             }
+            
+            #[inline]
+            pub fn is_zero(&self) -> bool
+            {
+                self.length_sqr() <= 0.0001
+            }
 
             #[inline]
-            pub fn normalized(self) -> Self
+            pub fn normalized(&self) -> Self
             {
                 debug_assert!(self.length_sqr() > 0.0001);
-                self / self.length()
+                *self / self.length()
             }
 
             #[inline]
-            pub fn reflected(self, normal: Self) -> Self
+            pub fn reflected(&self, normal: Self) -> Self
             {
                 debug_assert!(normal.is_unit());
-                self - normal * 2.0 * self.dot(normal)
+                *self - normal * 2.0 * self.dot(normal)
             }
 
             #[inline]
-            pub fn refracted(self, normal: Self, eta: f32) -> Option<Self>
+            pub fn refracted(&self, normal: Self, eta: f32) -> Option<Self>
             {
                 debug_assert!(self.is_unit());
                 debug_assert!(normal.is_unit());
@@ -599,7 +605,7 @@ macro_rules! vec3_shared
 
                 if discriminant > 0.0
                 {
-                    let refracted = (self - normal * dot) * eta - normal * discriminant.sqrt();
+                    let refracted = (*self - normal * dot) * eta - normal * discriminant.sqrt();
 
                     Some(refracted)
                 }

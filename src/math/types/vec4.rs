@@ -138,7 +138,7 @@ pub mod sse2
         }
 
         #[inline]
-        pub fn get_x(self) -> f32
+        pub fn get_x(&self) -> f32
         {
             unsafe
             {
@@ -147,7 +147,7 @@ pub mod sse2
         }
 
         #[inline]
-        pub fn get_y(self) -> f32
+        pub fn get_y(&self) -> f32
         {
             unsafe
             {
@@ -156,7 +156,7 @@ pub mod sse2
         }
 
         #[inline]
-        pub fn get_z(self) -> f32
+        pub fn get_z(&self) -> f32
         {
             unsafe
             {
@@ -165,7 +165,7 @@ pub mod sse2
         }
 
         #[inline]
-        pub fn get_w(self) -> f32
+        pub fn get_w(&self) -> f32
         {
             unsafe
             {
@@ -174,7 +174,7 @@ pub mod sse2
         }
 
         #[inline]
-        pub fn clamped(self) -> Self
+        pub fn clamped(&self) -> Self
         {
             unsafe
             {
@@ -384,31 +384,31 @@ pub mod scalar
         }
 
         #[inline]
-        pub fn get_x(self) -> f32
+        pub fn get_x(&self) -> f32
         {
             self.0
         }
 
         #[inline]
-        pub fn get_y(self) -> f32
+        pub fn get_y(&self) -> f32
         {
             self.1
         }
 
         #[inline]
-        pub fn get_z(self) -> f32
+        pub fn get_z(&self) -> f32
         {
             self.2
         }
 
         #[inline]
-        pub fn get_w(self) -> f32
+        pub fn get_w(&self) -> f32
         {
             self.3
         }
 
         #[inline]
-        pub fn clamped(self) -> Self
+        pub fn clamped(&self) -> Self
         {
             Self
             (
@@ -579,25 +579,25 @@ macro_rules! vec4_shared
             }
 
             #[inline]
-            pub fn get_r(self) -> f32
+            pub fn get_r(&self) -> f32
             {
                 self.get_x()
             }
 
             #[inline]
-            pub fn get_g(self) -> f32
+            pub fn get_g(&self) -> f32
             {
                 self.get_y()
             }
 
             #[inline]
-            pub fn get_b(self) -> f32
+            pub fn get_b(&self) -> f32
             {
                 self.get_z()
             }
             
             #[inline]
-            pub fn get_a(self) -> f32
+            pub fn get_a(&self) -> f32
             {
                 self.get_w()
             }
