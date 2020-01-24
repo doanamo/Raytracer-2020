@@ -68,7 +68,8 @@ impl<'a> Renderer<'a>
         let scene = self.scene.expect("Cannot render image without scene!");
 
         // Build camera that will be used to calculate initial raycasts.
-        let camera = scene.camera.build(parameters.image_width as f32 / parameters.image_height as f32);
+        let camera = scene.camera.build(parameters.image_width as f32 / parameters.image_height as f32)
+            .expect("Failed to build compiled camera structure!");
         
         // Calculate image constants.
         let image_width_inv = 1.0 / parameters.image_width as f32;
@@ -217,7 +218,7 @@ impl<'a> Renderer<'a>
             {
                 None =>
                 {
-                    let alpha = (ray.direction.get_z() + 1.0) * 0.5;
+                    let alpha = (ray.direction().get_z() + 1.0) * 0.5;
                     Vec4::new(1.0, 1.0, 1.0, 1.0) * (1.0 - alpha) + Vec4::new(0.5, 0.7, 1.0, 1.0) * alpha
                 },
                 Some(DebugMode::Diffuse) => Vec4::new(0.5, 0.5, 0.5, 1.0),

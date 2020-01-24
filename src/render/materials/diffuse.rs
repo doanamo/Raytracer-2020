@@ -33,10 +33,10 @@ impl Diffuse
         })
     }
 
-    pub fn scatter(&self, intersection: &Intersection) -> (Option<Ray>, Vec4)
+    pub fn scatter(&self, ray: &Ray, intersection: &Intersection) -> (Option<Ray>, Vec4)
     {
         let scatter_target = intersection.point + intersection.normal + Vec3::random_in_unit_sphere();
-        let scattered_ray = Ray::new(intersection.point, (scatter_target - intersection.point).normalized());
+        let scattered_ray = Ray::new(intersection.point, (scatter_target - intersection.point).normalized(), ray.time());
 
         (Some(scattered_ray), self.albedo)
     }

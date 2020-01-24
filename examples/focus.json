@@ -25,7 +25,9 @@
       ],
       "field_of_view": 55.0,
       "focus_distance": 1.504993,
-      "aperture_radius": 0.1
+      "aperture_radius": 0.1,
+      "shutter_open_time": 0.0,
+      "shutter_close_time": 0.0
     },
     "objects": [
       {

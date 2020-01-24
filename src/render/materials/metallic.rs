@@ -39,8 +39,8 @@ impl Metallic
     pub fn scatter(&self, ray: &Ray, intersection: &Intersection) -> (Option<Ray>, Vec4)
     {
         let reflection_rougness = Vec3::random_in_unit_sphere() * self.roughness;
-        let reflected_dir = (ray.direction.reflected(intersection.normal) + reflection_rougness).normalized();
-        let scattered_ray = Ray::new(intersection.point, reflected_dir);
+        let reflected_dir = (ray.direction().reflected(intersection.normal) + reflection_rougness).normalized();
+        let scattered_ray = Ray::new(intersection.point, reflected_dir, ray.time());
 
         (Some(scattered_ray), self.albedo)
     }

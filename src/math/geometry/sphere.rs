@@ -4,7 +4,7 @@ use super::types::ray::Ray;
 use super::intersection::Intersectable;
 use super::intersection::Intersection;
 
-#[derive(Serialize, Deserialize)]
+#[derive(Copy, Clone, Serialize, Deserialize)]
 pub struct Sphere
 {
     pub center: Vec3,
@@ -31,11 +31,11 @@ impl Intersectable for Sphere
         // See comment from "T Jank" that explains and fixes a bug in the original implementation.
         // Quadratic functions refresher: https://en.wikipedia.org/wiki/Quadratic_function
 
-        debug_assert!(ray.direction.is_unit());
+        debug_assert!(ray.direction().is_unit());
 
-        let oc = ray.origin - self.center;
-        let a = ray.direction.dot(ray.direction);
-        let b = 2.0 * oc.dot(ray.direction);
+        let oc = ray.origin() - self.center;
+        let a = ray.direction().dot(ray.direction());
+        let b = 2.0 * oc.dot(ray.direction());
         let c = oc.dot(oc) - self.radius * self.radius;
         let discriminant = b * b - 4.0 * a * c;
 

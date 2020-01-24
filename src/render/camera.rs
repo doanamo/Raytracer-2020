@@ -2,6 +2,14 @@ use serde::{ Serialize, Deserialize };
 use crate::math::Vec3;
 use crate::math::Ray;
 
+#[derive(Debug)]
+pub enum InvalidParameter
+{
+    FieldOfView,
+    ApertureRadius,
+    ShutterTime
+}
+
 #[derive(Serialize, Deserialize)]
 #[serde(default)]
 pub struct Parameters
@@ -12,7 +20,9 @@ pub struct Parameters
 
     pub field_of_view: f32,
     pub focus_distance: f32,
-    pub aperture_radius: f32
+    pub aperture_radius: f32,
+    pub shutter_open_time: f32,
+    pub shutter_close_time: f32
 }
 
 impl Default for Parameters
@@ -27,7 +37,9 @@ impl Default for Parameters
 
             field_of_view: 90.0,
             focus_distance: 1.0,
-            aperture_radius: 0.0
+            aperture_radius: 0.0,
+            shutter_open_time: 0.0,
+            shutter_close_time: 0.0
         }
     }
 }
@@ -85,11 +97,36 @@ impl Parameters
         self
     }
 
-    pub fn build(&self, aspect_ratio: f32) -> Compiled
+    pub fn set_shutter_open_time(mut self, time: f32) -> Self
+    {
+        self.shutter_open_time = time;
+        self
+    }
+
+    pub fn set_shutter_close_time(mut self, time: f32) -> Self
+    {
+        self.shutter_close_time = time;
+        self
+    }
+
+    pub fn build(&self, aspect_ratio: f32) -> Result<Compiled, InvalidParameter>
     {
         debug_assert!(self.up_direction.is_unit());
-        debug_assert!(self.field_of_view > 0.0);
-        debug_assert!(self.aperture_radius >= 0.0);
+
+        if self.field_of_view <= 0.0
+        {
+            return Result::Err(InvalidParameter::FieldOfView);
+        }
+
+        if self.aperture_radius < 0.0
+        {
+            return Result::Err(InvalidParameter::ApertureRadius);
+        }
+
+        if self.shutter_close_time < self.shutter_open_time
+        {
+            return Result::Err(InvalidParameter::ShutterTime)
+        }
 
         let half_height = (self.field_of_view * std::f32::consts::PI / 180.0 / 2.0).tan();
         let half_width = half_height * aspect_ratio;
@@ -98,6 +135,7 @@ impl Parameters
 
         let forward_direction = (look_at - self.origin).normalized();
         let right_cross_product = forward_direction.cross(self.up_direction);
+
         let right_direction = if right_cross_product != Vec3::zero()
         {
             right_cross_product.normalized()
@@ -106,6 +144,7 @@ impl Parameters
         {
             Vec3::right()
         };
+
         let up_direction = right_direction.cross(forward_direction);
 
         let near_plane_left_offset = right_direction * half_width * self.focus_distance;
@@ -115,11 +154,13 @@ impl Parameters
         let near_plane_width = right_direction * half_width * 2.0 * self.focus_distance;
         let near_plane_height = up_direction * half_height * 2.0 * self.focus_distance;
 
-        Compiled
+        Ok(Compiled
         {
             origin: self.origin,
 
             aperture_radius: self.aperture_radius,
+            shutter_open_time: self.shutter_open_time,
+            shutter_close_time: self.shutter_close_time,
 
             near_plane_corner,
             near_plane_width,
@@ -127,7 +168,7 @@ impl Parameters
 
             right_direction,
             up_direction
-        }
+        })
     }
 }
 
@@ -136,6 +177,8 @@ pub struct Compiled
     origin: Vec3,
 
     aperture_radius: f32,
+    shutter_open_time: f32,
+    shutter_close_time: f32,
 
     near_plane_corner: Vec3,
     near_plane_width: Vec3,
@@ -154,7 +197,8 @@ impl Compiled
 
         let origin = self.origin + offset;
         let direction = self.near_plane_corner + self.near_plane_width * u + self.near_plane_height * v - origin;
+        let time = self.shutter_open_time + rand::random::<f32>() * (self.shutter_close_time - self.shutter_open_time);
 
-        Ray::new(origin, direction.normalized())
+        Ray::new(origin, direction.normalized(), time)
     }
 }

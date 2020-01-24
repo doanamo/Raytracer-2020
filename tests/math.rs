@@ -16,14 +16,14 @@ mod math
     {
         let sphere = Sphere::new(Vec3::new(0.0, 10.0, 0.0), 1.0);
         
-        let ray_forward = Ray::new(Vec3::new(0.0, 2.0, 0.0), Vec3::new(0.0, 1.0, 0.0));
+        let ray_forward = Ray::new(Vec3::new(0.0, 2.0, 0.0), Vec3::new(0.0, 1.0, 0.0), 0.0);
         let intersection = sphere.intersect(&ray_forward, 0.0001, std::f32::MAX).unwrap();
         
         assert_eq!(intersection.point, Vec3::new(0.0, 9.0, 0.0));
         assert_eq!(intersection.normal, Vec3::new(0.0, -1.0, 0.0));
         assert_eq!(intersection.length, 7.0);
 
-        let ray_backward = Ray::new(Vec3::new(0.0, 2.0, 0.0), Vec3::new(0.0, -1.0, 0.0));
+        let ray_backward = Ray::new(Vec3::new(0.0, 2.0, 0.0), Vec3::new(0.0, -1.0, 0.0), 0.0);
         assert!(sphere.intersect(&ray_backward, 0.0001, std::f32::MAX).is_none());
     }
 

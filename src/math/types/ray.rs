@@ -4,8 +4,9 @@ use super::vec3::Vec3;
 #[derive(Debug, Copy, Clone)]
 pub struct Ray
 {
-    pub origin: Vec3,
-    pub direction: Vec3
+    origin: Vec3,
+    direction: Vec3,
+    time: f32
 }
 
 impl Default for Ray
@@ -16,7 +17,8 @@ impl Default for Ray
         Self
         {
             origin: Vec3::new(0.0, 0.0, 0.0),
-            direction: Vec3::new(0.0, 1.0, 0.0)
+            direction: Vec3::new(0.0, 1.0, 0.0),
+            time: 0.0
         }
     }
 }
@@ -24,7 +26,7 @@ impl Default for Ray
 impl Ray
 {
     #[inline]
-    pub fn new(origin: Vec3, direction: Vec3) -> Self
+    pub fn new(origin: Vec3, direction: Vec3, time: f32) -> Self
     {
         debug_assert!(direction.is_unit());
 
@@ -32,7 +34,26 @@ impl Ray
         {
             origin,
             direction,
+            time
         }
+    }
+
+    #[inline]
+    pub fn origin(&self) -> Vec3
+    {
+        self.origin
+    }
+
+    #[inline]
+    pub fn direction(&self) -> Vec3
+    {
+        self.direction
+    }
+
+    #[inline]
+    pub fn time(&self) -> f32
+    {
+        self.time
     }
 
     #[inline]
@@ -71,20 +92,20 @@ mod tests
     {
         let origin = Vec3::new(1.0, 2.0, 3.0);
         let direction = Vec3::new(0.57735, 0.57735, 0.57735);
-        let ray = Ray::new(origin, direction);
+        let ray = Ray::new(origin, direction, 0.0);
         
         assert_eq!(ray, ray);
         assert_eq!(ray.origin, origin);
         assert_eq!(ray.direction, direction);
 
-        assert_eq!(Ray::default(), Ray::new(Vec3::new(0.0, 0.0, 0.0), Vec3::new(0.0, 1.0, 0.0)));
+        assert_eq!(Ray::default(), Ray::new(Vec3::new(0.0, 0.0, 0.0), Vec3::new(0.0, 1.0, 0.0), 0.0));
     }
 
     #[test]
     #[should_panic]
     fn new_bad_direction()
     {
-        Ray::new(Vec3::default(), Vec3::new(1.0, 1.0, 1.0));
+        Ray::new(Vec3::default(), Vec3::new(1.0, 1.0, 1.0), 0.0);
     }
 
     #[test]
@@ -92,7 +113,7 @@ mod tests
     {
         let origin = Vec3::new(1.0, 1.0, 1.0);
         let direction = Vec3::new(0.57735, 0.57735, 0.57735);
-        let ray = Ray::new(origin, direction);
+        let ray = Ray::new(origin, direction, 0.0);
 
         assert_eq!(ray.point_at(2.0), Vec3::new(2.1547, 2.1547, 2.1547));
     }
@@ -101,14 +122,14 @@ mod tests
     #[should_panic]
     fn point_at_bad_direction()
     {
-        Ray::new(Vec3::default(), Vec3::new(1.0, 1.0, 1.0)).point_at(1.0);
+        Ray::new(Vec3::default(), Vec3::new(1.0, 1.0, 1.0), 0.0).point_at(1.0);
     }
     
     #[test]
     #[should_panic]
     fn point_at_bad_length()
     {
-        Ray::new(Vec3::default(), Vec3::new(0.0, 1.0, 0.0)).point_at(-1.0);
+        Ray::new(Vec3::default(), Vec3::new(0.0, 1.0, 0.0), 0.0).point_at(-1.0);
     }
     
     #[test]
