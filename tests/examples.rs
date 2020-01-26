@@ -225,4 +225,41 @@ mod examples
 
         save_and_test_example("normals", parameters, scene);
     }
+
+    #[test]
+    fn benchmark()
+    {
+        let parameters = render::Parameters
+        {
+            image_width: 1024,
+            image_height: 576,
+            antialias_samples: 16,
+            scatter_limit: 16,
+            ..render::Parameters::default()
+        };
+
+        let camera = render::camera::Parameters::new()
+            .set_origin(Vec3::new(0.0, -5.0, 0.8))
+            .set_look_at(Some(Vec3::new(0.0, -3.0, 0.0)))
+            .set_field_of_view(45.0);
+        
+        let mut scene = render::Scene::new()
+            .set_camera(camera)
+            .add_object(Object::new(objects::Sphere::new(Vec3::new(0.0, 1.0, -600.5), 600.0, materials::Diffuse::new(Vec4::new(0.8, 0.8, 0.0, 1.0)))));
+
+        for x in 0..=10
+        {
+            for y in 0..=12
+            {
+                let offset = 0.5 * ((y % 2) as f32);
+
+                scene = scene.add_object(Object::new(
+                    objects::Sphere::new(Vec3::new(1.0 * (x as f32) - 5.0 + offset, 1.0 * (y as f32) - 6.0, 0.0), 0.5,
+                    materials::Metallic::new(Vec4::new(0.8, 0.8, 0.8, 1.0), 0.6))
+                ));
+            }
+        }
+
+        save_and_test_example("benchmark", parameters, scene);
+    }
 }

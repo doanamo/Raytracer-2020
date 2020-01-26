@@ -1,0 +1,3058 @@
+{
+  "parameters": {
+    "image_width": 1024,
+    "image_height": 576,
+    "antialias_samples": 16,
+    "scatter_limit": 16,
+    "debug_mode": null
+  },
+  "scene": {
+    "camera": {
+      "origin": [
+        0.0,
+        -5.0,
+        0.8
+      ],
+      "up_direction": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "look_at": [
+        0.0,
+        -3.0,
+        0.0
+      ],
+      "field_of_view": 45.0,
+      "focus_distance": 1.0,
+      "aperture_radius": 0.0,
+      "shutter_open_time": 0.0,
+      "shutter_close_time": 0.0
+    },
+    "objects": [
+      {
+        "Sphere": {
+          "center": [
+            0.0,
+            1.0,
+            -600.5
+          ],
+          "radius": 600.0,
+          "material": {
+            "Diffuse": {
+              "albedo": [
+                0.8,
+                0.8,
+                0.0,
+                1.0
+              ]
+            }
+          }
+        }
+      },
+      {
+        "Sphere": {
+          "center": [
+            -5.0,
+            -6.0,
+            0.0
+          ],
+          "radius": 0.5,
+          "material": {
+            "Metallic": {
+              "albedo": [
+                0.8,
+                0.8,
+                0.8,
+                1.0
+              ],
+              "roughness": 0.6
+            }
+          }
+        }
+      },
+      {
+        "Sphere": {
+          "center": [
+            -4.5,
+            -5.0,
+            0.0
+          ],
+          "radius": 0.5,
+          "material": {
+            "Metallic": {
+              "albedo": [
+                0.8,
+                0.8,
+                0.8,
+                1.0
+              ],
+              "roughness": 0.6
+            }
+          }
+        }
+      },
+      {
+        "Sphere": {
+          "center": [
+            -5.0,
+            -4.0,
+            0.0
+          ],
+          "radius": 0.5,
+          "material": {
+            "Metallic": {
+              "albedo": [
+                0.8,
+                0.8,
+                0.8,
+                1.0
+              ],
+              "roughness": 0.6
+            }
+          }
+        }
+      },
+      {
+        "Sphere": {
+          "center": [
+            -4.5,
+            -3.0,
+            0.0
+          ],
+          "radius": 0.5,
+          "material": {
+            "Metallic": {
+              "albedo": [
+                0.8,
+                0.8,
+                0.8,
+                1.0
+              ],
+              "roughness": 0.6
+            }
+          }
+        }
+      },
+      {
+        "Sphere": {
+          "center": [
+            -5.0,
+            -2.0,
+            0.0
+          ],
+          "radius": 0.5,
+          "material": {
+            "Metallic": {
+              "albedo": [
+                0.8,
+                0.8,
+                0.8,
+                1.0
+              ],
+              "roughness": 0.6
+            }
+          }
+        }
+      },
+      {
+        "Sphere": {
+          "center": [
+            -4.5,
+            -1.0,
+            0.0
+          ],
+          "radius": 0.5,
+          "material": {
+            "Metallic": {
+              "albedo": [
+                0.8,
+                0.8,
+                0.8,
+                1.0
+              ],
+              "roughness": 0.6
+            }
+          }
+        }
+      },
+      {
+        "Sphere": {
+          "center": [
+            -5.0,
+            0.0,
+            0.0
+          ],
+          "radius": 0.5,
+          "material": {
+            "Metallic": {
+              "albedo": [
+                0.8,
+                0.8,
+                0.8,
+                1.0
+              ],
+              "roughness": 0.6
+            }
+          }
+        }
+      },
+      {
+        "Sphere": {
+          "center": [
+            -4.5,
+            1.0,
+            0.0
+          ],
+          "radius": 0.5,
+          "material": {
+            "Metallic": {
+              "albedo": [
+                0.8,
+                0.8,
+                0.8,
+                1.0
+              ],
+              "roughness": 0.6
+            }
+          }
+        }
+      },
+      {
+        "Sphere": {
+          "center": [
+            -5.0,
+            2.0,
+            0.0
+          ],
+          "radius": 0.5,
+          "material": {
+            "Metallic": {
+              "albedo": [
+                0.8,
+                0.8,
+                0.8,
+                1.0
+              ],
+              "roughness": 0.6
+            }
+          }
+        }
+      },
+      {
+        "Sphere": {
+          "center": [
+            -4.5,
+            3.0,
+            0.0
+          ],
+          "radius": 0.5,
+          "material": {
+            "Metallic": {
+              "albedo": [
+                0.8,
+                0.8,
+                0.8,
+                1.0
+              ],
+              "roughness": 0.6
+            }
+          }
+        }
+      },
+      {
+        "Sphere": {
+          "center": [
+            -5.0,
+            4.0,
+            0.0
+          ],
+          "radius": 0.5,
+          "material": {
+            "Metallic": {
+              "albedo": [
+                0.8,
+                0.8,
+                0.8,
+                1.0
+              ],
+              "roughness": 0.6
+            }
+          }
+        }
+      },
+      {
+        "Sphere": {
+          "center": [
+            -4.5,
+            5.0,
+            0.0
+          ],
+          "radius": 0.5,
+          "material": {
+            "Metallic": {
+              "albedo": [
+                0.8,
+                0.8,
+                0.8,
+                1.0
+              ],
+              "roughness": 0.6
+            }
+          }
+        }
+      },
+      {
+        "Sphere": {
+          "center": [
+            -5.0,
+            6.0,
+            0.0
+          ],
+          "radius": 0.5,
+          "material": {
+            "Metallic": {
+              "albedo": [
+                0.8,
+                0.8,
+                0.8,
+                1.0
+              ],
+              "roughness": 0.6
+            }
+          }
+        }
+      },
+      {
+        "Sphere": {
+          "center": [
+            -4.0,
+            -6.0,
+            0.0
+          ],
+          "radius": 0.5,
+          "material": {
+            "Metallic": {
+              "albedo": [
+                0.8,
+                0.8,
+                0.8,
+                1.0
+              ],
+              "roughness": 0.6
+            }
+          }
+        }
+      },
+      {
+        "Sphere": {
+          "center": [
+            -3.5,
+            -5.0,
+            0.0
+          ],
+          "radius": 0.5,
+          "material": {
+            "Metallic": {
+              "albedo": [
+                0.8,
+                0.8,
+                0.8,
+                1.0
+              ],
+              "roughness": 0.6
+            }
+          }
+        }
+      },
+      {
+        "Sphere": {
+          "center": [
+            -4.0,
+            -4.0,
+            0.0
+          ],
+          "radius": 0.5,
+          "material": {
+            "Metallic": {
+              "albedo": [
+                0.8,
+                0.8,
+                0.8,
+                1.0
+              ],
+              "roughness": 0.6
+            }
+          }
+        }
+      },
+      {
+        "Sphere": {
+          "center": [
+            -3.5,
+            -3.0,
+            0.0
+          ],
+          "radius": 0.5,
+          "material": {
+            "Metallic": {
+              "albedo": [
+                0.8,
+                0.8,
+                0.8,
+                1.0
+              ],
+              "roughness": 0.6
+            }
+          }
+        }
+      },
+      {
+        "Sphere": {
+          "center": [
+            -4.0,
+            -2.0,
+            0.0
+          ],
+          "radius": 0.5,
+          "material": {
+            "Metallic": {
+              "albedo": [
+                0.8,
+                0.8,
+                0.8,
+                1.0
+              ],
+              "roughness": 0.6
+            }
+          }
+        }
+      },
+      {
+        "Sphere": {
+          "center": [
+            -3.5,
+            -1.0,
+            0.0
+          ],
+          "radius": 0.5,
+          "material": {
+            "Metallic": {
+              "albedo": [
+                0.8,
+                0.8,
+                0.8,
+                1.0
+              ],
+              "roughness": 0.6
+            }
+          }
+        }
+      },
+      {
+        "Sphere": {
+          "center": [
+            -4.0,
+            0.0,
+            0.0
+          ],
+          "radius": 0.5,
+          "material": {
+            "Metallic": {
+              "albedo": [
+                0.8,
+                0.8,
+                0.8,
+                1.0
+              ],
+              "roughness": 0.6
+            }
+          }
+        }
+      },
+      {
+        "Sphere": {
+          "center": [
+            -3.5,
+            1.0,
+            0.0
+          ],
+          "radius": 0.5,
+          "material": {
+            "Metallic": {
+              "albedo": [
+                0.8,
+                0.8,
+                0.8,
+                1.0
+              ],
+              "roughness": 0.6
+            }
+          }
+        }
+      },
+      {
+        "Sphere": {
+          "center": [
+            -4.0,
+            2.0,
+            0.0
+          ],
+          "radius": 0.5,
+          "material": {
+            "Metallic": {
+              "albedo": [
+                0.8,
+                0.8,
+                0.8,
+                1.0
+              ],
+              "roughness": 0.6
+            }
+          }
+        }
+      },
+      {
+        "Sphere": {
+          "center": [
+            -3.5,
+            3.0,
+            0.0
+          ],
+          "radius": 0.5,
+          "material": {
+            "Metallic": {
+              "albedo": [
+                0.8,
+                0.8,
+                0.8,
+                1.0
+              ],
+              "roughness": 0.6
+            }
+          }
+        }
+      },
+      {
+        "Sphere": {
+          "center": [
+            -4.0,
+            4.0,
+            0.0
+          ],
+          "radius": 0.5,
+          "material": {
+            "Metallic": {
+              "albedo": [
+                0.8,
+                0.8,
+                0.8,
+                1.0
+              ],
+              "roughness": 0.6
+            }
+          }
+        }
+      },
+      {
+        "Sphere": {
+          "center": [
+            -3.5,
+            5.0,
+            0.0
+          ],
+          "radius": 0.5,
+          "material": {
+            "Metallic": {
+              "albedo": [
+                0.8,
+                0.8,
+                0.8,
+                1.0
+              ],
+              "roughness": 0.6
+            }
+          }
+        }
+      },
+      {
+        "Sphere": {
+          "center": [
+            -4.0,
+            6.0,
+            0.0
+          ],
+          "radius": 0.5,
+          "material": {
+            "Metallic": {
+              "albedo": [
+                0.8,
+                0.8,
+                0.8,
+                1.0
+              ],
+              "roughness": 0.6
+            }
+          }
+        }
+      },
+      {
+        "Sphere": {
+          "center": [
+            -3.0,
+            -6.0,
+            0.0
+          ],
+          "radius": 0.5,
+          "material": {
+            "Metallic": {
+              "albedo": [
+                0.8,
+                0.8,
+                0.8,
+                1.0
+              ],
+              "roughness": 0.6
+            }
+          }
+        }
+      },
+      {
+        "Sphere": {
+          "center": [
+            -2.5,
+            -5.0,
+            0.0
+          ],
+          "radius": 0.5,
+          "material": {
+            "Metallic": {
+              "albedo": [
+                0.8,
+                0.8,
+                0.8,
+                1.0
+              ],
+              "roughness": 0.6
+            }
+          }
+        }
+      },
+      {
+        "Sphere": {
+          "center": [
+            -3.0,
+            -4.0,
+            0.0
+          ],
+          "radius": 0.5,
+          "material": {
+            "Metallic": {
+              "albedo": [
+                0.8,
+                0.8,
+                0.8,
+                1.0
+              ],
+              "roughness": 0.6
+            }
+          }
+        }
+      },
+      {
+        "Sphere": {
+          "center": [
+            -2.5,
+            -3.0,
+            0.0
+          ],
+          "radius": 0.5,
+          "material": {
+            "Metallic": {
+              "albedo": [
+                0.8,
+                0.8,
+                0.8,
+                1.0
+              ],
+              "roughness": 0.6
+            }
+          }
+        }
+      },
+      {
+        "Sphere": {
+          "center": [
+            -3.0,
+            -2.0,
+            0.0
+          ],
+          "radius": 0.5,
+          "material": {
+            "Metallic": {
+              "albedo": [
+                0.8,
+                0.8,
+                0.8,
+                1.0
+              ],
+              "roughness": 0.6
+            }
+          }
+        }
+      },
+      {
+        "Sphere": {
+          "center": [
+            -2.5,
+            -1.0,
+            0.0
+          ],
+          "radius": 0.5,
+          "material": {
+            "Metallic": {
+              "albedo": [
+                0.8,
+                0.8,
+                0.8,
+                1.0
+              ],
+              "roughness": 0.6
+            }
+          }
+        }
+      },
+      {
+        "Sphere": {
+          "center": [
+            -3.0,
+            0.0,
+            0.0
+          ],
+          "radius": 0.5,
+          "material": {
+            "Metallic": {
+              "albedo": [
+                0.8,
+                0.8,
+                0.8,
+                1.0
+              ],
+              "roughness": 0.6
+            }
+          }
+        }
+      },
+      {
+        "Sphere": {
+          "center": [
+            -2.5,
+            1.0,
+            0.0
+          ],
+          "radius": 0.5,
+          "material": {
+            "Metallic": {
+              "albedo": [
+                0.8,
+                0.8,
+                0.8,
+                1.0
+              ],
+              "roughness": 0.6
+            }
+          }
+        }
+      },
+      {
+        "Sphere": {
+          "center": [
+            -3.0,
+            2.0,
+            0.0
+          ],
+          "radius": 0.5,
+          "material": {
+            "Metallic": {
+              "albedo": [
+                0.8,
+                0.8,
+                0.8,
+                1.0
+              ],
+              "roughness": 0.6
+            }
+          }
+        }
+      },
+      {
+        "Sphere": {
+          "center": [
+            -2.5,
+            3.0,
+            0.0
+          ],
+          "radius": 0.5,
+          "material": {
+            "Metallic": {
+              "albedo": [
+                0.8,
+                0.8,
+                0.8,
+                1.0
+              ],
+              "roughness": 0.6
+            }
+          }
+        }
+      },
+      {
+        "Sphere": {
+          "center": [
+            -3.0,
+            4.0,
+            0.0
+          ],
+          "radius": 0.5,
+          "material": {
+            "Metallic": {
+              "albedo": [
+                0.8,
+                0.8,
+                0.8,
+                1.0
+              ],
+              "roughness": 0.6
+            }
+          }
+        }
+      },
+      {
+        "Sphere": {
+          "center": [
+            -2.5,
+            5.0,
+            0.0
+          ],
+          "radius": 0.5,
+          "material": {
+            "Metallic": {
+              "albedo": [
+                0.8,
+                0.8,
+                0.8,
+                1.0
+              ],
+              "roughness": 0.6
+            }
+          }
+        }
+      },
+      {
+        "Sphere": {
+          "center": [
+            -3.0,
+            6.0,
+            0.0
+          ],
+          "radius": 0.5,
+          "material": {
+            "Metallic": {
+              "albedo": [
+                0.8,
+                0.8,
+                0.8,
+                1.0
+              ],
+              "roughness": 0.6
+            }
+          }
+        }
+      },
+      {
+        "Sphere": {
+          "center": [
+            -2.0,
+            -6.0,
+            0.0
+          ],
+          "radius": 0.5,
+          "material": {
+            "Metallic": {
+              "albedo": [
+                0.8,
+                0.8,
+                0.8,
+                1.0
+              ],
+              "roughness": 0.6
+            }
+          }
+        }
+      },
+      {
+        "Sphere": {
+          "center": [
+            -1.5,
+            -5.0,
+            0.0
+          ],
+          "radius": 0.5,
+          "material": {
+            "Metallic": {
+              "albedo": [
+                0.8,
+                0.8,
+                0.8,
+                1.0
+              ],
+              "roughness": 0.6
+            }
+          }
+        }
+      },
+      {
+        "Sphere": {
+          "center": [
+            -2.0,
+            -4.0,
+            0.0
+          ],
+          "radius": 0.5,
+          "material": {
+            "Metallic": {
+              "albedo": [
+                0.8,
+                0.8,
+                0.8,
+                1.0
+              ],
+              "roughness": 0.6
+            }
+          }
+        }
+      },
+      {
+        "Sphere": {
+          "center": [
+            -1.5,
+            -3.0,
+            0.0
+          ],
+          "radius": 0.5,
+          "material": {
+            "Metallic": {
+              "albedo": [
+                0.8,
+                0.8,
+                0.8,
+                1.0
+              ],
+              "roughness": 0.6
+            }
+          }
+        }
+      },
+      {
+        "Sphere": {
+          "center": [
+            -2.0,
+            -2.0,
+            0.0
+          ],
+          "radius": 0.5,
+          "material": {
+            "Metallic": {
+              "albedo": [
+                0.8,
+                0.8,
+                0.8,
+                1.0
+              ],
+              "roughness": 0.6
+            }
+          }
+        }
+      },
+      {
+        "Sphere": {
+          "center": [
+            -1.5,
+            -1.0,
+            0.0
+          ],
+          "radius": 0.5,
+          "material": {
+            "Metallic": {
+              "albedo": [
+                0.8,
+                0.8,
+                0.8,
+                1.0
+              ],
+              "roughness": 0.6
+            }
+          }
+        }
+      },
+      {
+        "Sphere": {
+          "center": [
+            -2.0,
+            0.0,
+            0.0
+          ],
+          "radius": 0.5,
+          "material": {
+            "Metallic": {
+              "albedo": [
+                0.8,
+                0.8,
+                0.8,
+                1.0
+              ],
+              "roughness": 0.6
+            }
+          }
+        }
+      },
+      {
+        "Sphere": {
+          "center": [
+            -1.5,
+            1.0,
+            0.0
+          ],
+          "radius": 0.5,
+          "material": {
+            "Metallic": {
+              "albedo": [
+                0.8,
+                0.8,
+                0.8,
+                1.0
+              ],
+              "roughness": 0.6
+            }
+          }
+        }
+      },
+      {
+        "Sphere": {
+          "center": [
+            -2.0,
+            2.0,
+            0.0
+          ],
+          "radius": 0.5,
+          "material": {
+            "Metallic": {
+              "albedo": [
+                0.8,
+                0.8,
+                0.8,
+                1.0
+              ],
+              "roughness": 0.6
+            }
+          }
+        }
+      },
+      {
+        "Sphere": {
+          "center": [
+            -1.5,
+            3.0,
+            0.0
+          ],
+          "radius": 0.5,
+          "material": {
+            "Metallic": {
+              "albedo": [
+                0.8,
+                0.8,
+                0.8,
+                1.0
+              ],
+              "roughness": 0.6
+            }
+          }
+        }
+      },
+      {
+        "Sphere": {
+          "center": [
+            -2.0,
+            4.0,
+            0.0
+          ],
+          "radius": 0.5,
+          "material": {
+            "Metallic": {
+              "albedo": [
+                0.8,
+                0.8,
+                0.8,
+                1.0
+              ],
+              "roughness": 0.6
+            }
+          }
+        }
+      },
+      {
+        "Sphere": {
+          "center": [
+            -1.5,
+            5.0,
+            0.0
+          ],
+          "radius": 0.5,
+          "material": {
+            "Metallic": {
+              "albedo": [
+                0.8,
+                0.8,
+                0.8,
+                1.0
+              ],
+              "roughness": 0.6
+            }
+          }
+        }
+      },
+      {
+        "Sphere": {
+          "center": [
+            -2.0,
+            6.0,
+            0.0
+          ],
+          "radius": 0.5,
+          "material": {
+            "Metallic": {
+              "albedo": [
+                0.8,
+                0.8,
+                0.8,
+                1.0
+              ],
+              "roughness": 0.6
+            }
+          }
+        }
+      },
+      {
+        "Sphere": {
+          "center": [
+            -1.0,
+            -6.0,
+            0.0
+          ],
+          "radius": 0.5,
+          "material": {
+            "Metallic": {
+              "albedo": [
+                0.8,
+                0.8,
+                0.8,
+                1.0
+              ],
+              "roughness": 0.6
+            }
+          }
+        }
+      },
+      {
+        "Sphere": {
+          "center": [
+            -0.5,
+            -5.0,
+            0.0
+          ],
+          "radius": 0.5,
+          "material": {
+            "Metallic": {
+              "albedo": [
+                0.8,
+                0.8,
+                0.8,
+                1.0
+              ],
+              "roughness": 0.6
+            }
+          }
+        }
+      },
+      {
+        "Sphere": {
+          "center": [
+            -1.0,
+            -4.0,
+            0.0
+          ],
+          "radius": 0.5,
+          "material": {
+            "Metallic": {
+              "albedo": [
+                0.8,
+                0.8,
+                0.8,
+                1.0
+              ],
+              "roughness": 0.6
+            }
+          }
+        }
+      },
+      {
+        "Sphere": {
+          "center": [
+            -0.5,
+            -3.0,
+            0.0
+          ],
+          "radius": 0.5,
+          "material": {
+            "Metallic": {
+              "albedo": [
+                0.8,
+                0.8,
+                0.8,
+                1.0
+              ],
+              "roughness": 0.6
+            }
+          }
+        }
+      },
+      {
+        "Sphere": {
+          "center": [
+            -1.0,
+            -2.0,
+            0.0
+          ],
+          "radius": 0.5,
+          "material": {
+            "Metallic": {
+              "albedo": [
+                0.8,
+                0.8,
+                0.8,
+                1.0
+              ],
+              "roughness": 0.6
+            }
+          }
+        }
+      },
+      {
+        "Sphere": {
+          "center": [
+            -0.5,
+            -1.0,
+            0.0
+          ],
+          "radius": 0.5,
+          "material": {
+            "Metallic": {
+              "albedo": [
+                0.8,
+                0.8,
+                0.8,
+                1.0
+              ],
+              "roughness": 0.6
+            }
+          }
+        }
+      },
+      {
+        "Sphere": {
+          "center": [
+            -1.0,
+            0.0,
+            0.0
+          ],
+          "radius": 0.5,
+          "material": {
+            "Metallic": {
+              "albedo": [
+                0.8,
+                0.8,
+                0.8,
+                1.0
+              ],
+              "roughness": 0.6
+            }
+          }
+        }
+      },
+      {
+        "Sphere": {
+          "center": [
+            -0.5,
+            1.0,
+            0.0
+          ],
+          "radius": 0.5,
+          "material": {
+            "Metallic": {
+              "albedo": [
+                0.8,
+                0.8,
+                0.8,
+                1.0
+              ],
+              "roughness": 0.6
+            }
+          }
+        }
+      },
+      {
+        "Sphere": {
+          "center": [
+            -1.0,
+            2.0,
+            0.0
+          ],
+          "radius": 0.5,
+          "material": {
+            "Metallic": {
+              "albedo": [
+                0.8,
+                0.8,
+                0.8,
+                1.0
+              ],
+              "roughness": 0.6
+            }
+          }
+        }
+      },
+      {
+        "Sphere": {
+          "center": [
+            -0.5,
+            3.0,
+            0.0
+          ],
+          "radius": 0.5,
+          "material": {
+            "Metallic": {
+              "albedo": [
+                0.8,
+                0.8,
+                0.8,
+                1.0
+              ],
+              "roughness": 0.6
+            }
+          }
+        }
+      },
+      {
+        "Sphere": {
+          "center": [
+            -1.0,
+            4.0,
+            0.0
+          ],
+          "radius": 0.5,
+          "material": {
+            "Metallic": {
+              "albedo": [
+                0.8,
+                0.8,
+                0.8,
+                1.0
+              ],
+              "roughness": 0.6
+            }
+          }
+        }
+      },
+      {
+        "Sphere": {
+          "center": [
+            -0.5,
+            5.0,
+            0.0
+          ],
+          "radius": 0.5,
+          "material": {
+            "Metallic": {
+              "albedo": [
+                0.8,
+                0.8,
+                0.8,
+                1.0
+              ],
+              "roughness": 0.6
+            }
+          }
+        }
+      },
+      {
+        "Sphere": {
+          "center": [
+            -1.0,
+            6.0,
+            0.0
+          ],
+          "radius": 0.5,
+          "material": {
+            "Metallic": {
+              "albedo": [
+                0.8,
+                0.8,
+                0.8,
+                1.0
+              ],
+              "roughness": 0.6
+            }
+          }
+        }
+      },
+      {
+        "Sphere": {
+          "center": [
+            0.0,
+            -6.0,
+            0.0
+          ],
+          "radius": 0.5,
+          "material": {
+            "Metallic": {
+              "albedo": [
+                0.8,
+                0.8,
+                0.8,
+                1.0
+              ],
+              "roughness": 0.6
+            }
+          }
+        }
+      },
+      {
+        "Sphere": {
+          "center": [
+            0.5,
+            -5.0,
+            0.0
+          ],
+          "radius": 0.5,
+          "material": {
+            "Metallic": {
+              "albedo": [
+                0.8,
+                0.8,
+                0.8,
+                1.0
+              ],
+              "roughness": 0.6
+            }
+          }
+        }
+      },
+      {
+        "Sphere": {
+          "center": [
+            0.0,
+            -4.0,
+            0.0
+          ],
+          "radius": 0.5,
+          "material": {
+            "Metallic": {
+              "albedo": [
+                0.8,
+                0.8,
+                0.8,
+                1.0
+              ],
+              "roughness": 0.6
+            }
+          }
+        }
+      },
+      {
+        "Sphere": {
+          "center": [
+            0.5,
+            -3.0,
+            0.0
+          ],
+          "radius": 0.5,
+          "material": {
+            "Metallic": {
+              "albedo": [
+                0.8,
+                0.8,
+                0.8,
+                1.0
+              ],
+              "roughness": 0.6
+            }
+          }
+        }
+      },
+      {
+        "Sphere": {
+          "center": [
+            0.0,
+            -2.0,
+            0.0
+          ],
+          "radius": 0.5,
+          "material": {
+            "Metallic": {
+              "albedo": [
+                0.8,
+                0.8,
+                0.8,
+                1.0
+              ],
+              "roughness": 0.6
+            }
+          }
+        }
+      },
+      {
+        "Sphere": {
+          "center": [
+            0.5,
+            -1.0,
+            0.0
+          ],
+          "radius": 0.5,
+          "material": {
+            "Metallic": {
+              "albedo": [
+                0.8,
+                0.8,
+                0.8,
+                1.0
+              ],
+              "roughness": 0.6
+            }
+          }
+        }
+      },
+      {
+        "Sphere": {
+          "center": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "radius": 0.5,
+          "material": {
+            "Metallic": {
+              "albedo": [
+                0.8,
+                0.8,
+                0.8,
+                1.0
+              ],
+              "roughness": 0.6
+            }
+          }
+        }
+      },
+      {
+        "Sphere": {
+          "center": [
+            0.5,
+            1.0,
+            0.0
+          ],
+          "radius": 0.5,
+          "material": {
+            "Metallic": {
+              "albedo": [
+                0.8,
+                0.8,
+                0.8,
+                1.0
+              ],
+              "roughness": 0.6
+            }
+          }
+        }
+      },
+      {
+        "Sphere": {
+          "center": [
+            0.0,
+            2.0,
+            0.0
+          ],
+          "radius": 0.5,
+          "material": {
+            "Metallic": {
+              "albedo": [
+                0.8,
+                0.8,
+                0.8,
+                1.0
+              ],
+              "roughness": 0.6
+            }
+          }
+        }
+      },
+      {
+        "Sphere": {
+          "center": [
+            0.5,
+            3.0,
+            0.0
+          ],
+          "radius": 0.5,
+          "material": {
+            "Metallic": {
+              "albedo": [
+                0.8,
+                0.8,
+                0.8,
+                1.0
+              ],
+              "roughness": 0.6
+            }
+          }
+        }
+      },
+      {
+        "Sphere": {
+          "center": [
+            0.0,
+            4.0,
+            0.0
+          ],
+          "radius": 0.5,
+          "material": {
+            "Metallic": {
+              "albedo": [
+                0.8,
+                0.8,
+                0.8,
+                1.0
+              ],
+              "roughness": 0.6
+            }
+          }
+        }
+      },
+      {
+        "Sphere": {
+          "center": [
+            0.5,
+            5.0,
+            0.0
+          ],
+          "radius": 0.5,
+          "material": {
+            "Metallic": {
+              "albedo": [
+                0.8,
+                0.8,
+                0.8,
+                1.0
+              ],
+              "roughness": 0.6
+            }
+          }
+        }
+      },
+      {
+        "Sphere": {
+          "center": [
+            0.0,
+            6.0,
+            0.0
+          ],
+          "radius": 0.5,
+          "material": {
+            "Metallic": {
+              "albedo": [
+                0.8,
+                0.8,
+                0.8,
+                1.0
+              ],
+              "roughness": 0.6
+            }
+          }
+        }
+      },
+      {
+        "Sphere": {
+          "center": [
+            1.0,
+            -6.0,
+            0.0
+          ],
+          "radius": 0.5,
+          "material": {
+            "Metallic": {
+              "albedo": [
+                0.8,
+                0.8,
+                0.8,
+                1.0
+              ],
+              "roughness": 0.6
+            }
+          }
+        }
+      },
+      {
+        "Sphere": {
+          "center": [
+            1.5,
+            -5.0,
+            0.0
+          ],
+          "radius": 0.5,
+          "material": {
+            "Metallic": {
+              "albedo": [
+                0.8,
+                0.8,
+                0.8,
+                1.0
+              ],
+              "roughness": 0.6
+            }
+          }
+        }
+      },
+      {
+        "Sphere": {
+          "center": [
+            1.0,
+            -4.0,
+            0.0
+          ],
+          "radius": 0.5,
+          "material": {
+            "Metallic": {
+              "albedo": [
+                0.8,
+                0.8,
+                0.8,
+                1.0
+              ],
+              "roughness": 0.6
+            }
+          }
+        }
+      },
+      {
+        "Sphere": {
+          "center": [
+            1.5,
+            -3.0,
+            0.0
+          ],
+          "radius": 0.5,
+          "material": {
+            "Metallic": {
+              "albedo": [
+                0.8,
+                0.8,
+                0.8,
+                1.0
+              ],
+              "roughness": 0.6
+            }
+          }
+        }
+      },
+      {
+        "Sphere": {
+          "center": [
+            1.0,
+            -2.0,
+            0.0
+          ],
+          "radius": 0.5,
+          "material": {
+            "Metallic": {
+              "albedo": [
+                0.8,
+                0.8,
+                0.8,
+                1.0
+              ],
+              "roughness": 0.6
+            }
+          }
+        }
+      },
+      {
+        "Sphere": {
+          "center": [
+            1.5,
+            -1.0,
+            0.0
+          ],
+          "radius": 0.5,
+          "material": {
+            "Metallic": {
+              "albedo": [
+                0.8,
+                0.8,
+                0.8,
+                1.0
+              ],
+              "roughness": 0.6
+            }
+          }
+        }
+      },
+      {
+        "Sphere": {
+          "center": [
+            1.0,
+            0.0,
+            0.0
+          ],
+          "radius": 0.5,
+          "material": {
+            "Metallic": {
+              "albedo": [
+                0.8,
+                0.8,
+                0.8,
+                1.0
+              ],
+              "roughness": 0.6
+            }
+          }
+        }
+      },
+      {
+        "Sphere": {
+          "center": [
+            1.5,
+            1.0,
+            0.0
+          ],
+          "radius": 0.5,
+          "material": {
+            "Metallic": {
+              "albedo": [
+                0.8,
+                0.8,
+                0.8,
+                1.0
+              ],
+              "roughness": 0.6
+            }
+          }
+        }
+      },
+      {
+        "Sphere": {
+          "center": [
+            1.0,
+            2.0,
+            0.0
+          ],
+          "radius": 0.5,
+          "material": {
+            "Metallic": {
+              "albedo": [
+                0.8,
+                0.8,
+                0.8,
+                1.0
+              ],
+              "roughness": 0.6
+            }
+          }
+        }
+      },
+      {
+        "Sphere": {
+          "center": [
+            1.5,
+            3.0,
+            0.0
+          ],
+          "radius": 0.5,
+          "material": {
+            "Metallic": {
+              "albedo": [
+                0.8,
+                0.8,
+                0.8,
+                1.0
+              ],
+              "roughness": 0.6
+            }
+          }
+        }
+      },
+      {
+        "Sphere": {
+          "center": [
+            1.0,
+            4.0,
+            0.0
+          ],
+          "radius": 0.5,
+          "material": {
+            "Metallic": {
+              "albedo": [
+                0.8,
+                0.8,
+                0.8,
+                1.0
+              ],
+              "roughness": 0.6
+            }
+          }
+        }
+      },
+      {
+        "Sphere": {
+          "center": [
+            1.5,
+            5.0,
+            0.0
+          ],
+          "radius": 0.5,
+          "material": {
+            "Metallic": {
+              "albedo": [
+                0.8,
+                0.8,
+                0.8,
+                1.0
+              ],
+              "roughness": 0.6
+            }
+          }
+        }
+      },
+      {
+        "Sphere": {
+          "center": [
+            1.0,
+            6.0,
+            0.0
+          ],
+          "radius": 0.5,
+          "material": {
+            "Metallic": {
+              "albedo": [
+                0.8,
+                0.8,
+                0.8,
+                1.0
+              ],
+              "roughness": 0.6
+            }
+          }
+        }
+      },
+      {
+        "Sphere": {
+          "center": [
+            2.0,
+            -6.0,
+            0.0
+          ],
+          "radius": 0.5,
+          "material": {
+            "Metallic": {
+              "albedo": [
+                0.8,
+                0.8,
+                0.8,
+                1.0
+              ],
+              "roughness": 0.6
+            }
+          }
+        }
+      },
+      {
+        "Sphere": {
+          "center": [
+            2.5,
+            -5.0,
+            0.0
+          ],
+          "radius": 0.5,
+          "material": {
+            "Metallic": {
+              "albedo": [
+                0.8,
+                0.8,
+                0.8,
+                1.0
+              ],
+              "roughness": 0.6
+            }
+          }
+        }
+      },
+      {
+        "Sphere": {
+          "center": [
+            2.0,
+            -4.0,
+            0.0
+          ],
+          "radius": 0.5,
+          "material": {
+            "Metallic": {
+              "albedo": [
+                0.8,
+                0.8,
+                0.8,
+                1.0
+              ],
+              "roughness": 0.6
+            }
+          }
+        }
+      },
+      {
+        "Sphere": {
+          "center": [
+            2.5,
+            -3.0,
+            0.0
+          ],
+          "radius": 0.5,
+          "material": {
+            "Metallic": {
+              "albedo": [
+                0.8,
+                0.8,
+                0.8,
+                1.0
+              ],
+              "roughness": 0.6
+            }
+          }
+        }
+      },
+      {
+        "Sphere": {
+          "center": [
+            2.0,
+            -2.0,
+            0.0
+          ],
+          "radius": 0.5,
+          "material": {
+            "Metallic": {
+              "albedo": [
+                0.8,
+                0.8,
+                0.8,
+                1.0
+              ],
+              "roughness": 0.6
+            }
+          }
+        }
+      },
+      {
+        "Sphere": {
+          "center": [
+            2.5,
+            -1.0,
+            0.0
+          ],
+          "radius": 0.5,
+          "material": {
+            "Metallic": {
+              "albedo": [
+                0.8,
+                0.8,
+                0.8,
+                1.0
+              ],
+              "roughness": 0.6
+            }
+          }
+        }
+      },
+      {
+        "Sphere": {
+          "center": [
+            2.0,
+            0.0,
+            0.0
+          ],
+          "radius": 0.5,
+          "material": {
+            "Metallic": {
+              "albedo": [
+                0.8,
+                0.8,
+                0.8,
+                1.0
+              ],
+              "roughness": 0.6
+            }
+          }
+        }
+      },
+      {
+        "Sphere": {
+          "center": [
+            2.5,
+            1.0,
+            0.0
+          ],
+          "radius": 0.5,
+          "material": {
+            "Metallic": {
+              "albedo": [
+                0.8,
+                0.8,
+                0.8,
+                1.0
+              ],
+              "roughness": 0.6
+            }
+          }
+        }
+      },
+      {
+        "Sphere": {
+          "center": [
+            2.0,
+            2.0,
+            0.0
+          ],
+          "radius": 0.5,
+          "material": {
+            "Metallic": {
+              "albedo": [
+                0.8,
+                0.8,
+                0.8,
+                1.0
+              ],
+              "roughness": 0.6
+            }
+          }
+        }
+      },
+      {
+        "Sphere": {
+          "center": [
+            2.5,
+            3.0,
+            0.0
+          ],
+          "radius": 0.5,
+          "material": {
+            "Metallic": {
+              "albedo": [
+                0.8,
+                0.8,
+                0.8,
+                1.0
+              ],
+              "roughness": 0.6
+            }
+          }
+        }
+      },
+      {
+        "Sphere": {
+          "center": [
+            2.0,
+            4.0,
+            0.0
+          ],
+          "radius": 0.5,
+          "material": {
+            "Metallic": {
+              "albedo": [
+                0.8,
+                0.8,
+                0.8,
+                1.0
+              ],
+              "roughness": 0.6
+            }
+          }
+        }
+      },
+      {
+        "Sphere": {
+          "center": [
+            2.5,
+            5.0,
+            0.0
+          ],
+          "radius": 0.5,
+          "material": {
+            "Metallic": {
+              "albedo": [
+                0.8,
+                0.8,
+                0.8,
+                1.0
+              ],
+              "roughness": 0.6
+            }
+          }
+        }
+      },
+      {
+        "Sphere": {
+          "center": [
+            2.0,
+            6.0,
+            0.0
+          ],
+          "radius": 0.5,
+          "material": {
+            "Metallic": {
+              "albedo": [
+                0.8,
+                0.8,
+                0.8,
+                1.0
+              ],
+              "roughness": 0.6
+            }
+          }
+        }
+      },
+      {
+        "Sphere": {
+          "center": [
+            3.0,
+            -6.0,
+            0.0
+          ],
+          "radius": 0.5,
+          "material": {
+            "Metallic": {
+              "albedo": [
+                0.8,
+                0.8,
+                0.8,
+                1.0
+              ],
+              "roughness": 0.6
+            }
+          }
+        }
+      },
+      {
+        "Sphere": {
+          "center": [
+            3.5,
+            -5.0,
+            0.0
+          ],
+          "radius": 0.5,
+          "material": {
+            "Metallic": {
+              "albedo": [
+                0.8,
+                0.8,
+                0.8,
+                1.0
+              ],
+              "roughness": 0.6
+            }
+          }
+        }
+      },
+      {
+        "Sphere": {
+          "center": [
+            3.0,
+            -4.0,
+            0.0
+          ],
+          "radius": 0.5,
+          "material": {
+            "Metallic": {
+              "albedo": [
+                0.8,
+                0.8,
+                0.8,
+                1.0
+              ],
+              "roughness": 0.6
+            }
+          }
+        }
+      },
+      {
+        "Sphere": {
+          "center": [
+            3.5,
+            -3.0,
+            0.0
+          ],
+          "radius": 0.5,
+          "material": {
+            "Metallic": {
+              "albedo": [
+                0.8,
+                0.8,
+                0.8,
+                1.0
+              ],
+              "roughness": 0.6
+            }
+          }
+        }
+      },
+      {
+        "Sphere": {
+          "center": [
+            3.0,
+            -2.0,
+            0.0
+          ],
+          "radius": 0.5,
+          "material": {
+            "Metallic": {
+              "albedo": [
+                0.8,
+                0.8,
+                0.8,
+                1.0
+              ],
+              "roughness": 0.6
+            }
+          }
+        }
+      },
+      {
+        "Sphere": {
+          "center": [
+            3.5,
+            -1.0,
+            0.0
+          ],
+          "radius": 0.5,
+          "material": {
+            "Metallic": {
+              "albedo": [
+                0.8,
+                0.8,
+                0.8,
+                1.0
+              ],
+              "roughness": 0.6
+            }
+          }
+        }
+      },
+      {
+        "Sphere": {
+          "center": [
+            3.0,
+            0.0,
+            0.0
+          ],
+          "radius": 0.5,
+          "material": {
+            "Metallic": {
+              "albedo": [
+                0.8,
+                0.8,
+                0.8,
+                1.0
+              ],
+              "roughness": 0.6
+            }
+          }
+        }
+      },
+      {
+        "Sphere": {
+          "center": [
+            3.5,
+            1.0,
+            0.0
+          ],
+          "radius": 0.5,
+          "material": {
+            "Metallic": {
+              "albedo": [
+                0.8,
+                0.8,
+                0.8,
+                1.0
+              ],
+              "roughness": 0.6
+            }
+          }
+        }
+      },
+      {
+        "Sphere": {
+          "center": [
+            3.0,
+            2.0,
+            0.0
+          ],
+          "radius": 0.5,
+          "material": {
+            "Metallic": {
+              "albedo": [
+                0.8,
+                0.8,
+                0.8,
+                1.0
+              ],
+              "roughness": 0.6
+            }
+          }
+        }
+      },
+      {
+        "Sphere": {
+          "center": [
+            3.5,
+            3.0,
+            0.0
+          ],
+          "radius": 0.5,
+          "material": {
+            "Metallic": {
+              "albedo": [
+                0.8,
+                0.8,
+                0.8,
+                1.0
+              ],
+              "roughness": 0.6
+            }
+          }
+        }
+      },
+      {
+        "Sphere": {
+          "center": [
+            3.0,
+            4.0,
+            0.0
+          ],
+          "radius": 0.5,
+          "material": {
+            "Metallic": {
+              "albedo": [
+                0.8,
+                0.8,
+                0.8,
+                1.0
+              ],
+              "roughness": 0.6
+            }
+          }
+        }
+      },
+      {
+        "Sphere": {
+          "center": [
+            3.5,
+            5.0,
+            0.0
+          ],
+          "radius": 0.5,
+          "material": {
+            "Metallic": {
+              "albedo": [
+                0.8,
+                0.8,
+                0.8,
+                1.0
+              ],
+              "roughness": 0.6
+            }
+          }
+        }
+      },
+      {
+        "Sphere": {
+          "center": [
+            3.0,
+            6.0,
+            0.0
+          ],
+          "radius": 0.5,
+          "material": {
+            "Metallic": {
+              "albedo": [
+                0.8,
+                0.8,
+                0.8,
+                1.0
+              ],
+              "roughness": 0.6
+            }
+          }
+        }
+      },
+      {
+        "Sphere": {
+          "center": [
+            4.0,
+            -6.0,
+            0.0
+          ],
+          "radius": 0.5,
+          "material": {
+            "Metallic": {
+              "albedo": [
+                0.8,
+                0.8,
+                0.8,
+                1.0
+              ],
+              "roughness": 0.6
+            }
+          }
+        }
+      },
+      {
+        "Sphere": {
+          "center": [
+            4.5,
+            -5.0,
+            0.0
+          ],
+          "radius": 0.5,
+          "material": {
+            "Metallic": {
+              "albedo": [
+                0.8,
+                0.8,
+                0.8,
+                1.0
+              ],
+              "roughness": 0.6
+            }
+          }
+        }
+      },
+      {
+        "Sphere": {
+          "center": [
+            4.0,
+            -4.0,
+            0.0
+          ],
+          "radius": 0.5,
+          "material": {
+            "Metallic": {
+              "albedo": [
+                0.8,
+                0.8,
+                0.8,
+                1.0
+              ],
+              "roughness": 0.6
+            }
+          }
+        }
+      },
+      {
+        "Sphere": {
+          "center": [
+            4.5,
+            -3.0,
+            0.0
+          ],
+          "radius": 0.5,
+          "material": {
+            "Metallic": {
+              "albedo": [
+                0.8,
+                0.8,
+                0.8,
+                1.0
+              ],
+              "roughness": 0.6
+            }
+          }
+        }
+      },
+      {
+        "Sphere": {
+          "center": [
+            4.0,
+            -2.0,
+            0.0
+          ],
+          "radius": 0.5,
+          "material": {
+            "Metallic": {
+              "albedo": [
+                0.8,
+                0.8,
+                0.8,
+                1.0
+              ],
+              "roughness": 0.6
+            }
+          }
+        }
+      },
+      {
+        "Sphere": {
+          "center": [
+            4.5,
+            -1.0,
+            0.0
+          ],
+          "radius": 0.5,
+          "material": {
+            "Metallic": {
+              "albedo": [
+                0.8,
+                0.8,
+                0.8,
+                1.0
+              ],
+              "roughness": 0.6
+            }
+          }
+        }
+      },
+      {
+        "Sphere": {
+          "center": [
+            4.0,
+            0.0,
+            0.0
+          ],
+          "radius": 0.5,
+          "material": {
+            "Metallic": {
+              "albedo": [
+                0.8,
+                0.8,
+                0.8,
+                1.0
+              ],
+              "roughness": 0.6
+            }
+          }
+        }
+      },
+      {
+        "Sphere": {
+          "center": [
+            4.5,
+            1.0,
+            0.0
+          ],
+          "radius": 0.5,
+          "material": {
+            "Metallic": {
+              "albedo": [
+                0.8,
+                0.8,
+                0.8,
+                1.0
+              ],
+              "roughness": 0.6
+            }
+          }
+        }
+      },
+      {
+        "Sphere": {
+          "center": [
+            4.0,
+            2.0,
+            0.0
+          ],
+          "radius": 0.5,
+          "material": {
+            "Metallic": {
+              "albedo": [
+                0.8,
+                0.8,
+                0.8,
+                1.0
+              ],
+              "roughness": 0.6
+            }
+          }
+        }
+      },
+      {
+        "Sphere": {
+          "center": [
+            4.5,
+            3.0,
+            0.0
+          ],
+          "radius": 0.5,
+          "material": {
+            "Metallic": {
+              "albedo": [
+                0.8,
+                0.8,
+                0.8,
+                1.0
+              ],
+              "roughness": 0.6
+            }
+          }
+        }
+      },
+      {
+        "Sphere": {
+          "center": [
+            4.0,
+            4.0,
+            0.0
+          ],
+          "radius": 0.5,
+          "material": {
+            "Metallic": {
+              "albedo": [
+                0.8,
+                0.8,
+                0.8,
+                1.0
+              ],
+              "roughness": 0.6
+            }
+          }
+        }
+      },
+      {
+        "Sphere": {
+          "center": [
+            4.5,
+            5.0,
+            0.0
+          ],
+          "radius": 0.5,
+          "material": {
+            "Metallic": {
+              "albedo": [
+                0.8,
+                0.8,
+                0.8,
+                1.0
+              ],
+              "roughness": 0.6
+            }
+          }
+        }
+      },
+      {
+        "Sphere": {
+          "center": [
+            4.0,
+            6.0,
+            0.0
+          ],
+          "radius": 0.5,
+          "material": {
+            "Metallic": {
+              "albedo": [
+                0.8,
+                0.8,
+                0.8,
+                1.0
+              ],
+              "roughness": 0.6
+            }
+          }
+        }
+      },
+      {
+        "Sphere": {
+          "center": [
+            5.0,
+            -6.0,
+            0.0
+          ],
+          "radius": 0.5,
+          "material": {
+            "Metallic": {
+              "albedo": [
+                0.8,
+                0.8,
+                0.8,
+                1.0
+              ],
+              "roughness": 0.6
+            }
+          }
+        }
+      },
+      {
+        "Sphere": {
+          "center": [
+            5.5,
+            -5.0,
+            0.0
+          ],
+          "radius": 0.5,
+          "material": {
+            "Metallic": {
+              "albedo": [
+                0.8,
+                0.8,
+                0.8,
+                1.0
+              ],
+              "roughness": 0.6
+            }
+          }
+        }
+      },
+      {
+        "Sphere": {
+          "center": [
+            5.0,
+            -4.0,
+            0.0
+          ],
+          "radius": 0.5,
+          "material": {
+            "Metallic": {
+              "albedo": [
+                0.8,
+                0.8,
+                0.8,
+                1.0
+              ],
+              "roughness": 0.6
+            }
+          }
+        }
+      },
+      {
+        "Sphere": {
+          "center": [
+            5.5,
+            -3.0,
+            0.0
+          ],
+          "radius": 0.5,
+          "material": {
+            "Metallic": {
+              "albedo": [
+                0.8,
+                0.8,
+                0.8,
+                1.0
+              ],
+              "roughness": 0.6
+            }
+          }
+        }
+      },
+      {
+        "Sphere": {
+          "center": [
+            5.0,
+            -2.0,
+            0.0
+          ],
+          "radius": 0.5,
+          "material": {
+            "Metallic": {
+              "albedo": [
+                0.8,
+                0.8,
+                0.8,
+                1.0
+              ],
+              "roughness": 0.6
+            }
+          }
+        }
+      },
+      {
+        "Sphere": {
+          "center": [
+            5.5,
+            -1.0,
+            0.0
+          ],
+          "radius": 0.5,
+          "material": {
+            "Metallic": {
+              "albedo": [
+                0.8,
+                0.8,
+                0.8,
+                1.0
+              ],
+              "roughness": 0.6
+            }
+          }
+        }
+      },
+      {
+        "Sphere": {
+          "center": [
+            5.0,
+            0.0,
+            0.0
+          ],
+          "radius": 0.5,
+          "material": {
+            "Metallic": {
+              "albedo": [
+                0.8,
+                0.8,
+                0.8,
+                1.0
+              ],
+              "roughness": 0.6
+            }
+          }
+        }
+      },
+      {
+        "Sphere": {
+          "center": [
+            5.5,
+            1.0,
+            0.0
+          ],
+          "radius": 0.5,
+          "material": {
+            "Metallic": {
+              "albedo": [
+                0.8,
+                0.8,
+                0.8,
+                1.0
+              ],
+              "roughness": 0.6
+            }
+          }
+        }
+      },
+      {
+        "Sphere": {
+          "center": [
+            5.0,
+            2.0,
+            0.0
+          ],
+          "radius": 0.5,
+          "material": {
+            "Metallic": {
+              "albedo": [
+                0.8,
+                0.8,
+                0.8,
+                1.0
+              ],
+              "roughness": 0.6
+            }
+          }
+        }
+      },
+      {
+        "Sphere": {
+          "center": [
+            5.5,
+            3.0,
+            0.0
+          ],
+          "radius": 0.5,
+          "material": {
+            "Metallic": {
+              "albedo": [
+                0.8,
+                0.8,
+                0.8,
+                1.0
+              ],
+              "roughness": 0.6
+            }
+          }
+        }
+      },
+      {
+        "Sphere": {
+          "center": [
+            5.0,
+            4.0,
+            0.0
+          ],
+          "radius": 0.5,
+          "material": {
+            "Metallic": {
+              "albedo": [
+                0.8,
+                0.8,
+                0.8,
+                1.0
+              ],
+              "roughness": 0.6
+            }
+          }
+        }
+      },
+      {
+        "Sphere": {
+          "center": [
+            5.5,
+            5.0,
+            0.0
+          ],
+          "radius": 0.5,
+          "material": {
+            "Metallic": {
+              "albedo": [
+                0.8,
+                0.8,
+                0.8,
+                1.0
+              ],
+              "roughness": 0.6
+            }
+          }
+        }
+      },
+      {
+        "Sphere": {
+          "center": [
+            5.0,
+            6.0,
+            0.0
+          ],
+          "radius": 0.5,
+          "material": {
+            "Metallic": {
+              "albedo": [
+                0.8,
+                0.8,
+                0.8,
+                1.0
+              ],
+              "roughness": 0.6
+            }
+          }
+        }
+      }
+    ]
+  }
+}
